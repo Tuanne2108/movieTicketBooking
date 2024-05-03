@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     minLength: 8,
   },
+  isAdmin:{type: Boolean, default: false},
   bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
 });
 
