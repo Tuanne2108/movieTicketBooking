@@ -1,0 +1,13 @@
+.homepage-cnema {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    background-image: url('C:/ITITIU20316/Web APP/prj/cnema/movieTicketBooking/movie_booking/src/Components/Assets/CNEMA-Background.png');
+    background-repeat: no-repeat; /* Không lặp lại hình ảnh */
+    background-size: cover;
+
+}   

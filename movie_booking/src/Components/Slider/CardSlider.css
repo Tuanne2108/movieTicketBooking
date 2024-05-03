@@ -12,8 +12,60 @@
 }
 
 .card-slider-container .slick-arrow:before {
-    font-size: 20px;
+    font-size: 40px;
     line-height: 1;
     opacity: .75;
     color: var(--ifm-color-primary);
+}
+
+.slider-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.slider-card .slider-container {
+    width: 1400px;
+}
+
+.Poster-Slider {
+    display: flex !important;
+    width: 95% !important;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+.Poster-Slider h3 {
+    align-self: center;
+}
+.Poster-Film {
+    width: 100%;
+
+}
+
+.slider-card .slider-container button {
+    
+    border-radius: 200px;
+
+}
+
+.slick-prev {
+    width: 40px;
+    height: 40px;
+    left: -60px;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 80px;
+    line-height: 1;
+    opacity: 1;
+    -webkit-font-smoothing: antialiased;
+    color: #000;
+
 }
