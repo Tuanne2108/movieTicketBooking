@@ -1,7 +1,9 @@
 import React from 'react'
 import Navbar from '../Components/Navbar/Navbar';
 import SearchingBar from '../Components/Navbar/SearchingBar'
-import FilmSlider from '../Components/Slider/FilmSlider';
+import FilmSlider from '../Components/Container/FilmSlider';
+import VoucherSlider from '../Components/Container/VoucherSlider';
+import News from '../Components/News/mainpage_news';
 import '../Styles/styles.css'
 import '../Pages/styles/Cnema.css'
 
@@ -9,10 +11,21 @@ import '../Pages/styles/Cnema.css'
 
 const Cnema = () => {
   return (
-    <div className="homepage-cnema">
-      <Navbar />
-      <SearchingBar />
-      <FilmSlider />
+    <div className="cnema">
+      <div className="header">
+        <Navbar />
+      </div>
+      <div className="homepage">
+        <SearchingBar />
+        <FilmSlider />
+        <VoucherSlider />
+        <News />
+      </div>
+      <div className="footer">
+        
+      </div>
+      
+      
     </div>
   )
 }

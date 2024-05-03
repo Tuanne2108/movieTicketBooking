@@ -14,12 +14,20 @@ function FilmSlider() {
     slidesToScroll: 1
   };
   return (
-    <div className="slider-card">
+    <div className="Film slider-card">
       <div className="slider-container">
         <Slider {...settings}>
           <div className="Poster-Slider">
             <img src={Poster} alt="" className="Poster-Film"/>
             <h3>Film moi nhat 1</h3>
+            <div className="buttons sd-bytn">
+              <button className="button sd">
+                <a href="#">See Details</a>
+              </button>
+              <button className="button bytn">
+                <a href="#">Buy Your Ticket Now</a>
+              </button>
+            </div>
           </div>
           <div className="Poster-Slider">
             <img src={Poster} alt="" className="Poster-Film"/>
