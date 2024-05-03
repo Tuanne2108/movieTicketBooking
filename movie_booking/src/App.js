@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import React from 'react';
+import './App.css';
+import Navbar from './Components/Navbar/Navbar';
+import SearchingBar from './Components/Navbar/SearchingBar'
+import CardSlider from './Components/Slider/MultipleItems';
+import Cnema from './Pages/Cnema';
 
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
-export default function App() {
+function App() {
   return (
-    <div className="App">
-      {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-        </Elements>
-      )}
+    <div>
+        <Navbar />
+        <SearchingBar />
+        <CardSlider />
     </div>
   );
 }
+
+export default App;

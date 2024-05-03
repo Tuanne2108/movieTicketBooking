@@ -1,8 +1,6 @@
-const port = 4001
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-// const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const morgan = require("morgan");
@@ -12,6 +10,7 @@ const dotenv = require("dotenv").config();
 const bodyParser = require("body-parser");
 const viewEngine = require("./Config/viewEngine");
 const cookieParser = require('cookie-parser')
+const port = process.env.PORT
 
 app.use(express.json());
 app.use(cors());

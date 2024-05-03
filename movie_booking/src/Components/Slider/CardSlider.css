@@ -1,0 +1,19 @@
+.card-slider-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card-slider {
+    width: 1400px;
+}
+
+.card-slider-container .slick-arrow:before {
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: var(--ifm-color-primary);
+}
