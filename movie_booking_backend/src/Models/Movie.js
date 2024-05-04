@@ -17,15 +17,15 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  featured: {
-    type: Boolean,
-  },
-  bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
-  admin: {
-    type: mongoose.Types.ObjectId,
-    ref: "Admin",
+  duration:{
+    type: String,
     required: true,
   },
+  featured: {
+    type: Boolean,
+    default: false,
+  },
+  bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
 });
 
 const Movie = mongoose.model("Movie", movieSchema);
