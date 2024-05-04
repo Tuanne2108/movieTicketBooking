@@ -1,7 +1,6 @@
 import React from 'react'
 import './Navbar.css'
 import CNEMA from '../Assets/CNEMA.png'
-import cart_icon from '../Assets/cart_icon.png'
 const Navbar = () => {
   return (
     <div className="navbar">

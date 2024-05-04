@@ -1,5 +1,5 @@
 {
-  "name": "cnema",
+  "name": "movie_booking",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
