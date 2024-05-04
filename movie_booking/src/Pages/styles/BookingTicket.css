@@ -1,0 +1,22 @@
+.main-bookingticket {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.body-bookingticket {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.container-bookingticket {
+    display: flex;
+    flex-direction: column;
+    width: 1400px;
+}

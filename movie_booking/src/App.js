@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Cnema from './Pages/Cnema';
+// import Cnema from './Pages/Cnema';
+import BookingTicket from '../src/Pages/BookingTicket'
 
 
 
@@ -8,7 +9,8 @@ import Cnema from './Pages/Cnema';
 function App() {
   return (
     <div className="App">
-        <Cnema />
+        {/* <Cnema /> */}
+        <BookingTicket />
     </div>
   );
 }
