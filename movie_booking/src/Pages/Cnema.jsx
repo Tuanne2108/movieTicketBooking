@@ -4,6 +4,7 @@ import SearchingBar from '../Components/Navbar/SearchingBar'
 import FilmSlider from '../Components/Container/FilmSlider';
 import VoucherSlider from '../Components/Container/VoucherSlider';
 import News from '../Components/News/mainpage_news';
+import YouMayInterst from '../Components/Container/YouMayInterest'
 import '../Styles/styles.css'
 import '../Pages/styles/Cnema.css'
 
@@ -20,6 +21,7 @@ const Cnema = () => {
         <FilmSlider />
         <VoucherSlider />
         <News />
+        <YouMayInterst />
       </div>
       <div className="footer">
         
