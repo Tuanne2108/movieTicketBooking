@@ -1,22 +1,36 @@
-import React from 'react'
+import React, {useState} from 'react'
+
+
+
 
 const Dropdown_Location = () => {
+    const [selectedItem, setSelectedItem] = useState(null);
+    const items = ["Ho Chi Minh", "Da Nang", "Quang Nam"];
+
+    const handleItemClick = (item) => {
+        setSelectedItem(item);
+    };
   return (
     <div className="dropdown-loca">
         <div className="container">
             <div class="dropdown">
                 <button class="button-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Location
+                    {selectedItem || "Location"}
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    {items.map((item, index) => (
+                        <li key={index}>
+                            <button className="dropdown-item" onClick={() => handleItemClick(item)}>
+                                {item}
+                            </button>
+                        </li>
+                        ))}
                 </ul>
             </div>
         </div>
-
     </div>
+
+    
   )
 }
 
