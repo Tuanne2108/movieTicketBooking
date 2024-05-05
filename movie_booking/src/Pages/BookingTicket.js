@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../Components/Navbar/Navbar';
 import Footer from '../Components/Navbar/Footer'
 import SliderDate from '../Components/Container/Slider_DateAvailable'
+import Location from '../Components/Container/Dropdown_Location'
 import './styles/BookingTicket.css'
 
 
@@ -20,6 +21,7 @@ const BookingTicket = () => {
 
                 <div className="date-available-slider">
                     <SliderDate />
+                    <Location />
                 </div>
             </div>
             
