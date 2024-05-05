@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CardSlider.css';
+import './FilmSlider.css';
 import Poster from '../Assets/Poster-NhaBaNu.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';

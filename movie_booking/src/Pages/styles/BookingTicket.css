@@ -20,3 +20,37 @@
     flex-direction: column;
     width: 1400px;
 }
+.container-bookingticket .title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.container-bookingticket h1 {
+    font-size: 36px;
+    font-weight: 700;
+
+}
+.container-bookingticket span {
+    font-size: 16px;
+    font-weight: 400;
+    
+}
+.body-bookingticket {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.date-available-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dropdown-loca {
+    display: flex;
+    
+}

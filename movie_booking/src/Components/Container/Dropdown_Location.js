@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
-
-
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
+import './Dropdown_Location.css';
 
 const Dropdown_Location = () => {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -12,10 +13,12 @@ const Dropdown_Location = () => {
     };
   return (
     <div className="dropdown-loca">
-        <div className="container">
+        <div className="loca-container">
             <div class="dropdown">
                 <button class="button-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />
                     {selectedItem || "Location"}
+                    <FontAwesomeIcon icon={faChevronDown} />
                 </button>
                 <ul class="dropdown-menu">
                     {items.map((item, index) => (

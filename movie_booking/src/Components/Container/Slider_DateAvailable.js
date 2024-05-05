@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Slider_DateAvailable.css';
-import Poster from '../Assets/Poster-NhaBaNu.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,10 +23,9 @@ const Slider_DateAvailable = () => {
     const slideWidth = 100 / slidesToShow; // Tính toán độ rộng của mỗi slide
 
     return (
-        <div className="date_available-slider">
+        <div className="date-available-slider-container col-1">
             <div className="container-avs">
                 <div className="title">
-                    <h2>Hot Film</h2>
                 </div>
                 <div className="body-avs">
                     <button className="prev" onClick={prevSlide} style={{ display: currentIndex === 0 ? 'none' : 'block' }}>
