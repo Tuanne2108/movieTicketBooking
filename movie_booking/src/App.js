@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './App.css';
-// import Cnema from './Pages/Cnema';
-import BookingTicket from '../src/Pages/BookingTicket'
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { routes } from './Routes'
+import DefaultComponent from './Components/DefaultComponent/DefaultComponent'
 
 
 
 function App() {
   return (
-    <div className="App">
-        {/* <Cnema /> */}
-        <BookingTicket />
+    <div>
+      <Router>
+        <Routes>
+        {routes.map((route) => {
+          const Page = route.page
+          const Layout = route.isShowHeader ? DefaultComponent : Fragment
+          return (
+            <Route key={route.path} path={route.path} element = {
+            <>
+            <Layout />
+            <Page />
+            
+            </>
+          } />
+          )
+        })}
+        </Routes>
+      </Router>
     </div>
+    
   );
 }
 
