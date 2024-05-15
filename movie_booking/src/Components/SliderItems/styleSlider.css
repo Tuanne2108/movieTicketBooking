@@ -1,0 +1,51 @@
+.container-outside-slider {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+    justify-content: center;
+}
+
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 1400px;
+
+  }
+
+  .slider-item {
+    flex: 0 0 auto;
+    width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
+    padding: 10px;
+}
+  
+  .slider-prev, .slider-next {
+  position: relative;
+  top: 0%;
+  transform: translateY(0%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1; /* Đảm bảo nút prev luôn hiển thị trên slider */
+}
+
+.slider-prev {
+  left: 0;
+}
+
+.slider-next {
+  right: 0;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slider-item {
+  flex: 0 0 auto;
+  width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
+}

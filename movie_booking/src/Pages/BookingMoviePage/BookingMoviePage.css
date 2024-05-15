@@ -1,0 +1,102 @@
+.body-bookingticket {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.container-bookingticket {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 1400px;
+    padding: 0 10px;
+}
+.date-available-slider .slider-container, .chooseTime-container .slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 75%;
+}
+.date-available-slider .container-outside-slider, .chooseTime-container .container-outside-slider {
+    justify-content: start;
+}
+
+.date-available-slider, .chooseTime-container {
+    display: flex;
+    width: 100%;
+
+}
+.date-available-slider .slider-item, .chooseTime-container .slider-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.DateAvailable, .TimeAvailable {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #5c5c5c;
+    background-color: #fff;
+}
+
+.DateAvailable a, .TimeAvailable a {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+.col-1  {
+    width: 70%;
+    display: column;
+}
+
+.col-2 {
+    width: 30%;
+    display: column;
+}
+
+.form-check {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    min-height: unset;
+    padding-left: unset;
+    margin-bottom: unset;
+}
+
+.DateAvailable.active, .TimeAvailable.active {
+    background-color: #001529;
+    color: #fff;
+
+}
+
+.DateAvailable input, .TimeAvailable input {
+    display: none;
+}
+
+.form-check-label .date-month {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+
+
+
+/* selected time */
+
+
+/* selected time */
+

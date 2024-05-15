@@ -1,7 +1,8 @@
 import React from 'react'
-import './Navbar.css'
 import CNEMA from '../Assets/CNEMA.png'
-const Navbar = () => {
+import './styleHeader.css'
+
+const Header = () => {
   return (
     <div className="navbar">
         <div className="navbar-container">
@@ -27,4 +28,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Header

@@ -1,0 +1,46 @@
+.ContainerSliderCnema {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: fit-content;
+}
+
+.ContainerSliderCnema img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+
+
+}
+
+.ContainerYouMayInterest {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: fit-content;
+}
+.ContainerYouMayInterest img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+
+
+}
+
+.Cnema.main-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
