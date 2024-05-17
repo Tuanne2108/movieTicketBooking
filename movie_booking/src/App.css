@@ -45,3 +45,10 @@
     align-content: center;
     align-items: center;
 }
+
+.defaultBackground {
+  background-image: url('./Components/Assets/CNEMA-Background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

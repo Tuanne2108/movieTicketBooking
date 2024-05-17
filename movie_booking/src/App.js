@@ -9,7 +9,7 @@ import DefaultComponent from './Components/DefaultComponent/DefaultComponent'
 
 function App() {
   return (
-    <div>
+    <div className="defaultBackground">
       <Router>
         <Routes>
         {routes.map((route) => {

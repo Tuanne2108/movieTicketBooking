@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Slider from '../../Components/SliderItems/Slider';
+import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
 import Poster from '../../Components/Assets/Poster-NhaBaNu.png';
 import './BookingMoviePage.css';
@@ -9,8 +10,8 @@ const BookingMoviePage = () => {
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedSubLocation, setSelectedSubLocation] = useState(null);
-    const [subLocations, setSubLocations] = useState([]);
     const [ticketType, setTicketType] = useState(null);
+    const [subLocations, setSubLocations] = useState([]);
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
     const locations = ["Ho Chi Minh", "Da Nang", "Quang Nam", "Ha Noi"];
@@ -23,9 +24,10 @@ const BookingMoviePage = () => {
         "Ha Noi": ["Hoan Kiem", "Ba Dinh", "Hai Ba Trung"]
     };
 
-    const handleTimeSelect = (time) => {
-        console.log('Time selected:', time);
+    const handleTimeSelect = (time, type) => {
+        console.log(`Time selected: ${time}, Ticket type: ${type}`);
         setSelectedTime(time);
+        setTicketType(type);
     };
 
     const handleDateSelect = (date) => {
@@ -90,7 +92,8 @@ const BookingMoviePage = () => {
                                 <DropdownItems items={subLocations} selectedItem={selectedSubLocation} handleItemClick={handleSubLocationSelect} />
                             </div>
                         )}
-                        {/* khi chọn ở đây thì trả về vé hạng REGULAR 2D */}
+
+                        {/* REGULAR 2D Tickets */}
                         <div className="chooseTime-container">
                             <Slider slidesToShow={4} slidesToScroll={4}>
                                 {itemsTime.map((time, index) => (
@@ -99,13 +102,13 @@ const BookingMoviePage = () => {
                                             <input
                                                 className="form-check-input"
                                                 type="radio"
-                                                name="movieTime"
-                                                id={`movieTime${index}`}
+                                                name="movieTimeRegular"
+                                                id={`movieTimeRegular${index}`}
                                                 value={time}
-                                                checked={selectedTime === time}
-                                                onChange={() => handleTimeSelect(time)}
+                                                checked={selectedTime === time && ticketType === 'REGULAR 2D'}
+                                                onChange={() => handleTimeSelect(time, 'REGULAR 2D')}
                                             />
-                                            <label className="form-check-label" htmlFor={`movieTime${index}`}>
+                                            <label className="form-check-label" htmlFor={`movieTimeRegular${index}`}>
                                                 <div className="date-month">
                                                     <span>23:00</span>
                                                 </div>
@@ -115,7 +118,8 @@ const BookingMoviePage = () => {
                                 ))}
                             </Slider>
                         </div>
-                        {/* khi chọn ở đây thì trả về vé hạng GOLD CLASS 2D */}
+
+                        {/* GOLD CLASS 2D Tickets */}
                         <div className="chooseTime-container">
                             <Slider slidesToShow={4} slidesToScroll={4}>
                                 {itemsTime.map((time, index) => (
@@ -124,13 +128,13 @@ const BookingMoviePage = () => {
                                             <input
                                                 className="form-check-input"
                                                 type="radio"
-                                                name="movieTime"
-                                                id={`movieTime${index}`}
+                                                name="movieTimeGold"
+                                                id={`movieTimeGold${index}`}
                                                 value={time}
-                                                checked={selectedTime === time}
-                                                onChange={() => handleTimeSelect(time)}
+                                                checked={selectedTime === time && ticketType === 'GOLD CLASS 2D'}
+                                                onChange={() => handleTimeSelect(time, 'GOLD CLASS 2D')}
                                             />
-                                            <label className="form-check-label" htmlFor={`movieTime${index}`}>
+                                            <label className="form-check-label" htmlFor={`movieTimeGold${index}`}>
                                                 <div className="date-month">
                                                     <span>23:00</span>
                                                 </div>
@@ -140,6 +144,15 @@ const BookingMoviePage = () => {
                                 ))}
                             </Slider>
                         </div>
+
+                         {/* REGULAR 2D Tickets */}
+                         <h2>REGULAR 2D</h2>
+                        <CustomList 
+                            items={itemsTime} 
+                            selectedTime={selectedTime} 
+                            onTimeSelect={handleTimeSelect} 
+                            ticketType='REGULAR 2D' 
+                        />
                     </div>
 
                     <div className="col-2">
@@ -166,28 +179,31 @@ const BookingMoviePage = () => {
                             </div>
                             <div className="movie-demoTicket">
                                 <div className="ticket-info container-1">
-                                    <div className="locationChosen-CityDistrict">
-                                        <span className="child-3 sublocationCustomerChosen">
-                                            {selectedSubLocation ? `${selectedSubLocation}` : 'Location not selected'}
+                                    {selectedSubLocation && (
+                                        <div className="locationChosen-CityDistrict">
+                                            <span className="child-3 sublocationCustomerChosen">
+                                                {selectedSubLocation}
+                                            </span>
+                                            <span className="child-2 locationCustomerChosen">
+                                                {selectedLocation}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {selectedDate && (
+                                        <span className="child-1 dateCustomerChosen">
+                                            {selectedDate}
                                         </span>
-                                        <span className="child-2 locationCustomerChosen">
-                                            {selectedLocation}
+                                    )}
+                                    {selectedTime && (
+                                        <span className="child-4 genre">
+                                            {selectedTime} ({ticketType})
                                         </span>
-                                    </div>
-                                    
-                                    <span className="child-1 dateCustomerChosen">
-                                        {selectedDate ? `${selectedDate}` : 'Date not selected'}
-                                    </span>
-                                    <span className="genre">
-                                        {selectedTime ? `${selectedTime}` : 'Time not selected'}
-                                        ({ticketType ? `${ticketType}` : 'Ticket not selected'})
-                                    </span>
+                                    )}
                                 </div>
-                                <div className="container-2">
+                                <div className="note-buttonBuyNow container-2">
                                     <span><i>* Seat selection can be made later</i></span>
+                                    <button>BUY NOW</button>
                                 </div>
-                            </div>
-                            <div className="movie-finalResult">
                             </div>
                         </div>
                     </div>
