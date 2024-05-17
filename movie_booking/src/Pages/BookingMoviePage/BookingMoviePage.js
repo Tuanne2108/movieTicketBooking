@@ -146,12 +146,13 @@ const BookingMoviePage = () => {
                         </div>
 
                          {/* REGULAR 2D Tickets */}
-                         <h2>REGULAR 2D</h2>
+                        <h2>REGULAR 2D</h2>
                         <CustomList 
                             items={itemsTime} 
                             selectedTime={selectedTime} 
                             onTimeSelect={handleTimeSelect} 
                             ticketType='REGULAR 2D' 
+                            itemsPerRow={4}
                         />
                     </div>
 

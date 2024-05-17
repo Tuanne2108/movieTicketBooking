@@ -13,6 +13,7 @@
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
 }
 
 .time-item.active {
