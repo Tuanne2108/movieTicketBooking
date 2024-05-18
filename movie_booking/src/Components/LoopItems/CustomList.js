@@ -6,6 +6,7 @@ import './styleCustomList.css';
 const CustomList = ({ items, selectedTime, onTimeSelect, ticketType, itemsPerRow }) => {
     return (
         <div className="custom-list">
+            <div className="List-container"></div>
             {items.map((time, index) => (
                 <div 
                     key={index} 
@@ -13,7 +14,9 @@ const CustomList = ({ items, selectedTime, onTimeSelect, ticketType, itemsPerRow
                     onClick={() => onTimeSelect(time, ticketType)}
                     style={{ flexBasis: `calc(100% / ${itemsPerRow})` }}
                 >
-                    <span>{time}</span>
+                    <div className="List-child">
+                        <span>{time}</span>
+                    </div>
                 </div>
             ))}
         </div>

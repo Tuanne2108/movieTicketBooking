@@ -3,20 +3,38 @@
 .custom-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
+}
+
+.custom-list .List-container {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 .time-item {
+    padding: 10px 10px;
+
+}
+
+.time-item .List-child {
     padding: 10px 20px;
     background-color: #f0f0f0;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
-    box-sizing: border-box; /* Ensure padding and border are included in the width */
+    box-sizing: border-box;
+
 }
 
-.time-item.active {
+
+
+.time-item.active .List-child {
     background-color: #007bff;
     color: #fff;
+}
+
+
+.List-container {
+
 }
