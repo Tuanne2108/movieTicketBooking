@@ -64,7 +64,7 @@ const BookingMoviePage = () => {
             }, 3000);
         } else {
             // Nếu đủ thông tin, chuyển hướng sang trang "SELECT YOUR SEAT"
-            navigate('/SelectYourSeat');
+            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}`);
         }
     };
     
