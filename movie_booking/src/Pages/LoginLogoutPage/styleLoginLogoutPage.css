@@ -1,0 +1,90 @@
+.cnema-loginpage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+}
+.cnema-loginpage-container {
+    width: 1400px;
+    display: flex;
+}
+
+.form-login-container {
+    width: 50%;
+    border-radius: 10px;
+    background-color: #bac2d2;
+    opacity: 81%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 40px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.login-title {
+    font-family: 'Roboto', sans-serif; /* Specify Roboto font */
+    font-weight: bold; /* Apply bold style */
+    font-size: 50px; /* Set font size to 50px */
+    color: #000000; /* Set text color to black */
+}
+
+.login-form input::placeholder {
+    color: #000000;
+    opacity: 0.3;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.form-text.custome {
+    font-style: italic;
+    color: #5A637A;
+}
+.login-form {
+    width: 75% !important;
+}
+.login-form, .login-form form, .login-form form div {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+
+.login-form button {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.button-group {
+    gap: 10px;
+}
