@@ -1,0 +1,19 @@
+/* styleCustomSeat.css */
+
+/* Định nghĩa màu nền cho ghế đã được đặt */
+.seat-item.booked .list-child {
+    background-color: #1A2C50; /* Thay đổi màu nền cho ghế đã được đặt */
+}
+
+/* Định nghĩa màu chữ cho ghế đã được đặt */
+.seat-item.booked .list-child span {
+    color: white; /* Màu chữ cho ghế đã được đặt */
+}
+
+/* Định nghĩa CSS cho ghế không thể click */
+.seat-item.booked {
+    pointer-events: none; /* Không cho phép click vào ghế đã được đặt */
+    cursor: not-allowed; /* Thay đổi con trỏ khi di chuột qua ghế đã được đặt */
+}
+
+

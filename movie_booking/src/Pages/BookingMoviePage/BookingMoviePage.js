@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Slider from '../../Components/SliderItems/Slider';
 import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
@@ -9,16 +8,16 @@ import './BookingMoviePage.css';
 
 const BookingMoviePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
-    const navigate = useNavigate();
     const [showAlert, setShowAlert] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [selectedSubLocation, setSelectedSubLocation] = useState(null);
     const [selectedTicketType, setSelectedTicketType] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
+    const [formattedPrice, setFormattedPrice] = useState('');
+    const navigate = useNavigate();
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
     const locations = ["Ho Chi Minh", "Da Nang", "Quang Nam", "Ha Noi"];
-
     const locationsData = {
         "Ho Chi Minh": ["District 1", "District 2", "District 3", "District 4"],
         "Da Nang": ["Hai Chau", "Thanh Khe", "Cam Le"],
@@ -26,49 +25,50 @@ const BookingMoviePage = () => {
         "Ha Noi": ["Hoan Kiem", "Ba Dinh", "Hai Ba Trung"]
     };
 
-    const handleTimeSelect = (time) => {
-        console.log('Time selected:', time);
-        setSelectedTime(time);
-    };
-
-    const handleDateSelect = (date) => {
-        console.log('Date selected:', date);
-        setSelectedDate(date);
-    };
-
+    const handleTimeSelect = (time) => setSelectedTime(time);
+    const handleDateSelect = (date) => setSelectedDate(date);
     const handleLocationSelect = (location) => {
-        console.log('Location selected:', location);
         setSelectedLocation(location);
-        setSelectedSubLocation(null);  // Reset sub-location when a new location is selected
+        setSelectedSubLocation(null);
     };
-
-    const handleSubLocationSelect = (subLocation) => {
-        console.log('Sub-location selected:', subLocation);
-        setSelectedSubLocation(subLocation);
-    };
-
+    const handleSubLocationSelect = (subLocation) => setSelectedSubLocation(subLocation);
     const handleTicketTypeSelect = (type) => {
-        console.log('Ticket type selected:', type);
         setSelectedTicketType(type);
-        setSelectedTime(null); // Reset selected time when a new ticket type is selected
+        setSelectedTime(null);
     };
+
+    useEffect(() => {
+        if (selectedTicketType) {
+            const ticketPrices = {
+                'REGULAR 2D': 100000,
+                'GOLD CLASS 2D': 200000,
+                'VELVET 2D': 300000
+            };
+            const totalPrice = ticketPrices[selectedTicketType];
+            const price = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
+            setFormattedPrice(price);
+        }
+    }, [selectedTicketType]);
 
     const handleBuyNow = () => {
-        // Kiểm tra các thông tin đã nhập đầy đủ chưa
         if (!selectedDate || !selectedLocation || !selectedSubLocation || !selectedTicketType || !selectedTime) {
-            // Nếu không đủ thông tin, hiển thị một popup cảnh báo
             setShowAlert(true);
-            // Tự động ẩn popup sau 3 giây
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3000);
+            setTimeout(() => setShowAlert(false), 3000);
         } else {
-            // Nếu đủ thông tin, chuyển hướng sang trang "SELECT YOUR SEAT"
-            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}`);
+            const ticketPrices = {
+                'REGULAR 2D': 100000,
+                'GOLD CLASS 2D': 200000,
+                'VELVET 2D': 300000
+            };
+            const totalPrice = ticketPrices[selectedTicketType];
+            const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
+            setFormattedPrice(formattedPrice);
+            console.log('Total Price:', formattedPrice);
+
+            // Điều hướng với các tham số cần thiết
+            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&formattedPrice=${encodeURIComponent(formattedPrice)}`);
         }
     };
-    
-    
 
     return (
         <div className="main-bookingticket">
@@ -88,10 +88,8 @@ const BookingMoviePage = () => {
                     )}
                 </div>
 
-
                 <div className="container-bookingticket">
                     <div className="col-1">
-                        
                         <div className="title">
                             <h1>TIMETABLE</h1>
                             <span>Select the movie showtime you want to watch</span>
@@ -133,7 +131,6 @@ const BookingMoviePage = () => {
                             </div>
                         )}
 
-                        {/* Ticket Type Selection */}
                         <div className="ticket-type-selection">
                             <h2>Select Ticket Type</h2>
                             <div>
@@ -171,82 +168,36 @@ const BookingMoviePage = () => {
                             </div>
                         </div>
 
-                        {/* Time Selection */}
                         {selectedTicketType && (
                             <div className="time-selection">
                                 <h2>Select Time</h2>
-                                <CustomList 
-                                    items={itemsDate} 
-                                    selectedTime={selectedTime} 
-                                    onTimeSelect={handleTimeSelect} 
+                                <CustomList
+                                    items={itemsDate}
+                                    selectedTime={selectedTime}
+                                    onTimeSelect={handleTimeSelect}
                                     ticketType={selectedTicketType}
                                 />
                             </div>
                         )}
 
-            
-                                </div>
-            
-                                <div className="col-2">
-                                    <div className="chosen-movie-info">
-                                        <div className="movie-img">
-                                            <img src={Poster} alt="" />
-                                        </div>
-                                        <div className="movie-title">
-                                            <h1 className="title">SPIDERMAN: NO WAY HOME</h1>
-                                            <div className="more-info">
-                                                <div className="col-1">
-                                                    <span className="child-1 title">Genre</span>
-                                                    <span className="child-2 title">Duration</span>
-                                                    <span className="child-3 title">Director</span>
-                                                    <span className="child-4 title">Age Rating</span>
-                                                </div>
-                                                <div className="col-2">
-                                                    <span className="Genre">Action</span>
-                                                    <span className="Duration">2 hours 28 minutes</span>
-                                                    <span className="Director">Jon Watts</span>
-                                                    <span className="Age Rating">SU</span>
-                                                </div>
-                                            </div>   
-                                        </div>
-                                        <div className="movie-demoTicket">
-                                            <div className="ticket-info container-1">
-                                                {selectedSubLocation && (
-                                                    <div className="locationChosen-CityDistrict">
-                                                        <span className="child-3 sublocationCustomerChosen">
-                                                            {selectedSubLocation}
-                                                        </span>
-                                                        <span
-                                                        className="child-2 locationCustomerChosen">
-                                                        {selectedLocation}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            {selectedDate && (
-                                                <span className="child-1 dateCustomerChosen">
-                                                    {selectedDate}
-                                                </span>
-                                            )}
-                                            {/* Display selected time and ticket type */}
-                                            {selectedTime && (
-                                                <span className="child-4 genre">
-                                                    {selectedTime} ({selectedTicketType})
-                                                </span>
-                                            )}
-                                        </div>
-                                        <div className="note-buttonBuyNow container-2">
-                                            <span><i>* Seat selection can be made later</i></span>
-                                            <button onClick={handleBuyNow}>BUY NOW</button>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+
+                    <div className="col-2">
+                        <div className="chosen-movie-info">
+                            <div className="movie-img">
+                                <img src={Poster} alt="" />
+                            </div>
+                            <div className="movie">
+                                <span>{selectedTime} ({selectedTicketType}) - {formattedPrice}</span>
                             </div>
                         </div>
+
+                        <button onClick={handleBuyNow}>BUY NOW</button>
                     </div>
-                    <div className="footer-bookingticket"></div>
                 </div>
-            );
-            };
-            
-            export default BookingMoviePage;
-            
+            </div>
+        </div>
+    );
+};
+
+export default BookingMoviePage;
