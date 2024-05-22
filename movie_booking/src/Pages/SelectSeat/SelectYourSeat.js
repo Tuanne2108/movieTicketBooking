@@ -1,3 +1,4 @@
+// SelectYourSeat.js
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import MapA from '../../Components/Map/MapA';
@@ -6,7 +7,6 @@ import './styleSelectYourSeat.css';
 const SelectYourSeat = () => {
     const location = useLocation();
     const selectedTime = new URLSearchParams(location.search).get('selectedTime');
-    // const ticketPrice = parseInt(new URLSearchParams(location.search).get('formattedPrice').replace(/[^0-9]/g, ''), 10);
     
     const [selectedSeats, setSelectedSeats] = useState([]);
 
@@ -35,14 +35,9 @@ const SelectYourSeat = () => {
                 </div>
                 
                 <div className="seat-area">
-                    <MapA selectedSeats={selectedSeats} onSeatSelect={handleSeatSelect} seatStatus={true} />
-
+                    <MapA selectedSeats={selectedSeats} onSeatSelect={handleSeatSelect} />
                 </div>
             </div>
-            
-            {/* Hiển thị giá trị selectedSeats */}
-
-            
         </div>
     );
 };

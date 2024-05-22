@@ -35,22 +35,19 @@ const MapA = ({ selectedSeats, onSeatSelect }) => {
             <div className="mapA-col1">
                 <CustomSeat 
                     items={seatsCol1} 
-                    selectedSeats={selectedSeats} // Truyền selectedSeats vào CustomSeat
+                    selectedSeats={selectedSeats} 
                     onSeatSelect={onSeatSelect} 
-                    seatStatus={true}  
                     itemsPerRow={10} 
                 />
             </div>
             <div className="mapA-col2">
                 <CustomSeat 
                     items={seatsCol2} 
-                    selectedSeats={selectedSeats} // Truyền selectedSeats vào CustomSeat
+                    selectedSeats={selectedSeats} 
                     onSeatSelect={onSeatSelect} 
-                    seatStatus={true}  
                     itemsPerRow={10} 
                 />
             </div>
-          
         </div>
     );
 };
