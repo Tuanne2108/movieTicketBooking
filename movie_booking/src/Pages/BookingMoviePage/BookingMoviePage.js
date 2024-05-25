@@ -17,13 +17,13 @@ const BookingMoviePage = () => {
     const [selectedTime, setSelectedTime] = useState(null);
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
-    const locations = ["Ho Chi Minh", "Da Nang", "Quang Nam", "Ha Noi"];
+    const locations = ["HoChiMinh", "DaNang", "QuangNam", "HaNoi"];
 
     const locationsData = {
-        "Ho Chi Minh": ["District 1", "District 2", "District 3", "District 4"],
-        "Da Nang": ["Hai Chau", "Thanh Khe", "Cam Le"],
-        "Quang Nam": ["Tam Ky", "Hoi An", "Dien Ban"],
-        "Ha Noi": ["Hoan Kiem", "Ba Dinh", "Hai Ba Trung"]
+        "HoChiMinh": ["District1", "District2", "District3", "District4"],
+        "DaNang": ["HaiChau", "ThanhKhe", "CamLe"],
+        "QuangNam": ["TamKy", "HoiAn", "DienBan"],
+        "HaNoi": ["HoanKiem", "BaDinh", "HaiBaTrung"]
     };
 
     const handleTimeSelect = (time) => {
@@ -64,7 +64,7 @@ const BookingMoviePage = () => {
             }, 3000);
         } else {
             // Nếu đủ thông tin, chuyển hướng sang trang "SELECT YOUR SEAT"
-            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}`);
+            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}`);
         }
     };
     
@@ -141,9 +141,9 @@ const BookingMoviePage = () => {
                                     type="radio"
                                     id="regular2d"
                                     name="ticketType"
-                                    value="REGULAR 2D"
-                                    checked={selectedTicketType === 'REGULAR 2D'}
-                                    onChange={() => handleTicketTypeSelect('REGULAR 2D')}
+                                    value="REGULAR2D"
+                                    checked={selectedTicketType === 'REGULAR2D'}
+                                    onChange={() => handleTicketTypeSelect('REGULAR2D')}
                                 />
                                 <label htmlFor="regular2d">Regular 2D</label>
                             </div>
@@ -152,9 +152,9 @@ const BookingMoviePage = () => {
                                     type="radio"
                                     id="goldClass2d"
                                     name="ticketType"
-                                    value="GOLD CLASS 2D"
-                                    checked={selectedTicketType === 'GOLD CLASS 2D'}
-                                    onChange={() => handleTicketTypeSelect('GOLD CLASS 2D')}
+                                    value="GOLDCLASS2D"
+                                    checked={selectedTicketType === 'GOLDCLASS2D'}
+                                    onChange={() => handleTicketTypeSelect('GOLDCLASS2D')}
                                 />
                                 <label htmlFor="goldClass2d">Gold Class 2D</label>
                             </div>
@@ -164,10 +164,10 @@ const BookingMoviePage = () => {
                                     id="velvet2d"
                                     name="ticketType"
                                     value="VELVET 2D"
-                                    checked={selectedTicketType === 'VELVET 2D'}
-                                    onChange={() => handleTicketTypeSelect('VELVET 2D')}
+                                    checked={selectedTicketType === 'VELVET2D'}
+                                    onChange={() => handleTicketTypeSelect('VELVET2D')}
                                 />
-                                <label htmlFor="velvet2d">Velvet 2D</label>
+                                <label htmlFor="velvet2d">Velvet2D</label>
                             </div>
                         </div>
 

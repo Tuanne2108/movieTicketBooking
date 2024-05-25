@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "../../Components/SliderItems/Slider";
 import Poster from "../../Components/Assets/Poster-NhaBaNu.png";
 import Voucher from "../../Components/Assets/VoucherSlider.png";
-import SearchingBar from "../../Components/SearchingBar/SearchingBar";
+// import SearchingBar from "../../Components/SearchingBar/SearchingBar";
 import News from "../../Components/News/News";
 import "./Cnema.css";
 import axios from "axios";
@@ -30,7 +30,7 @@ const Cnema = () => {
     });
   }, []);
 
-  const itemsFilm = Array.from({ length: 16 }, (_, index) => index + 1);
+  // const itemsFilm = Array.from({ length: 16 }, (_, index) => index + 1);
   const itemsVoucher = Array.from({ length: 4 }, (_, index) => index + 1);
   const itemsYMI = Array.from({ length: 9 }, (_, index) => index + 1);
   return (

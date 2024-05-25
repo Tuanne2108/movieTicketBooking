@@ -3,6 +3,7 @@ import Booking from '../Pages/BookingMoviePage/BookingMoviePage'
 import Category from '../Pages/FilmCategory/FilmCategory'
 import Login from '../Pages/LoginLogoutPage/Login'
 import SelectYourSeat from '../Pages/SelectSeat/SelectYourSeat'
+import Payment from '../Pages/PaymentPage/Payment'
 import NotFound from '../Pages/NotFoundPage/NotFoundPage'
 
 export const routes = [
@@ -29,6 +30,11 @@ export const routes = [
     {
         path: '/SelectYourSeat',
         page: SelectYourSeat,
+        isShowHeader: true
+    },
+    {
+        path: '/Payment',
+        page: Payment,
         isShowHeader: true
     },
     {
