@@ -10,8 +10,7 @@ const CustomSeat = ({ items, selectedSeats, onSeatSelect, itemsPerRow }) => {
                     key={index} 
                     className={`seat-item ${selectedSeats.includes(seat.seatNumber) ? 'active' : ''}`}
                     onClick={() => onSeatSelect(seat.seatNumber, seat.status)}
-                    style={{ flexBasis: `calc(100% / ${itemsPerRow})` }}
-                >
+                    style={{ flexBasis: `calc(100% / ${itemsPerRow})` }}>
                     <div className={`list-child ${seat.status === 'booked' ? 'booked' : ''}`}>
                         <span>{seat.seatNumber}</span>
                     </div>
