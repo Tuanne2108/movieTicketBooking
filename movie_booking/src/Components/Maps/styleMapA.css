@@ -1,0 +1,84 @@
+.mapA {
+    display: flex;
+  }
+  
+  .custom-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+  }
+  
+  .time-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+  }
+  
+  .time-item span {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .seat {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .seat.available {
+    background-color: #fff;
+  }
+  
+  
+  .seat.booked {
+    background-color: #000;
+    color: #fff;
+  }
+
+
+  .seat-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    min-width: 60px;
+    min-height: 50px;
+    cursor: pointer;
+  }
+  .seat-item span {
+    cursor: pointer;
+  }
+  .seat-item.active .list-child {
+    background-color: #118EEA;
+    border: 1px solid #118EEA;
+    color: #fff;
+  }
+  .seat-item .list-child {
+    border: 1px solid #9DA8BE;
+    border-radius: 8px;
+    background-color: #fff;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seat-item span {
+    font-size: 16px;
+    font-weight: 600;
+  }
