@@ -1,12 +1,12 @@
 .container-outside-slider {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: center;
-    width: 100%;
-    padding: 20px 0;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+  justify-content: center;
 }
 
 .slider-container {
@@ -23,21 +23,31 @@
 }
   
   .slider-prev, .slider-next {
-  position: relative;
-  top: 0%;
-  transform: translateY(0%);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 1; /* Đảm bảo nút prev luôn hiển thị trên slider */
+    position: absolute;
+    transform: translateY(0%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    background-color: #001529;
+    color: #fff;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 200px;
 }
 
+.slider-prev[disabled], .slider-next[disabled] {
+  opacity: 0.5; /* Giảm opacity xuống 50% khi nút bị tắt */
+}
+
+
 .slider-prev {
-  left: 0;
+  left: 5px;
 }
 
 .slider-next {
-  right: 0;
+  right: 5px;
 }
 
 .slider-track {

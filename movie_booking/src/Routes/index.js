@@ -13,7 +13,7 @@ export const routes = [
         isShowHeader: true
     },
     {
-        path: '/booking',
+        path: '/booking/:movieId',
         page: Booking,
         isShowHeader: true
     },

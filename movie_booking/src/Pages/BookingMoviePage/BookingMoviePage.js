@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Slider from '../../Components/SliderItems/Slider';
 import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
 import Poster from '../../Components/Assets/Poster-NhaBaNu.png';
+
+import axios from "axios";
 import './BookingMoviePage.css';
+
 
 const BookingMoviePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -15,6 +18,8 @@ const BookingMoviePage = () => {
     const [selectedSubLocation, setSelectedSubLocation] = useState(null);
     const [selectedTicketType, setSelectedTicketType] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
+
+    
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
     const locations = ["HoChiMinh", "DaNang", "QuangNam", "HaNoi"];
@@ -71,6 +76,7 @@ const BookingMoviePage = () => {
     
 
     return (
+        
         <div className="main-bookingticket">
             <div className="body-bookingticket">
                 <div className={`popup ${showAlert ? 'show' : ''}`}>
@@ -193,7 +199,7 @@ const BookingMoviePage = () => {
                                             <img src={Poster} alt="" />
                                         </div>
                                         <div className="movie-title">
-                                            <h1 className="title">SPIDERMAN: NO WAY HOME</h1>
+                                            <h1 className="title">TỰA ĐỀ PHIM</h1>
                                             <div className="more-info">
                                                 <div className="col-1">
                                                     <span className="child-1 title">Genre</span>

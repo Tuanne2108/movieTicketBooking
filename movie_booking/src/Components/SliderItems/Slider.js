@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
 import './styleSlider.css';
 
 function Slider({ children, slidesToShow, slidesToScroll }) {
@@ -25,7 +29,11 @@ function Slider({ children, slidesToShow, slidesToScroll }) {
 
   return (
     <div className="container-outside-slider">
-      <button className="slider-prev" onClick={prevSlide} disabled={!canPrev}>Prev</button>
+      <button className="slider-prev" onClick={prevSlide} disabled={!canPrev}>
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </button>
+
+
       
       <div className="slider-container">
         <div className="slider-track" style={{ transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)` }}>
@@ -37,7 +45,8 @@ function Slider({ children, slidesToShow, slidesToScroll }) {
         </div>
       </div>
       
-      <button className="slider-next" onClick={nextSlide} disabled={!canNext}>Next</button>
+      <button className="slider-next" onClick={nextSlide} disabled={!canNext}>
+      <FontAwesomeIcon icon={faChevronRight} /></button>
     </div>
   );
 }
