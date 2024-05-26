@@ -13,7 +13,7 @@
     position: relative;
     overflow: hidden;
     width: 1400px;
-
+    padding: 10px;
   }
 
   .slider-item {
@@ -22,20 +22,7 @@
     padding: 10px;
 }
   
-  .slider-prev, .slider-next {
-    position: absolute;
-    transform: translateY(0%);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 1;
-    background-color: #001529;
-    color: #fff;
-    font-size: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 200px;
-}
+
 
 .slider-prev[disabled], .slider-next[disabled] {
   opacity: 0.5; /* Giảm opacity xuống 50% khi nút bị tắt */
@@ -43,11 +30,11 @@
 
 
 .slider-prev {
-  left: 5px;
+  left: -10px;
 }
 
 .slider-next {
-  right: 5px;
+  right: -10px;
 }
 
 .slider-track {
@@ -59,3 +46,5 @@
   flex: 0 0 auto;
   width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
 }
+
+

@@ -6,10 +6,11 @@ import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
 import Poster from '../../Components/Assets/Poster-NhaBaNu.png';
 
+
 import axios from "axios";
 import './BookingMoviePage.css';
 
-
+ 
 const BookingMoviePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const BookingMoviePage = () => {
     const [selectedSubLocation, setSelectedSubLocation] = useState(null);
     const [selectedTicketType, setSelectedTicketType] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
-
+    const [selectedType, setSelectedType] = useState(null);
     
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
@@ -73,7 +74,17 @@ const BookingMoviePage = () => {
         }
     };
     
-    
+    const handleTypeSelect = (type) => {
+        setSelectedType(type);
+    };
+
+    useEffect(() => {
+        const timeSelection = document.querySelector('.time-selection');
+        if (timeSelection) {
+            timeSelection.classList.add('show');
+        }
+    }, []);
+
 
     return (
         
@@ -103,6 +114,13 @@ const BookingMoviePage = () => {
                             <span>Select the movie showtime you want to watch</span>
                         </div>
 
+                        <div className="dropdown-location">
+                            <DropdownItems items={locations} 
+                            selectedItem={selectedLocation} 
+                            handleItemClick={handleLocationSelect}
+                            defaultText="SELECT A LOCATION" />
+                        </div>
+
                         <div className="date-available-slider">
                             <Slider slidesToShow={5} slidesToScroll={5}>
                                 {itemsDate.map((item) => (
@@ -129,54 +147,72 @@ const BookingMoviePage = () => {
                             </Slider>
                         </div>
 
-                        <div className="dropdown-location">
-                            <DropdownItems items={locations} selectedItem={selectedLocation} handleItemClick={handleLocationSelect} />
-                        </div>
+                        
 
                         {selectedLocation && (
                             <div className="dropdown-sublocation">
-                                <DropdownItems items={locationsData[selectedLocation] || []} selectedItem={selectedSubLocation} handleItemClick={handleSubLocationSelect} />
+                                <DropdownItems items={locationsData[selectedLocation] || []} 
+                                selectedItem={selectedSubLocation} 
+                                handleItemClick={handleSubLocationSelect} 
+                                defaultText="SELECT Cinema Location"/>
                             </div>
                         )}
 
                         {/* Ticket Type Selection */}
                         <div className="ticket-type-selection">
                             <h2>Select Ticket Type</h2>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="regular2d"
-                                    name="ticketType"
-                                    value="REGULAR2D"
-                                    checked={selectedTicketType === 'REGULAR2D'}
-                                    onChange={() => handleTicketTypeSelect('REGULAR2D')}
-                                />
-                                <label htmlFor="regular2d">Regular 2D</label>
+                            <div className="selectTicketTypeContainer">
+                            <div className="radio-group">
+                                <div className="radio-item"
+                                    
+                                >
+                                    <input
+                                        type="radio"
+                                        id="regular2d"
+                                        name="ticketType"
+                                        value="REGULAR2D"
+                                        checked={selectedTicketType === 'REGULAR2D'}
+                                        onChange={() => {
+                                            handleTicketTypeSelect('REGULAR2D');
+                                            handleTypeSelect('REGULAR2D'); // Gọi hàm xử lý mới để cập nhật loại vé được chọn
+                                        }}
+                                    />
+                                    <label htmlFor="regular2d" className={selectedType === 'REGULAR2D' ? 'ticketTypeSelector active' : 'ticketTypeSelector'}>Regular 2D</label>
+                                </div>
+                                <div className="radio-item">
+                                    <input
+                                        type="radio"
+                                        id="goldClass2d"
+                                        name="ticketType"
+                                        value="GOLDCLASS2D"
+                                        checked={selectedTicketType === 'GOLDCLASS2D'}
+                                        onChange={() => {
+                                            handleTicketTypeSelect('GOLDCLASS2D');
+                                            handleTypeSelect('GOLDCLASS2D');
+                                        }}
+                                    />
+                                    <label htmlFor="goldClass2d" className={selectedType === 'GOLDCLASS2D' ? 'ticketTypeSelector active' : 'ticketTypeSelector'}>Gold Class 2D</label>
+                                </div>
+                                <div className="radio-item">
+                                    <input
+                                        type="radio"
+                                        id="velvet2d"
+                                        name="ticketType"
+                                        value="VELVET2D"
+                                        checked={selectedTicketType === 'VELVET2D'}
+                                        onChange={() => {
+                                            handleTicketTypeSelect('VELVET2D');
+                                            handleTypeSelect('VELVET2D');
+                                        }}
+                                    />
+                                    <label htmlFor="velvet2d" className={selectedType === 'VELVET2D' ? 'ticketTypeSelector active' : 'ticketTypeSelector'}>Velvet 2D</label>
+                                </div>
                             </div>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="goldClass2d"
-                                    name="ticketType"
-                                    value="GOLDCLASS2D"
-                                    checked={selectedTicketType === 'GOLDCLASS2D'}
-                                    onChange={() => handleTicketTypeSelect('GOLDCLASS2D')}
-                                />
-                                <label htmlFor="goldClass2d">Gold Class 2D</label>
                             </div>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="velvet2d"
-                                    name="ticketType"
-                                    value="VELVET 2D"
-                                    checked={selectedTicketType === 'VELVET2D'}
-                                    onChange={() => handleTicketTypeSelect('VELVET2D')}
-                                />
-                                <label htmlFor="velvet2d">Velvet2D</label>
-                            </div>
+                            
                         </div>
-
+                        
+                        
                         {/* Time Selection */}
                         {selectedTicketType && (
                             <div className="time-selection">

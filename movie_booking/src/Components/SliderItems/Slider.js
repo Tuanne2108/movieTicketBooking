@@ -32,9 +32,6 @@ function Slider({ children, slidesToShow, slidesToScroll }) {
       <button className="slider-prev" onClick={prevSlide} disabled={!canPrev}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-
-
-      
       <div className="slider-container">
         <div className="slider-track" style={{ transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)` }}>
           {React.Children.map(children, (child, index) => (

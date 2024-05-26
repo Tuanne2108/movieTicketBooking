@@ -19,10 +19,17 @@
     padding: 10px;
     
 }
+.date-available-slider {
+    border-bottom: 2px solid #C4C4C4;
+    margin-bottom: 20px;
+
+
+}
 .date-available-slider .slider-container, .chooseTime-container .slider-container {
     position: relative;
     overflow: hidden;
     width: 75%;
+    margin: 0 30px;
 }
 .date-available-slider .container-outside-slider, .chooseTime-container .container-outside-slider {
     justify-content: start;
@@ -42,7 +49,7 @@
 .DateAvailable, .TimeAvailable {
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #5c5c5c;
+    border: 2px solid #5A637A;
     background-color: #fff;
 }
 
@@ -83,6 +90,7 @@
 .DateAvailable.active, .TimeAvailable.active {
     background-color: #001529;
     color: #fff;
+    border: 2px solid #001529;
 
 }
 
@@ -235,3 +243,95 @@
         opacity: 1;
     }
 }
+
+.date-available-slider button {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: none;
+    background-color: #fff;
+}
+
+
+.dropdown-location {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+
+
+.loca-container {
+    width: fit-content;
+
+}
+
+.dropdown-loca {
+    width: fit-content;
+
+}
+
+.date-month, .date-month span, .date-month h3 {
+    cursor: pointer;
+}
+
+.selectTicketTypeContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+
+}
+
+.selectTicketTypeContainer > div {
+    width: 100%;
+    border: 1px solid #001529;
+    padding: 10px;
+
+}
+
+.selectTicketTypeContainer .radio-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.radio-item input {
+    display: none;
+}
+
+.radio-item {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+
+}
+
+.radio-item label {
+    border: 1px solid #5A637A;
+    padding: 20px;
+
+}
+
+.time-selection {
+    opacity: 0; /* Bắt đầu với độ mờ */
+    animation: fadeIn 0.5s ease forwards; /* Sử dụng animation với tên 'fadeIn' và thời gian 0.5s */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Bắt đầu từ độ mờ */
+    }
+    to {
+        opacity: 1; /* Kết thúc với độ mờ */
+    }
+}
+
+
+

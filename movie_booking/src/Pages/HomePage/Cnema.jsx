@@ -53,52 +53,60 @@ const Cnema = () => {
 
   return (
     <div className="Cnema main-body">
-      <Slider slidesToShow={4} slidesToScroll={2}>
-        {movies.map((movie) => (
-          <div key={movie._id} className="ContainerSliderCnema">
-            <div className="poster-img">
-              <img src={movie.posterUrl || "default-poster-url.jpg"} alt={movie.title} />
+      <div className="hotMovieContainer">
+        <Slider slidesToShow={4} slidesToScroll={2}>
+          {movies.map((movie) => (
+            <div key={movie._id} className="ContainerSliderCnema">
+              <div className="poster-img">
+                <img src={movie.posterUrl || "default-poster-url.jpg"} alt={movie.title} />
+              </div>
+              <div className="title">
+                <h2>{movie.title}</h2>
+              </div>
+              <div className="buttonSDBYTN">
+                <button className="SD">See Details</button>
+                <button className="BYTN" onClick={() => handleBookingTicket(movie._id)}>Book Your Ticket Now</button>
+              </div>
             </div>
-            <div className="title">
-              <h2>{movie.title}</h2>
-              <p>Them link o day</p>
-            </div>
-            <div className="buttonSDBYTN">
-              <button>See Detail</button>
-              <button onClick={() => handleBookingTicket(movie._id)}>Book Your Ticket Now</button>
-            </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      </div>
       
-      <Slider slidesToShow={1} slidesToScroll={1}>
-        {itemsVoucher.map((item) => (
-          <div key={item} className="ContainerVoucherCnema">
-            <div className="voucher-img">
-              <img src={Voucher} alt="Voucher" />
+      <div className="voucherContainer">
+        <Slider slidesToShow={1} slidesToScroll={1}>
+          {itemsVoucher.map((item) => (
+            <div key={item} className="ContainerVoucherCnema">
+              <div className="voucher-img">
+                <img src={Voucher} alt="Voucher" />
+              </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+
+      </div>
       
-      <News />
-      
-      <Slider slidesToShow={3} slidesToScroll={2}>
-        {itemsYMI.map((item) => (
-          <div key={item} className="ContainerYouMayInterest">
-            <div className="poster-img">
-              <img src={Poster} alt="Poster" />
+      <div className="newsContainer">
+        <News />
+      </div>
+      <div className="mayInterestedContainer">
+        <Slider slidesToShow={3} slidesToScroll={2}>
+          {itemsYMI.map((item) => (
+            <div key={item} className="ContainerYouMayInterest">
+              <div className="poster-img">
+                <img src={Poster} alt="Poster" />
+              </div>
+              <div className="title">
+                <h2>Nha Ba Nu</h2>
+              </div>
+              <div className="buttonSDBYTN">
+                <button className="SD">See Detail</button>
+                <button className="CM">Coming Soon</button>
+              </div>
             </div>
-            <div className="title">
-              <h2>Nha Ba Nu</h2>
-            </div>
-            <div className="buttonSDBYTN">
-              <button>See Detail</button>
-              <button>Book Your Ticket Now</button>
-            </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+
+      </div>
     </div>
   );
 };

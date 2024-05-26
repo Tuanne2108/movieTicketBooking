@@ -45,3 +45,153 @@
     align-items: center;
 }
 
+.buttonSDBYTN {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+
+.buttonSDBYTN .BYTN {
+    background-color: #00CBF8;
+    border: 1px solid #00CBF8;
+}
+
+.buttonSDBYTN .SD {
+    background-color: #001529;
+    border: 1px solid #001529;
+}
+
+.buttonSDBYTN .SD, .buttonSDBYTN .BYTN {
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    box-shadow: 5px 5px 10px -5px #00000050;
+    padding: 2px 10px;
+}
+
+.hotMovieContainer .slider-prev, .hotMovieContainer .slider-next {
+    position: relative;
+    transform: translateY(0%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    background-color: #001529;
+    color: #fff;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 200px;
+    bottom: 50px;
+}  
+.voucherContainer .slider-prev, .voucherContainer .slider-next {
+    position: relative;
+    transform: translateY(0%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    background-color: #fff;
+    color: #001529;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 200px;
+    bottom: auto;
+    top: auto;
+}   
+
+.voucherContainer .slider-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+
+}
+.voucherContainer .voucher-img {
+    overflow: hidden;
+}
+.voucherContainer img {
+    object-fit: cover;
+}
+
+.voucherContainer .slider-prev {
+    left: 50px;
+}
+
+.voucherContainer .slider-next {
+    right: 50px;
+}
+
+.newsContainer .news-container {
+    padding: 0 20px;
+
+}
+
+.CnemaHeader {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #001529;
+    box-shadow: 0px 1px 3px -2px black;
+    position: sticky; /* Đặt navbar ở chế độ sticky */
+    top: 0; /* Định vị navbar ở đầu trang */
+    z-index: 1000; /* Đảm bảo navbar nằm trên các phần tử khác */
+}
+
+.ContainerYouMayInterest .buttonSDBYTN .SD, .ContainerYouMayInterest .buttonSDBYTN .CM {
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    box-shadow: 5px 5px 10px -5px #00000050;
+    padding: 2px 10px;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN .SD {
+    background: linear-gradient(90deg, #F2C46F 0%, #C6943F 100%);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN .CM {
+    background-color: #EC1E2B;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.mayInterestedContainer .slider-prev, .mayInterestedContainer .slider-next {
+    position: relative;
+    transform: translateY(0%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    background-color: #001529;
+    color: #fff;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 200px;
+    bottom: 50px;
+}  

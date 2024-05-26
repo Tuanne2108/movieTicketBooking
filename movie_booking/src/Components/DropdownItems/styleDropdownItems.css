@@ -1,0 +1,26 @@
+.button-dropdown {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 500;
+    background-color: #fff0;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    gap: 10px;
+
+}
+
+.dropdown-location .dropdown {
+    width: fit-content;
+    display: flex;
+
+}
+
+.dropdown-menu.show {
+    width: 100%;
+}

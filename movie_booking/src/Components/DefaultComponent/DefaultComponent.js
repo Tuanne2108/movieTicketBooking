@@ -6,7 +6,7 @@ import Header from '../Header/Header'
 
 const DefaultComponent = ({children}) => {
   return (
-    <div>
+    <div className="CnemaHeader">
         <Header />
         {children}
 
