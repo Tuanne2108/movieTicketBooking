@@ -5,6 +5,8 @@ import Login from '../Pages/LoginLogoutPage/Login'
 import SelectYourSeat from '../Pages/SelectSeat/SelectYourSeat'
 import Payment from '../Pages/PaymentPage/Payment'
 import NotFound from '../Pages/NotFoundPage/NotFoundPage'
+import { MovieDetail } from '../Pages/MovieDetail/MovieDetail'
+
 
 export const routes = [
     {
@@ -15,6 +17,11 @@ export const routes = [
     {
         path: '/booking/:movieId',
         page: Booking,
+        isShowHeader: true
+    },
+    {
+        path:'/movie/get-movie/:movieId',
+        page: MovieDetail,
         isShowHeader: true
     },
     {
