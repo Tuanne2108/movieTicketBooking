@@ -6,6 +6,7 @@ import SelectYourSeat from '../Pages/SelectSeat/SelectYourSeat'
 import Payment from '../Pages/PaymentPage/Payment'
 import NotFound from '../Pages/NotFoundPage/NotFoundPage'
 import { MovieDetail } from '../Pages/MovieDetail/MovieDetail'
+import { AdminPage } from '../Pages/Admin/AdminPage'
 
 
 export const routes = [
@@ -23,6 +24,11 @@ export const routes = [
         path:'/movie/get-movie/:movieId',
         page: MovieDetail,
         isShowHeader: true
+    },
+    {
+        path:'/admin',
+        page: AdminPage,
+        isShowHeader: false
     },
     {
         path: '/category',

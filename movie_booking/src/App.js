@@ -28,7 +28,6 @@ function App() {
               />
             );
           })}
-          <Route path="/movie/get-movie/:id" element={<MovieDetail />} />
         </Routes>
       </Router>
     </div>

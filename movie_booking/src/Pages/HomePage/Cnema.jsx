@@ -32,7 +32,7 @@ const Cnema = () => {
   }, []);
 
   const handleSeeDetails = (movieId) => {
-    navigate(`/movie/get-movie/${movieId}`);
+    window.location.href `/movie/get-movie/${movieId}`;
   };
 
   const handleBookingTicket = (movieId) => {
