@@ -10,7 +10,12 @@ import {
   DatePicker,
   InputNumber,
   notification,
+  Drawer,
+  Space,
+  Row,
+  Col,
 } from "antd";
+import moment from "moment";
 
 export const MovieManage = () => {
   const [movies, setMovies] = useState([]);
@@ -18,8 +23,11 @@ export const MovieManage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [rowSelected, setRowSelected] = useState("");
-  const [selectedRowKey, setSelectedRowKey] = useState(null);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [currentMovie, setCurrentMovie] = useState(null);
   const [form] = Form.useForm();
+  const [updateForm] = Form.useForm();
 
   const renderAction = (movieId) => {
     return (
@@ -64,6 +72,7 @@ export const MovieManage = () => {
     {
       title: "Duration",
       dataIndex: "duration",
+      render: (duration) => `${duration} mins`,
     },
     {
       title: "Description",
@@ -82,7 +91,6 @@ export const MovieManage = () => {
       .getAllMovies()
       .then((res) => {
         if (res.data) {
-          console.log("res", res.data);
           setMovies(res.data);
         } else {
           setError("Expected an object containing a data array");
@@ -147,13 +155,63 @@ export const MovieManage = () => {
       });
   };
 
-  //Update
-  const handleUpdateDetails = (movieId) => {};
-
-  const handleRowClick = (record) => {
-    setSelectedRowKey(record.key);
+  const showDrawer = () => {
+    setOpen(true);
   };
-  //Delete by ID
+
+  const onClose = () => {
+    setOpen(false);
+    updateForm.resetFields();
+  };
+
+  const handleUpdateDetails = (movieId) => {
+    const movie = movies.find((movie) => movie._id === movieId);
+    setCurrentMovie(movie);
+    updateForm.setFieldsValue({
+      title: movie.title,
+      actors: movie.actors.join(", "),
+      releaseDate: moment(movie.releaseDate, "YYYY-MM-DD"),
+      posterUrl: movie.posterUrl,
+      duration: movie.duration,
+      description: movie.description,
+    });
+    showDrawer();
+  };
+
+  const handleUpdateFormSubmit = (values) => {
+    const updatedMovie = {
+      title: values.title,
+      actors: values.actors.split(", "),
+      releaseDate: values.releaseDate.format("YYYY-MM-DD"),
+      posterUrl: values.posterUrl,
+      duration: values.duration,
+      description: values.description,
+    };
+
+    movieService
+      .updateMovie(currentMovie._id, updatedMovie)
+      .then((res) => {
+        setMovies(
+          movies.map((movie) =>
+            movie._id === currentMovie._id ? res.data : movie
+          )
+        );
+        notification.success({
+          message: "Success",
+          description: "Movie updated successfully",
+        });
+        onClose();
+      })
+      .catch((err) => {
+        setError(`Error updating movie: ${err.message}`);
+        notification.error({
+          message: "Failed",
+          description: "Error updating movie",
+        });
+      });
+  };
+
+  // Delete by ID
   const handleDelete = (movieId) => {
     Modal.confirm({
       title: "Confirm Deletion",
@@ -181,9 +239,44 @@ export const MovieManage = () => {
       },
     });
   };
-  //Delete All
-  const handleConfirmedDeleteAll = () => {};
 
+  // Delete Many
+  const handleConfirmedDeleteMany = () => {
+    Modal.confirm({
+      title: "Confirm Deletion",
+      content: "Are you sure you want to delete the selected movies?",
+      onOk: () => {
+        movieService
+          .deleteAllMovies(selectedRowKeys)
+          .then(() => {
+            const updatedMovies = movies.filter(
+              (movie) => !selectedRowKeys.includes(movie._id)
+            );
+            setMovies(updatedMovies);
+            notification.success({
+              message: "Success",
+              description: "Selected movies deleted successfully",
+            });
+            setSelectedRowKeys([]);
+          })
+          .catch((err) => {
+            setError(`Error deleting movies: ${err.message}`);
+            notification.error({
+              message: "Failed",
+              description: "Error deleting movies",
+            });
+          });
+      },
+      onCancel: () => {
+        setIsModalVisible(false);
+      },
+    });
+  };
+  
+  const onSelectChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  const hasSelected = selectedRowKeys.length > 0;
   // Render Page
   return (
     <>
@@ -203,15 +296,41 @@ export const MovieManage = () => {
         </Button>
       </div>
       <div>
-        <TableComponent
-          columns={columns}
-          dataSource={data}
-          handleDeleteMany={handleConfirmedDeleteAll}
-          onRow={(record) => ({
-            onClick: () => handleRowClick(record),
-          })}
-        />
+        {hasSelected && (
+          <div
+            style={{
+              marginBottom: 16,
+            }}
+          >
+            <Button
+              danger
+              type="primary"
+              onClick={handleConfirmedDeleteMany}
+              disabled={!hasSelected}
+            >
+              Delete
+            </Button>
+            <span
+              style={{
+                marginLeft: 8,
+              }}
+            >
+              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
+            </span>
+          </div>
+        )}
+        <div>
+          <TableComponent
+            columns={columns}
+            dataSource={data}
+            rowSelection={{
+              selectedRowKeys,
+              onChange: onSelectChange,
+            }}
+          />
+        </div>
       </div>
+      {/* Modal for adding new movie */}
       <Modal
         title="Add New Movie"
         open={isModalVisible}
@@ -257,7 +376,7 @@ export const MovieManage = () => {
             label="Duration (minutes)"
             rules={[{ required: true, message: "Please input the duration!" }]}
           >
-            <InputNumber />
+            <InputNumber addonAfter="mins" />
           </Form.Item>
           <Form.Item
             name="description"
@@ -270,6 +389,120 @@ export const MovieManage = () => {
           </Form.Item>
         </Form>
       </Modal>
+      {/* Drawer for updating movie details */}
+      <Drawer
+        title="Update Movie Details"
+        width={720}
+        onClose={onClose}
+        open={open}
+        styles={{
+          body: {
+            paddingBottom: 80,
+          },
+        }}
+        extra={
+          <Space>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={updateForm.submit} type="primary">
+              Submit
+            </Button>
+          </Space>
+        }
+      >
+        <Form
+          form={updateForm}
+          onFinish={handleUpdateFormSubmit}
+          layout="vertical"
+          hideRequiredMark
+        >
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="title"
+                label="Title"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="posterUrl"
+                label="Poster Url"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.Item
+                name="actors"
+                label="Actors"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="duration"
+                label="Duration"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <InputNumber />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="releaseDate"
+                label="Release Date"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <DatePicker />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.Item
+                name="description"
+                label="Description"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input.TextArea rows={4} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Drawer>
     </>
   );
 };

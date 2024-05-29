@@ -2,8 +2,16 @@ const MovieService = require("../Services/MovieService");
 
 const createMovie = async (req, res) => {
   try {
-    const { title, description, actors, releaseDate, posterUrl } = req.body;
-    if (!title || !description || !actors || !releaseDate || !posterUrl) {
+    const { title, description, actors, releaseDate, posterUrl, duration } =
+      req.body;
+    if (
+      !title ||
+      !description ||
+      !actors ||
+      !releaseDate ||
+      !posterUrl ||
+      !duration
+    ) {
       return res.status(200).json({
         status: "Error",
         message: "The input is required",
@@ -42,7 +50,7 @@ const updateMovie = async (req, res) => {
     const movieId = req.params.id;
     const data = req.body;
     if (!movieId) {
-      return res.status(200).json({
+      return res.status(400).json({
         status: "Error",
         message: "The id is required",
       });
@@ -50,8 +58,8 @@ const updateMovie = async (req, res) => {
     const response = await MovieService.updateMovie(movieId, data);
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(404).json({
-      message: error,
+    return res.status(500).json({
+      message: error.message || "Internal server error",
     });
   }
 };
@@ -73,10 +81,22 @@ const deleteMovie = async (req, res) => {
     });
   }
 };
+const deleteAllMovies = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    const response = await MovieService.deleteAllMovies(ids);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
+  }
+};
 module.exports = {
   createMovie,
   getAllMovie,
   getMovieById,
   updateMovie,
   deleteMovie,
+  deleteAllMovies,
 };

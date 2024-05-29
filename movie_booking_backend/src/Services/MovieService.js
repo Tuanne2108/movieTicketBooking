@@ -1,7 +1,7 @@
 const Movie = require("../Models/Movie");
 const createMovie = (newMovie) => {
   return new Promise(async (resolve, reject) => {
-    const { title, description, actors, releaseDate, posterUrl } = newMovie;
+    const { title, description, actors, releaseDate, posterUrl, duration } = newMovie;
     try {
       const checkMovie = await Movie.findOne({ title: title });
       if (checkMovie) {
@@ -16,6 +16,7 @@ const createMovie = (newMovie) => {
         actors,
         releaseDate,
         posterUrl,
+        duration,
       });
       if (createdMovie) {
         resolve({
@@ -57,28 +58,31 @@ const getMovieById = (id) => {
     }
   });
 };
-const updateMovie = (id, updatedMovie) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const checkMovie = await Movie.findOne({ _id: id });
+const updateMovie = async (id, updatedMovie) => {
+  try {
+    const checkMovie = await Movie.findOne({ _id: id });
 
-      if (!checkMovie) {
-        reject({
-          status: "Error",
-          message: "The movie does not exist",
-        });
-      }
-      const updatedMovie = await Movie.findByIdAndUpdate(id, data, { new: true });
-      resolve({
-        status: "Success",
-        message: "Movie updated successfully",
-        data: updatedMovie,
-      });
-    } catch (error) {
-      reject(error);
+    if (!checkMovie) {
+      throw {
+        status: "Error",
+        message: "The movie does not exist",
+      };
     }
-  });
+
+    const updatedMovieData = await Movie.findByIdAndUpdate(id, updatedMovie, {
+      new: true,
+    });
+
+    return {
+      status: "Success",
+      message: "Movie updated successfully",
+      data: updatedMovieData,
+    };
+  } catch (error) {
+    throw error;
+  }
 };
+
 const deleteMovie = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -92,10 +96,24 @@ const deleteMovie = (id) => {
     }
   });
 };
+const deleteAllMovies = (ids) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await Movie.deleteMany({ _id: { $in: ids } });
+      resolve({
+        status: "Success",
+        message: "All movies deleted successfully",
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   createMovie,
   getAllMovie,
   getMovieById,
   updateMovie,
   deleteMovie,
+  deleteAllMovies,
 };
