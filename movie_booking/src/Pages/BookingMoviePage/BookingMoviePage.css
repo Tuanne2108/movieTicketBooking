@@ -47,10 +47,12 @@
     justify-content: center;
 }
 .DateAvailable, .TimeAvailable {
-    padding: 10px;
+    padding: 0;
     border-radius: 8px;
     border: 2px solid #5A637A;
     background-color: #fff;
+    overflow: hidden;
+    position: relative;
 }
 
 .DateAvailable a, .TimeAvailable a {
@@ -60,6 +62,14 @@
     align-content: center;
     align-items: center;
 }
+
+.DateAvailable:hover,
+.TimeAvailable:hover {
+    background-color: #001529;
+    color: #fff /* Thay đổi màu nền khi hover */
+}
+
+
 
 .col-1  {
     width: 60%;
@@ -98,12 +108,15 @@
     display: none;
 }
 
+
+
 .form-check-label .date-month {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-content: center;
     align-items: center;
+    margin: 10px;
 }
 
 
@@ -290,7 +303,7 @@
 
 .selectTicketTypeContainer > div {
     width: 100%;
-    border: 1px solid #001529;
+    border: 0px none #001529;
     padding: 10px;
 
 }
@@ -314,10 +327,74 @@
 }
 
 .radio-item label {
-    border: 1px solid #5A637A;
+    border: 2px solid #5A637A;
+    border-radius: 10px;
     padding: 20px;
-
+    position: relative; /* Đặt vị trí tương đối để có thể điều chỉnh vị trí của phần tử con */
+    overflow: hidden;
+    font-weight: 500;
+    background-color: #fff;
 }
+
+.radio-item label:hover {
+    background-color: #001529;
+    color: #FFFF00;
+    font-weight: 500;
+}
+.ticketTypeSelector.active {
+    background-color: #001529 !important;
+    color: #FFFF00;
+    font-weight: 700;
+}
+
+.radio-item label:hover::after {
+    content: ''; /* Tạo một phần tử ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối để nằm trên phần tử cha */
+    top: 0;
+    left: -100%; /* Bắt đầu từ vị trí ngoài biên trái */
+    width: 100%; /* Chiều rộng là 100% của phần tử cha */
+    height: 100%; /* Chiều cao là 100% của phần tử cha */
+    background: linear-gradient(to right, transparent, #5A637A); /* Gradient từ trong suốt đến màu #5A637A */
+    animation: slideRight 1s infinite; /* Áp dụng animation */
+}
+
+.DateAvailable .form-check:hover {
+    background-color: #001529 !important;
+    color: #FFFF00;
+    overflow:hidden;
+    position: relative;
+    z-index: 10;
+}
+
+.DateAvailable.active .form-check {
+    color: #FFFF00 !important;
+}
+
+.DateAvailable .form-check:hover::after {
+    content: ''; /* Tạo một phần tử ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối để nằm trên phần tử cha */
+    top: 0;
+    left: -100%; /* Bắt đầu từ vị trí ngoài biên trái */
+    width: 100%; /* Chiều rộng là 100% của phần tử cha */
+    height: 100%; /* Chiều cao là 100% của phần tử cha */
+    background: linear-gradient(to right, transparent, #5A637A); /* Gradient từ trong suốt đến màu #5A637A */
+    animation: slideRight 1s infinite; /* Áp dụng animation */
+    z-index: 0;
+}
+
+.form-check-label {
+    z-index: 1000;
+}
+
+
+
+@keyframes slideRight {
+    100% {
+        left: 100%; /* Di chuyển đến vị trí biên phải */
+        z-index:0;
+    }
+}
+
 
 .time-selection {
     opacity: 0; /* Bắt đầu với độ mờ */
@@ -333,5 +410,16 @@
     }
 }
 
+.movie-img {
+    position: relative;
+    overflow: hidden;
+}
 
-
+.movie-img img {
+    position: absolute; /* Đặt vị trí tuyệt đối để có thể điều chỉnh vị trí và kích thước của thẻ con */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
