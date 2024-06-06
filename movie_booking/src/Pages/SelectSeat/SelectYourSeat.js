@@ -34,18 +34,18 @@ const SelectYourSeat = () => {
         // Chuyển hướng sang trang ResultBooking với các thông tin đã chọn
         navigate(`/Payment?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&selectedSeats=${encodeURIComponent(JSON.stringify(selectedSeats))}`);
     }
+
+    const returnPreviousPage = () => {
+        window.history.back();
+    };
+    
     
 
     return (
         <div className="select-your-seat">
             <div className="selectYourSeatContainer">
                 <h1>SELECT A SEAT</h1>
-                <p>Date: {selectedDate}</p>
-                <p>Time: {selectedTime}</p>
-                <p>Ticket Type: {selectedTicketType}</p>
-                <p>Location: {selectedLocation}</p>
-                <p>Sublocation: {selectedSubLocation}</p>
-                <p>selectedSeats: {selectedSeats}</p>
+                
                 <span>Choose the seat you will occupy during the film screening</span>
                 <div className="time-selected">
                     <h2>{selectedTime}</h2>
@@ -54,7 +54,20 @@ const SelectYourSeat = () => {
                 <div className="seat-area">
                     <MapA selectedSeats={selectedSeats} onSeatSelect={handleSeatSelect} />
                 </div>
-                <button onClick={handleBooking}>Book Your Tickets</button>
+                
+                
+            </div>
+            <div className="screen">
+                    <h1>Cinema Screen Here</h1>
+                </div>
+            <div className="otherthings">
+                <span>Ticket Type: <p>{selectedTicketType}</p>  </span>
+                <span>Sublocation:<p>{selectedSubLocation}</p> </span>
+                <span>selectedSeats: <p>{selectedSeats}</p> </span>
+                <div className="buttons">
+                <button className="returnButton" onClick={returnPreviousPage}><span>RETURN</span></button>
+                <button className="BYTNButton" onClick={handleBooking}>Book Your Tickets</button>
+                </div>
             </div>
         </div>
     );

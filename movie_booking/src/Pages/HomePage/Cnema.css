@@ -195,3 +195,17 @@
     border-radius: 200px;
     bottom: 50px;
 }  
+.poster-img {
+    position: relative;
+    width: 100%; /* Chiều rộng của thẻ cha */
+    height: 200px; /* Chiều cao của thẻ cha */
+    overflow: hidden;
+}
+.poster-img img {
+    position: absolute; /* Đặt vị trí tuyệt đối để có thể điều chỉnh vị trí và kích thước của thẻ con */
+    top: 0;
+    left: 0;
+    width: 100%; /* Chiều rộng của ảnh bằng 100% của thẻ cha */
+    height: 100%; /* Chiều cao của ảnh bằng 100% của thẻ cha */
+    object-fit: cover;
+}
