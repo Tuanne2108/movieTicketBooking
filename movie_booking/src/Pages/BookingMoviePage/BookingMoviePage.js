@@ -21,6 +21,7 @@ const BookingMoviePage = () => {
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
     const [selectedMovie, setSelectedMovie] = useState(null);
+    const [movieSelectedId, setMovieSelectedId] = useState(null);
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
     const locations = ["Ho Chi Minh", "DaNang", "QuangNam", "HaNoi"];
@@ -70,7 +71,7 @@ const BookingMoviePage = () => {
             }, 3000);
         } else {
             // Nếu đủ thông tin, chuyển hướng sang trang "SELECT YOUR SEAT"
-            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}`);
+            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&movieSelectedId=${movieSelectedId}`);
         }
     };
     
@@ -92,20 +93,37 @@ const BookingMoviePage = () => {
         const movieId = pathParts[pathParts.length - 1];
 
         console.log('Selected Movie ID:', movieId);
+        setMovieSelectedId(movieId);
         movieService.getMovieById(movieId)
         .then((res) => {
             if(res.data) {
-                console.log("RES: ", res.data);
+                console.log("RES_1: ", res.data);
                 setSelectedMovie(res.data);
             }
         })
         .catch((err) => {
-            console.log("Cant")
+            console.log("Can't get the ID")
         });
 
       }, []);
 
-      
+    //   take URL id save it to movieSelectedId
+    useEffect(() => {
+        if (movieSelectedId) {
+            console.log('movieSelectedId: ', movieSelectedId);
+
+            movieService.getMovieById(movieSelectedId)
+                .then((res) => {
+                    if (res.data) {
+                        console.log("RES: ", res.data);
+                        setSelectedMovie(res.data);
+                    }
+                })
+                .catch((err) => {
+                    console.log("Can't get the id from URL");
+                });
+        }
+    }, [movieSelectedId]);
 
     return (
         

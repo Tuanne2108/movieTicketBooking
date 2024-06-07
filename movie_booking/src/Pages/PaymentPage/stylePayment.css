@@ -1,0 +1,49 @@
+.Payment_Container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+.Payment_Section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1400px;
+
+}
+
+.Payment_Section .col-2 {
+    background-color: #fff;
+    padding: 20px;
+
+}
+.TransactionDetails span {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.Payment_movieInfo > div {
+    border-bottom: 1px solid #333333;
+    
+}
+
+.Payment_movieInfo > div > span {
+    color: #414A63;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}

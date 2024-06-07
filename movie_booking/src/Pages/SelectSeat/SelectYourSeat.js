@@ -13,8 +13,10 @@ const SelectYourSeat = () => {
     const selectedLocation = new URLSearchParams(location.search).get('selectedLocation');
     const selectedSubLocation = new URLSearchParams(location.search).get('selectedSubLocation');
     const selectedTicketType = new URLSearchParams(location.search).get('selectedTicketType');
+    const selectedMovieId = new URLSearchParams(location.search).get('movieSelectedId');
     
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleSeatSelect = (seatNumber, seatStatus) => {
         if (seatStatus === 'booked') {
@@ -31,15 +33,28 @@ const SelectYourSeat = () => {
     };
 
     const handleBooking = () => {
-        // Chuyển hướng sang trang ResultBooking với các thông tin đã chọn
-        navigate(`/Payment?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&selectedSeats=${encodeURIComponent(JSON.stringify(selectedSeats))}`);
+        if (selectedSeats.length < 1) {
+            setShowPopup(true);
+            setTimeout(() => {
+                setShowPopup(false);
+            }, 3000);
+            return;
+        }
+        else {
+            // Chuyển hướng sang trang ResultBooking với các thông tin đã chọn
+            navigate(`/Payment?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&selectedSeats=${encodeURIComponent(JSON.stringify(selectedSeats))}&selectedMovieId=${selectedMovieId}`);
+    
+        }
+    }
+
+    const closePopup = () => {
+        setShowPopup(false)
     }
 
     const returnPreviousPage = () => {
         window.history.back();
     };
-    
-    
+
 
     return (
         <div className="select-your-seat">
@@ -66,9 +81,18 @@ const SelectYourSeat = () => {
                 <span>selectedSeats: <p>{selectedSeats}</p> </span>
                 <div className="buttons">
                 <button className="returnButton" onClick={returnPreviousPage}><span>RETURN</span></button>
-                <button className="BYTNButton" onClick={handleBooking}>Book Your Tickets</button>
+                <button className="confirmButton" onClick={handleBooking}><span>CONFIRMATION</span></button>
                 </div>
             </div>
+            
+            {showPopup && (
+                <div className="select_your_seat_popup">
+                    <div className="select_your_seat_popup_container">
+                        <button className="close_button_select_your_seat_popup" onClick={closePopup}>X</button>
+                        <span>Please select at least one seat.</span>
+                        </div>
+                </div>
+            )}
         </div>
     );
 };
