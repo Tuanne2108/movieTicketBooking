@@ -1,8 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './styleMapA.css';
 import CustomSeat from '../LoopItems/CustomSeat'; // Import CustomSeat component
+import * as movieService from "../../services/MovieService";
 
-const MapA = ({ selectedSeats, onSeatSelect }) => {
+const MapA = ({ selectedSeats, onSeatSelect, selectedMovieIdFromSelectYourSeat }) => {
+    const [movieSelectedId, setMovieSelectedId] = useState(null);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+
+    useEffect(() => {
+        console.log('Selected Movie ID from MapA.js:', selectedMovieIdFromSelectYourSeat);
+        setMovieSelectedId(selectedMovieIdFromSelectYourSeat);
+        movieService.getMovieById(selectedMovieIdFromSelectYourSeat)
+        .then((res) => {
+            if(res.data) {
+                console.log("RES_SelectYourSeat from MapA.js: ", res.data);
+                setSelectedMovie(res.data);
+            }
+        })
+        .catch((err) => {
+            console.log("Can't get the ID from MapA.js")
+        });
+
+      }, []);
+
+    useEffect(() => {
+        if (movieSelectedId && movieSelectedId.seats) {
+            console.log('seats: ', movieSelectedId.seats);
+        }
+        else {
+            console.log('fail to print seats array');
+        }
+    }, [movieSelectedId]);
+    
+
     const seatsCol1 = [
       { seatNumber: 'A1', status: 'available' }, { seatNumber: 'A2', status: 'available' }, { seatNumber: 'A3', status: 'available' },
       { seatNumber: 'A4', status: 'available' }, { seatNumber: 'A5', status: 'available' }, { seatNumber: 'A6', status: 'available' },

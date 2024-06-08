@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './stylePayment.css';
 import * as movieService from "../../services/MovieService";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 
 const Payment = () => {
     const location = useLocation();
@@ -24,10 +27,11 @@ const Payment = () => {
 
     // Tính tổng số tiền cần phải trả
     const totalPriceTicket = totalTickets * ticketPrice[selectedTicketType];
-    const servicefee = 3000 * totalTickets;
+    const serviceFeePerTicket = 3000;
+    const servicefeeTotal = serviceFeePerTicket * totalTickets;
     const promoVoucher = 0;
     
-    const totalPrice = totalPriceTicket + servicefee - promoVoucher;
+    const totalPrice = totalPriceTicket + servicefeeTotal - promoVoucher;
     
     
     // take info base on id from url
@@ -52,7 +56,7 @@ const Payment = () => {
         <div className="Payment_Container">
             <div className="Payment_Section">
                 <div className="col_0">
-                    <button onClick={returnPreviousPage}>RETURN</button>
+                    <button className='returnPrevPage' onClick={returnPreviousPage}><FontAwesomeIcon icon={ faArrowLeft } />RETURN</button>
                 </div>
                 <div className="col_1">
                     <h1>PAYMENT CONFIRMATION</h1>
@@ -91,16 +95,24 @@ const Payment = () => {
                     
                 </div>
                 <div className="col-2">
-                    <h1>Order Summary</h1>
+                    <h1 className='Order_Title'>Order Summary</h1>
                     <div className="TransactionDetails"> 
-                        <h2>Transaction Details</h2>
-                        <span>REGULAR SEAT: <p>{totalPriceTicket}</p></span>
-                        <span>SERVICE FEES: <p>{servicefee}</p></span>
-                        <p>Total Price: {totalPrice} VND</p>
+                        <h4>Transaction Details</h4>
+                        <span>REGULAR SEAT: <p>{ticketPrice[selectedTicketType]}<p className='totalTicket'>*{totalTickets}</p></p></span>
+                        <span>SERVICE FEES: <p>{serviceFeePerTicket} <p className='totalTicket'>*{totalTickets}</p></p></span>
+
+                        
+                    </div>
+                    <div className='PROMO_FRESHMEN'>
+                        <h4>Transaction Details</h4>
+                        <span>PROMO FRESHMEN: <p>{promoVoucher}</p></span>
                     </div>
 
-                    
-                    
+                    <div className='TOTAL_PAYMENT'>
+                        <span className='BoldText'>Total Pay: <p>{totalPrice} VND</p></span>
+                    </div>
+                    <button className='BuyTicketButton'><span>BUY TICKETS</span></button>
+
                 </div>
             </div>
             

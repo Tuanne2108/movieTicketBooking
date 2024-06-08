@@ -1,7 +1,8 @@
 // SelectYourSeat.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MapA from '../../Components/Maps/MapA';
+import * as movieService from "../../services/MovieService";
 import './styleSelectYourSeat.css';
 
 const SelectYourSeat = () => {
@@ -15,6 +16,9 @@ const SelectYourSeat = () => {
     const selectedTicketType = new URLSearchParams(location.search).get('selectedTicketType');
     const selectedMovieId = new URLSearchParams(location.search).get('movieSelectedId');
     
+    const [movieSelectedId, setMovieSelectedId] = useState(null);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
 
@@ -55,9 +59,26 @@ const SelectYourSeat = () => {
         window.history.back();
     };
 
+    useEffect(() => {
+        console.log('Selected Movie ID:', selectedMovieId);
+        setMovieSelectedId(selectedMovieId);
+        movieService.getMovieById(selectedMovieId)
+        .then((res) => {
+            if(res.data) {
+                console.log("RES_SelectYourSeat: ", res.data);
+                setSelectedMovie(res.data);
+            }
+        })
+        .catch((err) => {
+            console.log("Can't get the ID")
+        });
+
+      }, []);
+
 
     return (
         <div className="select-your-seat">
+
             <div className="selectYourSeatContainer">
                 <h1>SELECT A SEAT</h1>
                 
@@ -67,7 +88,8 @@ const SelectYourSeat = () => {
                 </div>
                 
                 <div className="seat-area">
-                    <MapA selectedSeats={selectedSeats} onSeatSelect={handleSeatSelect} />
+                    <MapA selectedSeats={selectedSeats} onSeatSelect={handleSeatSelect} 
+                        selectedMovieIdFromSelectYourSeat={selectedMovieId} />
                 </div>
                 
                 

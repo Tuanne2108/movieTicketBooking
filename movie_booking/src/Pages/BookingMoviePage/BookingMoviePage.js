@@ -124,6 +124,8 @@ const BookingMoviePage = () => {
                 });
         }
     }, [movieSelectedId]);
+    
+    
 
     return (
         
@@ -317,7 +319,7 @@ const BookingMoviePage = () => {
                                             </div>
                                             <div className="note-buttonBuyNow container-2">
                                                 <span><i>* Seat selection can be made later</i></span>
-                                                <button onClick={handleBuyNow}>BUY NOW</button>
+                                                <button className="BUYNOWButton" onClick={handleBuyNow}><span>BUY NOW</span></button>
                                             </div>
                                         </div>
                                 </div>
