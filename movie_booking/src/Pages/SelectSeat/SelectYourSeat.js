@@ -75,6 +75,13 @@ const SelectYourSeat = () => {
 
       }, []);
 
+    const formatSeats = (seats) => {
+        if (seats.length > 1) {
+            return seats.join(', ');
+        }
+        return seats[0] || '';
+        }
+
 
     return (
         <div className="select-your-seat">
@@ -98,9 +105,12 @@ const SelectYourSeat = () => {
                     <h1>Cinema Screen Here</h1>
                 </div>
             <div className="otherthings">
-                <span>Ticket Type: <p>{selectedTicketType}</p>  </span>
-                <span>Sublocation:<p>{selectedSubLocation}</p> </span>
-                <span>selectedSeats: <p>{selectedSeats}</p> </span>
+                <div className="ticketInfo">
+                    <span>Ticket Type: <p>{selectedTicketType}</p>  </span>
+                    <span>Sublocation:<p>{selectedSubLocation}</p> </span>
+                    <span className="selectedSeatsSpan">selectedSeats: <p>{formatSeats(selectedSeats)}</p> </span>
+                    
+                </div>
                 <div className="buttons">
                 <button className="returnButton" onClick={returnPreviousPage}><span>RETURN</span></button>
                 <button className="confirmButton" onClick={handleBooking}><span>CONFIRMATION</span></button>

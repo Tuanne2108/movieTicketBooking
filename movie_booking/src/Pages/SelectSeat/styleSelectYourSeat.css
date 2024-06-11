@@ -6,7 +6,8 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-
+    padding-bottom: 40px;
+    min-height: 720px;
 }
 
 .selectYourSeatContainer {
@@ -51,29 +52,35 @@
     align-items: flex-start;
     padding: 20px 0 0 0;
     height: 150px;
+    gap: 10%;
 }
 
-.otherthings span {
+.otherthings > span {
     color: #000000;
     font-weight: 500;
     font-size: 18px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-content: center;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+
 }
 
 .otherthings p {
     font-weight: 700;
     color: #333333;
     font-size: 36px;
+    display: flex;
+
 }
 
 .otherthings .buttons {
-    width: 50%;
+    width: 45%;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -114,8 +121,13 @@
     background-color: #fff;
     width: 98%;
     height: 90%;
-    display: block;
+    display: flex;
     border-radius: 3px;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .confirmButton {
@@ -151,4 +163,45 @@
     background-color: #fff;
     width: 500px;
     height: 50%;
+}
+/* .selectedSeatsSpan {
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    align-content: center !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+} */
+.selectedSeatsSpan p {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    text-align: end;
+}
+
+.ticketInfo {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 45%;
+}
+
+.ticketInfo span {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
 }

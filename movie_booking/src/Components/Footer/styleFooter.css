@@ -1,0 +1,44 @@
+.footerCnema {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+
+}
+
+.footerContainer {
+    display: flex;
+    width: 1400px;
+    height: 360px;
+    gap: 5%;
+
+}
+
+.colu.col_1 {
+    width: 20%;
+
+}
+
+.colu.col_2 {
+    width: 50%;
+    display: flex;
+    grid-gap: 10%;
+    gap: 10%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.colu.col_3 {
+    width: 20%;
+
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}

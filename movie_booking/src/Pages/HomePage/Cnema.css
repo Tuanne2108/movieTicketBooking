@@ -130,16 +130,6 @@
 
 }
 
-.CnemaHeader {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background-color: #001529;
-    box-shadow: 0px 1px 3px -2px black;
-    position: sticky; /* Đặt navbar ở chế độ sticky */
-    top: 0; /* Định vị navbar ở đầu trang */
-    z-index: 1000; /* Đảm bảo navbar nằm trên các phần tử khác */
-}
 
 .ContainerYouMayInterest .buttonSDBYTN .SD, .ContainerYouMayInterest .buttonSDBYTN .CM {
     border-radius: 4px;
