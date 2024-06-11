@@ -14,7 +14,10 @@
     width: 1400px;
     height: 360px;
     gap: 5%;
-
+    padding-top: 40px;
+    border-top: 1px solid #BDC5D4;
+    margin-top: 80px;
+    
 }
 
 .colu.col_1 {
