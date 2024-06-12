@@ -188,7 +188,7 @@
 .poster-img {
     position: relative;
     width: 100%; /* Chiều rộng của thẻ cha */
-    height: 200px; /* Chiều cao của thẻ cha */
+    height: 525px; /* Chiều cao của thẻ cha */
     overflow: hidden;
 }
 .poster-img img {

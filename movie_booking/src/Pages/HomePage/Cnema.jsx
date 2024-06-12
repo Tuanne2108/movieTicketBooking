@@ -32,9 +32,9 @@ const Cnema = () => {
   }, []);
 
   
-
+  // chưa chuyển hướng sang trang movie details
   const handleSeeDetails = (movieId) => {
-    window.location.href `/movie/${movieId}`;
+    window.location.href = `/movie/${movieId}`;
   };
 
   const handleBookingTicket = (movieId) => {
