@@ -3,6 +3,10 @@ import { UserOutlined, AppstoreAddOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import { UserManage } from "./UserManage";
 import { MovieManage } from "./MovieManage";
+import { TheaterManage } from "./TheaterManage";
+import { ShowManage } from "./ShowManage";
+import { BookingManage } from "./BookingManage";
+
 const items = [
   {
     key: "1",
@@ -17,6 +21,30 @@ const items = [
     icon: <AppstoreAddOutlined />,
     label: "Movie",
   },
+  {
+    type: "divider",
+  },
+  {
+    key: "3",
+    icon: <UserOutlined />,
+    label: "Theater",
+  },
+  {
+    type: "divider",
+  },
+  {
+    key: "4",
+    icon: <AppstoreAddOutlined />,
+    label: "Show",
+  },
+  {
+    type: "divider",
+  },
+  {
+    key: "5",
+    icon: <UserOutlined />,
+    label: "Booking",
+  },
 ];
 const renderPage = (keySelected) => {
   switch (keySelected) {
@@ -24,6 +52,12 @@ const renderPage = (keySelected) => {
       return <UserManage />;
     case "2":
       return <MovieManage />;
+    case "3":
+      return <TheaterManage />;
+    case "4":
+      return <ShowManage />;
+    case "5":
+      return <BookingManage />;
     default:
       return <div></div>;
   }

@@ -28,7 +28,7 @@ const Header = () => {
             
 
             <div className="nav-login-button">
-            <button>Login</button>
+            <button><a href='/sign-in'>Login</a></button>
 
             </div>
         </div>

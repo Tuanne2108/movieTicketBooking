@@ -34,7 +34,7 @@ const Cnema = () => {
   
 
   const handleSeeDetails = (movieId) => {
-    window.location.href `/movie/${movieId}`;
+    window.location.href = `/movie/${movieId}`;
   };
 
   const handleBookingTicket = (movieId) => {

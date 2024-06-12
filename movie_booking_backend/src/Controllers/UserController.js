@@ -119,7 +119,7 @@ const getAllUsers = async (req, res) => {
 const getRefreshToken = async (req, res) => {
   try {
     const token = req.headers.token.split(" ")[1];
-    if(!token) {
+    if (!token) {
       return res.status(200).json({
         status: "Error",
         message: "The token is required",
@@ -133,6 +133,20 @@ const getRefreshToken = async (req, res) => {
     });
   }
 };
+const logOutUser = async (req, res) => {
+  try {
+    res.clearCookie("refresh_token");
+    return res.status(200).json({
+      status: "OK",
+      message: "Logout successfully",
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -141,4 +155,5 @@ module.exports = {
   getUser,
   getAllUsers,
   getRefreshToken,
+  logOutUser,
 };

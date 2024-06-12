@@ -1,0 +1,179 @@
+* {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+:root {
+  --dark-orange: #cc6600;
+}
+.signIn,
+.signUp {
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj0b5uqHS5dRPO0fvS2HS-rGlQeS7QGldxnw&s");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.wrapper {
+  position: relative;
+  width: 400px;
+  height: fit-content;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(50px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper .form-box {
+  width: 100%;
+  padding: 25px;
+}
+.form-box h2 {
+  font-size: 2em;
+  color: var(--dark-orange);
+  text-align: center;
+}
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid var(--dark-orange);
+  margin: 30px 0;
+}
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: var(--dark-orange);
+  font-weight: 500;
+  pointer-events: none;
+  transition: 0.5s;
+  overflow: none;
+}
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -5px;
+}
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: var(--dark-orange);
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+.input-box box-icon {
+  position: absolute;
+  right: 8px;
+  font-size: 1.2rem;
+  line-height: 57px;
+}
+.input-box #visible-toggle {
+  position: absolute;
+  right: 8px;
+  font-size: 1rem;
+  color: var(--dark-orange);
+  line-height: 57px;
+}
+.remember-me {
+  font-size: 0.9em;
+  color: var(--dark-orange);
+  font-weight: 500;
+  margin: -15px 0 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.remember-me label input {
+  accent-color: var(--dark-orange);
+  margin-right: 3px;
+}
+.remember-me a {
+  color: var(--dark-orange) !important;
+}
+.remember-me a:hover {
+  text-decoration: underline !important;
+}
+.btn-sign-in Button {
+  width: 100%;
+  height: 45px;
+  background: var(--dark-orange);
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #ffffff;
+  font-weight: 500;
+}
+.btn-sign-in Button:hover {
+  background-color: #994c00;
+}
+.login-register {
+  font-size: 0.9em;
+  color: var(--dark-orange);
+  text-align: center;
+  font-weight: 500;
+  margin: 25px 0 10px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.login-register a {
+  color: var(--dark-orange);
+  font-weight: 600;
+}
+.login-register a:hover {
+  text-decoration: underline;
+}
+.popover-option {
+  padding: 5px;
+  font-size: 16px;
+}
+.popover-option:hover {
+  cursor: pointer;
+  color: var(--dark-orange);
+}
+.user-info {
+  padding: 20px 0 0px 120px;
+}
+.input-form {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  border: #cc6600 1px solid;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.form-label {
+  font-weight: 600;
+  width: 80px;
+  text-align: left;
+}
+.ant-upload-list-item-name {
+  display: none;
+}
+.form-control {
+  margin-left: 40px;
+}
