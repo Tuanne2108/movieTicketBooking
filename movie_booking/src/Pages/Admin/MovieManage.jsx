@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { TableComponent } from "../../Components/Table/TableComponent";
 import * as movieService from "../../services/MovieService";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  MinusCircleOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Modal,
@@ -14,6 +19,7 @@ import {
   Space,
   Row,
   Col,
+  TimePicker,
 } from "antd";
 import moment from "moment";
 
@@ -48,7 +54,6 @@ export const MovieManage = () => {
     );
   };
 
-  // Define columns for the table
   const columns = [
     {
       title: "Title",
@@ -85,7 +90,6 @@ export const MovieManage = () => {
     },
   ];
 
-  // Fetch data from API
   useEffect(() => {
     movieService
       .getAllMovies()
@@ -101,7 +105,6 @@ export const MovieManage = () => {
       });
   }, []);
 
-  // Define data for the table
   const data = movies.map((movie) => ({
     key: movie._id,
     title: movie.title,
@@ -112,7 +115,6 @@ export const MovieManage = () => {
     description: movie.description,
   }));
 
-  // CRUD operations
   const handleAddMovie = () => {
     setIsModalVisible(true);
   };
@@ -131,6 +133,11 @@ export const MovieManage = () => {
       posterUrl: values.posterUrl,
       duration: values.duration,
       description: values.description,
+      showtimes: values.showtimes.map((showtime) => ({
+        time: showtime.time,
+        theater: showtime.theater,
+        availableSeats: showtime.availableSeats,
+      })),
     };
 
     movieService
@@ -174,6 +181,10 @@ export const MovieManage = () => {
       posterUrl: movie.posterUrl,
       duration: movie.duration,
       description: movie.description,
+      showtimes: movie.showtimes.map((showtime, index) => ({
+        ...showtime,
+        key: index,
+      })),
     });
     showDrawer();
   };
@@ -186,6 +197,11 @@ export const MovieManage = () => {
       posterUrl: values.posterUrl,
       duration: values.duration,
       description: values.description,
+      showtimes: values.showtimes.map((showtime) => ({
+        time: showtime.time,
+        theater: showtime.theater,
+        availableSeats: showtime.availableSeats,
+      })),
     };
 
     movieService
@@ -211,7 +227,6 @@ export const MovieManage = () => {
       });
   };
 
-  // Delete by ID
   const handleDelete = (movieId) => {
     Modal.confirm({
       title: "Confirm Deletion",
@@ -240,7 +255,6 @@ export const MovieManage = () => {
     });
   };
 
-  // Delete Many
   const handleConfirmedDeleteMany = () => {
     Modal.confirm({
       title: "Confirm Deletion",
@@ -272,12 +286,12 @@ export const MovieManage = () => {
       },
     });
   };
-  
+
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const hasSelected = selectedRowKeys.length > 0;
-  // Render Page
+
   return (
     <>
       <h2>Movie management</h2>
@@ -330,7 +344,6 @@ export const MovieManage = () => {
           />
         </div>
       </div>
-      {/* Modal for adding new movie */}
       <Modal
         title="Add New Movie"
         open={isModalVisible}
@@ -387,9 +400,62 @@ export const MovieManage = () => {
           >
             <Input.TextArea />
           </Form.Item>
+          <Form.List name="showtimes">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Space key={`${field.key}-${index}`} align="baseline">
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "time"]}
+                      fieldKey={[field.fieldKey, "time"]}
+                      label="Time"
+                      rules={[
+                        { required: true, message: "Please select the time" },
+                      ]}
+                    >
+                      <TimePicker />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "theater"]}
+                      fieldKey={[field.fieldKey, "theater"]}
+                      label="Theater"
+                      rules={[
+                        { required: true, message: "Please input the theater" },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      name={[field.name, "availableSeats"]}
+                      fieldKey={[field.fieldKey, "availableSeats"]}
+                      label="Available Seats"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the available seats",
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(field.name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block>
+                    Add Time Frame
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         </Form>
       </Modal>
-      {/* Drawer for updating movie details */}
+
+      {/* Update Movie Details */}
       <Drawer
         title="Update Movie Details"
         width={720}
@@ -499,6 +565,80 @@ export const MovieManage = () => {
               >
                 <Input.TextArea rows={4} />
               </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <Form.List name="showtimes">
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map((field, index) => (
+                      <Space key={`${field.key}-${index}`} align="baseline">
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "time"]}
+                          fieldKey={[field.fieldKey, "time"]}
+                          label="Time"
+                          initialValue={
+                            currentMovie?.showtimes[index]?.time || undefined
+                          }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select the time",
+                            },
+                          ]}
+                        >
+                          <TimePicker />
+                        </Form.Item>
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "theater"]}
+                          fieldKey={[field.fieldKey, "theater"]}
+                          label="Theater"
+                          initialValue={
+                            currentMovie?.showtimes[index]?.theater || undefined
+                          }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input the theater",
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                        <Form.Item
+                          {...field}
+                          name={[field.name, "availableSeats"]}
+                          fieldKey={[field.fieldKey, "availableSeats"]}
+                          label="Available Seats"
+                          initialValue={
+                            currentMovie?.showtimes[index]?.availableSeats ||
+                            undefined
+                          }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input the available seats",
+                            },
+                          ]}
+                        >
+                          <InputNumber />
+                        </Form.Item>
+                        <MinusCircleOutlined
+                          onClick={() => remove(field.name)}
+                        />
+                      </Space>
+                    ))}
+                    <Form.Item>
+                      <Button type="dashed" onClick={() => add()} block>
+                        Add Time Frame
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
             </Col>
           </Row>
         </Form>
