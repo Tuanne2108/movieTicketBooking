@@ -1,13 +1,21 @@
 import React from 'react'
 import CNEMA from '../Assets/CNEMA.png'
+import { useNavigate } from "react-router-dom";
+
 import './styleHeader.css'
 
 const Header = () => {
+  const navigate = useNavigate();
+  const handleClickLogo = () => {
+    navigate('/')
+  }
+
+
   return (
     <div className="navbar">
         <div className="navbar-container">
             <div className="nav-logo">
-                <img src={CNEMA} alt =""/>
+                <img src={CNEMA} alt ="" onClick={handleClickLogo}/>
             </div>
             <div className="nav-menu">
               <ul className="ul-nav-menu">

@@ -60,10 +60,39 @@
     cursor: pointer;
   }
   .seat-item.active .list-child {
-    background-color: #118EEA;
+    background-color: #001529;
     border: 1px solid #118EEA;
-    color: #fff;
+    color: #FFFF00;
   }
+
+  .seat-item .list-child:hover {
+    background-color: #118EEA;
+    color: #FFFF00;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .list-child.booked {
+    background-color: #1A2C50 !important;
+    color: unset !important;
+  }
+  .list-child.booked:hover::after {
+    display: none;
+    
+  }
+  .seat-item .list-child:hover::after {
+    content: ''; /* Tạo một phần tử ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối để nằm trên phần tử cha */
+    top: 0;
+    left: -100%; /* Bắt đầu từ vị trí ngoài biên trái */
+    width: 100%; /* Chiều rộng là 100% của phần tử cha */
+    height: 100%; /* Chiều cao là 100% của phần tử cha */
+    background: linear-gradient(to right, transparent, #118EEA); /* Gradient từ trong suốt đến màu #5A637A */
+    animation: slideRight 1s infinite; /* Áp dụng animation */
+    z-index: 0;
+  }
+
+
   .seat-item .list-child {
     border: 1px solid #9DA8BE;
     border-radius: 8px;

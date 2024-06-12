@@ -4,13 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Slider from '../../Components/SliderItems/Slider';
 import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
-import Poster from '../../Components/Assets/Poster-NhaBaNu.png';
-
+import * as movieService from "../../services/MovieService";
 
 import axios from "axios";
 import './BookingMoviePage.css';
 
- 
+
+
 const BookingMoviePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
@@ -20,13 +20,14 @@ const BookingMoviePage = () => {
     const [selectedTicketType, setSelectedTicketType] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
-    
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [movieSelectedId, setMovieSelectedId] = useState(null);
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
-    const locations = ["HoChiMinh", "DaNang", "QuangNam", "HaNoi"];
-
+    const locations = ["Ho Chi Minh", "DaNang", "QuangNam", "HaNoi"];
+    
     const locationsData = {
-        "HoChiMinh": ["District1", "District2", "District3", "District4"],
+        "Ho Chi Minh": ["District 1", "District 2", "District 3", "District 4"],
         "DaNang": ["HaiChau", "ThanhKhe", "CamLe"],
         "QuangNam": ["TamKy", "HoiAn", "DienBan"],
         "HaNoi": ["HoanKiem", "BaDinh", "HaiBaTrung"]
@@ -70,7 +71,7 @@ const BookingMoviePage = () => {
             }, 3000);
         } else {
             // Nếu đủ thông tin, chuyển hướng sang trang "SELECT YOUR SEAT"
-            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}`);
+            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&movieSelectedId=${movieSelectedId}`);
         }
     };
     
@@ -85,6 +86,46 @@ const BookingMoviePage = () => {
         }
     }, []);
 
+    // Take id from URL 
+    useEffect(() => {
+        const pathname = window.location.pathname;
+        const pathParts = pathname.split('/');
+        const movieId = pathParts[pathParts.length - 1];
+
+        console.log('Selected Movie ID:', movieId);
+        setMovieSelectedId(movieId);
+        movieService.getMovieById(movieId)
+        .then((res) => {
+            if(res.data) {
+                console.log("RES_1: ", res.data);
+                setSelectedMovie(res.data);
+            }
+        })
+        .catch((err) => {
+            console.log("Can't get the ID")
+        });
+
+      }, []);
+
+    //   take URL id save it to movieSelectedId
+    useEffect(() => {
+        if (movieSelectedId) {
+            console.log('movieSelectedId: ', movieSelectedId);
+
+            movieService.getMovieById(movieSelectedId)
+                .then((res) => {
+                    if (res.data) {
+                        console.log("RES: ", res.data);
+                        setSelectedMovie(res.data);
+                    }
+                })
+                .catch((err) => {
+                    console.log("Can't get the id from URL");
+                });
+        }
+    }, [movieSelectedId]);
+    
+    
 
     return (
         
@@ -229,13 +270,13 @@ const BookingMoviePage = () => {
             
                                 </div>
             
-                                <div className="col-2">
+                                {selectedMovie && (<div className="col-2">
                                     <div className="chosen-movie-info">
                                         <div className="movie-img">
-                                            <img src={Poster} alt="" />
+                                            <img src={selectedMovie.posterUrl} alt="" />
                                         </div>
                                         <div className="movie-title">
-                                            <h1 className="title">TỰA ĐỀ PHIM</h1>
+                                            <h1 className="title">{selectedMovie.title}</h1>
                                             <div className="more-info">
                                                 <div className="col-1">
                                                     <span className="child-1 title">Genre</span>
@@ -245,7 +286,7 @@ const BookingMoviePage = () => {
                                                 </div>
                                                 <div className="col-2">
                                                     <span className="Genre">Action</span>
-                                                    <span className="Duration">2 hours 28 minutes</span>
+                                                    <span className="Duration">{selectedMovie.duration} minutes</span>
                                                     <span className="Director">Jon Watts</span>
                                                     <span className="Age Rating">SU</span>
                                                 </div>
@@ -256,7 +297,7 @@ const BookingMoviePage = () => {
                                                 {selectedSubLocation && (
                                                     <div className="locationChosen-CityDistrict">
                                                         <span className="child-3 sublocationCustomerChosen">
-                                                            {selectedSubLocation}
+                                                            {selectedSubLocation ? selectedSubLocation : "Default Sublocation"}
                                                         </span>
                                                         <span
                                                         className="child-2 locationCustomerChosen">
@@ -275,14 +316,14 @@ const BookingMoviePage = () => {
                                                     {selectedTime} ({selectedTicketType})
                                                 </span>
                                             )}
+                                            </div>
+                                            <div className="note-buttonBuyNow container-2">
+                                                <span><i>* Seat selection can be made later</i></span>
+                                                <button className="BUYNOWButton" onClick={handleBuyNow}><span>BUY NOW</span></button>
+                                            </div>
                                         </div>
-                                        <div className="note-buttonBuyNow container-2">
-                                            <span><i>* Seat selection can be made later</i></span>
-                                            <button onClick={handleBuyNow}>BUY NOW</button>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
+                            </div>)}
                         </div>
                     </div>
                     <div className="footer-bookingticket"></div>

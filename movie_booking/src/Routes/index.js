@@ -21,7 +21,7 @@ export const routes = [
         isShowHeader: true
     },
     {
-        path:'/movie/get-movie/:movieId',
+        path:'/movie/:movieId',
         page: MovieDetail,
         isShowHeader: true
     },

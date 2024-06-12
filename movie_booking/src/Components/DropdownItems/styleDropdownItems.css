@@ -24,3 +24,22 @@
 .dropdown-menu.show {
     width: 100%;
 }
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: var(--bs-dropdown-link-hover-color);
+    background-color: #001529 !important;
+    color : #ffff00;
+    position: relative;
+    overflow: hidden;
+}
+
+.dropdown-item:hover::after {
+    content: ''; /* Tạo một phần tử ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối để nằm trên phần tử cha */
+    top: 0;
+    left: -100%; /* Bắt đầu từ vị trí ngoài biên trái */
+    width: 100%; /* Chiều rộng là 100% của phần tử cha */
+    height: 100%; /* Chiều cao là 100% của phần tử cha */
+    background: linear-gradient(to right, transparent, #5A637A); /* Gradient từ trong suốt đến màu #5A637A */
+    animation: slideRight 1s infinite; /* Áp dụng animation */
+}
