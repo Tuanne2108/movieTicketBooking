@@ -14,7 +14,6 @@
     position: relative;
     overflow: hidden;
     width: 1400px;
-    padding: 10px;
     cursor: unset;
   }
 
@@ -51,4 +50,8 @@
   width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
 }
 
+.hovering {
+  background-color: #000;
+  cursor: pointer;
+}
 
