@@ -2,15 +2,23 @@ const MovieService = require("../Services/MovieService");
 
 const createMovie = async (req, res) => {
   try {
-    const { title, description, actors, releaseDate, posterUrl, duration } =
-      req.body;
+    const {
+      title,
+      description,
+      actors,
+      releaseDate,
+      posterUrl,
+      duration,
+      trailerUrl,
+    } = req.body;
     if (
       !title ||
       !description ||
       !actors ||
       !releaseDate ||
       !posterUrl ||
-      !duration
+      !duration ||
+      !trailerUrl
     ) {
       return res.status(200).json({
         status: "Error",

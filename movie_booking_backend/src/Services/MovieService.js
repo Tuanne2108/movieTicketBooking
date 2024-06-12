@@ -1,7 +1,7 @@
 const Movie = require("../Models/Movie");
 const createMovie = (newMovie) => {
   return new Promise(async (resolve, reject) => {
-    const { title, description, actors, releaseDate, posterUrl, duration } = newMovie;
+    const { title, description, actors, releaseDate, posterUrl, duration, trailerUrl } = newMovie;
     try {
       const checkMovie = await Movie.findOne({ title: title });
       if (checkMovie) {
@@ -17,6 +17,7 @@ const createMovie = (newMovie) => {
         releaseDate,
         posterUrl,
         duration,
+        trailerUrl,
       });
       if (createdMovie) {
         resolve({
@@ -30,6 +31,7 @@ const createMovie = (newMovie) => {
     }
   });
 };
+
 const getAllMovie = () => {
   return new Promise(async (resolve, reject) => {
     try {

@@ -1,34 +1,33 @@
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { generalAccessToken, generalRefreshToken } = require("./JwtService");
-const createUser = (newUser) => {
-  return new Promise(async (resolve, reject) => {
-    const { name, email, password } = newUser;
-    try {
-      const checkUser = await User.findOne({ email: email });
-      if (checkUser) {
-        reject({
-          status: "Error",
-          message: "User already exists",
-        });
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const createdUser = await User.create({
-        name,
-        email,
-        password: hashedPassword,
-      });
-      if (createdUser) {
-        resolve({
-          status: "Success",
-          message: "User created successfully",
-          data: createdUser,
-        });
-      }
-    } catch (error) {
-      reject(error);
+const createUser = async (newUser) => {
+  const { name, email, password } = newUser;
+  try {
+    const checkUser = await User.findOne({ email: email });
+    if (checkUser) {
+      throw new Error("User already exists");
     }
-  });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const createdUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+    if (createdUser) {
+      return {
+        status: "Success",
+        message: "User created successfully",
+        data: createdUser,
+      };
+    }
+  } catch (error) {
+    console.error("Error creating user:", error.message);
+    throw {
+      status: "Error",
+      message: error.message || "An error occurred while creating the user",
+    };
+  }
 };
 const loginUser = (userLogin) => {
   return new Promise(async (resolve, reject) => {

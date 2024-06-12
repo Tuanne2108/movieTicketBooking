@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./Routes";
 import DefaultComponent from "./Components/DefaultComponent/DefaultComponent";
 import Footer from './Components/Footer/Footer'
-import { MovieDetail } from "./Pages/MovieDetail/MovieDetail";
-
+// import { MovieDetail } from "./Pages/MovieDetail/MovieDetail";
+import "./FormStyle/style.css";
 
 function App() {
 
@@ -24,7 +24,7 @@ function App() {
                   <>
                     <Layout />
                     <Page />
-                    <Footer />
+                    {route.showFooter && <Footer />}
                   </>
                 }
               />
