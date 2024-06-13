@@ -7,13 +7,14 @@
   width: 100%;
   padding: 20px 0;
   justify-content: center;
+  position: relative;
 }
 
 .slider-container {
     position: relative;
     overflow: hidden;
     width: 1400px;
-    padding: 10px;
+    cursor: unset;
   }
 
   .slider-item {
@@ -26,6 +27,7 @@
 
 .slider-prev[disabled], .slider-next[disabled] {
   opacity: 0.5; /* Giảm opacity xuống 50% khi nút bị tắt */
+  cursor: not-allowed;
 }
 
 
@@ -39,12 +41,17 @@
 
 .slider-track {
   display: flex;
-  transition: transform 0.5s ease;
+  transition: transform 0.3s ease;
 }
 
 .slider-item {
   flex: 0 0 auto;
+  transition: transform 0.3s ease;
   width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
 }
 
+.hovering {
+  background-color: #000;
+  cursor: pointer;
+}
 

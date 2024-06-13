@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Slider from "../../Components/SliderItems/Slider";
+import Slider from "../../Components/SliderItems/SliderFilm";
 import Poster from "../../Components/Assets/Poster-NhaBaNu.png";
 import Voucher from "../../Components/Assets/VoucherSlider.png";
 import News from "../../Components/News/News";
@@ -32,7 +32,7 @@ const Cnema = () => {
   }, []);
 
   
-
+  // chưa chuyển hướng sang trang movie details
   const handleSeeDetails = (movieId) => {
     window.location.href = `/movie/${movieId}`;
   };
@@ -55,14 +55,17 @@ const Cnema = () => {
   return (
     <div className="Cnema main-body">
       <div className="hotMovieContainer">
-        <Slider slidesToShow={4} slidesToScroll={2}>
+        <Slider slidesToShow={4} slidesToScroll={1}>
           {movies.map((movie) => (
             <div key={movie._id} className="ContainerSliderCnema">
               <div className="poster-img">
-                <img
+                <div className="imgAndAfter">
+                  <img
                   src={movie.posterUrl || "default-poster-url.jpg"}
                   alt={movie.title}
                 />
+                </div>
+                
               </div>
               <div className="title">
                 <h2>{movie.title}</h2>

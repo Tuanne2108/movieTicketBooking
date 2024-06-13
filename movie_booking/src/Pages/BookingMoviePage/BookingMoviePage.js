@@ -20,8 +20,6 @@ const BookingMoviePage = () => {
     const [selectedTicketType, setSelectedTicketType] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    const [movieSelectedId, setMovieSelectedId] = useState(null);
 
     const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
     const locations = ["Ho Chi Minh", "DaNang", "QuangNam", "HaNoi"];
@@ -70,7 +68,6 @@ const BookingMoviePage = () => {
                 setShowAlert(false);
             }, 3000);
         } else {
-            // Nếu đủ thông tin, chuyển hướng sang trang "SELECT YOUR SEAT"
             navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&movieSelectedId=${movieSelectedId}`);
         }
     };
@@ -86,6 +83,8 @@ const BookingMoviePage = () => {
         }
     }, []);
 
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [movieSelectedId, setMovieSelectedId] = useState(null);
     // Take id from URL 
     useEffect(() => {
         const pathname = window.location.pathname;
