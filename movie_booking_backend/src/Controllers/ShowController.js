@@ -1,56 +1,80 @@
-const Show = require("../Models/Show");
-const Movie = require("../Models/Movie"); // For populating movie details
+const ShowService = require("../Services/ShowService");
 
-const getShows = async () => {
+const createShow = async (req, res) => {
   try {
-    const shows = await Show.find().populate("movie theater"); // Populate movie and theater details
-    return shows;
-  } catch (err) {
-    throw err;
+    const response = await ShowService.createShow(req.body);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
   }
 };
 
-const getShowById = async (showId) => {
+const getAllShows = async (req, res) => {
   try {
-    const show = await Show.findById(showId).populate("movie theater");
-    return show;
-  } catch (err) {
-    throw err;
+    const response = await ShowService.getAllShows();
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
   }
 };
-const createShow = async (showData) => {
-  const { movieId, theaterId, showtime, price } = showData;
+
+const getShowById = async (req, res) => {
   try {
-    const movie = await Movie.findById(movieId);
-    if (!movie) {
-      throw new Error("Movie not found");
+    const response = await ShowService.getShowById(req.params.id);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
+  }
+};
+
+const updateShow = async (req, res) => {
+  try {
+    const showId = req.params.id;
+    const data = req.body;
+    if (!showId) {
+      return res.status(400).json({
+        status: "Error",
+        message: "The id is required",
+      });
     }
-
-    const newShow = new Show({ movie, theater: theaterId, showtime, price });
-    const savedShow = await newShow.save();
-    return savedShow;
-  } catch (err) {
-    throw err;
+    const response = await ShowService.updateShow(showId, data);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || "Internal server error",
+    });
   }
 };
 
-const updateShow = async (showId, updateData) => {
+const deleteShow = async (req, res) => {
   try {
-    const show = await Show.findByIdAndUpdate(showId, updateData, {
-      new: true,
-    }); // Return updated show
-    if (!show) {
-      throw new Error("Show not found");
+    const showId = req.params.id;
+    if (!showId) {
+      return res.status(200).json({
+        status: "Error",
+        message: "The id is required",
+      });
     }
-    return show;
-  } catch (err) {
-    throw err;
+    const response = await ShowService.deleteShow(showId);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
   }
 };
+
 
 module.exports = {
-  getShows,
-  getShowById,
   createShow,
+  getAllShows,
+  getShowById,
   updateShow,
+  deleteShow,
 };

@@ -1,7 +1,7 @@
-import { bookingApi } from "."; 
+import { bookingApi } from ".";
 
-export const createBooking = async (bookingData) => {
-  const res = await bookingApi.post("/create-booking", bookingData);
+export const createBooking = async (booking) => {
+  const res = await bookingApi.post("/create-booking", booking);
   return res.data;
 };
 
@@ -10,12 +10,17 @@ export const getAllBookings = async () => {
   return res.data;
 };
 
-export const getBookingsByUserId = async (userId) => {
-  const res = await bookingApi.get(`/get-booking-byUserId/${userId}`);
+export const getBookingById = async (id) => {
+  const res = await bookingApi.get(`/get-booking-byId/${id}`);
   return res.data;
 };
 
-export const getBookingById = async (bookingId) => {
-  const res = await bookingApi.get(`/get-booking/${bookingId}`);
+export const updateBooking = async (id, booking) => {
+  const res = await bookingApi.put(`/update-booking/${id}`, booking);
+  return res.data;
+};
+
+export const deleteBooking = async (id) => {
+  const res = await bookingApi.delete(`/delete-booking/${id}`);
   return res.data;
 };

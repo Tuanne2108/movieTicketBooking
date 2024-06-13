@@ -1,15 +1,8 @@
-const TheaterService = require("../Services/TheaterService");
+const SeatService = require("../Services/SeatService");
 
-const createTheater = async (req, res) => {
+const createSeat = async (req, res) => {
   try {
-    const { name, location } = req.body;
-    if (!name || !location) {
-      return res.status(200).json({
-        status: "Error",
-        message: "All fields are required",
-      });
-    }
-    const response = await TheaterService.createTheater(req.body);
+    const response = await SeatService.createSeat(req.body);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json({
@@ -18,9 +11,9 @@ const createTheater = async (req, res) => {
   }
 };
 
-const getAllTheaters = async (req, res) => {
+const getAllSeats = async (req, res) => {
   try {
-    const response = await TheaterService.getAllTheaters();
+    const response = await SeatService.getAllSeats();
     return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json({
@@ -29,9 +22,9 @@ const getAllTheaters = async (req, res) => {
   }
 };
 
-const getTheaterById = async (req, res) => {
+const getSeatById = async (req, res) => {
   try {
-    const response = await TheaterService.getTheaterById(req.params.id);
+    const response = await SeatService.getSeatById(req.params.id);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json({
@@ -40,17 +33,17 @@ const getTheaterById = async (req, res) => {
   }
 };
 
-const updateTheater = async (req, res) => {
+const updateSeat = async (req, res) => {
   try {
-    const theaterId = req.params.id;
+    const seatId = req.params.id;
     const data = req.body;
-    if (!theaterId) {
+    if (!seatId) {
       return res.status(400).json({
         status: "Error",
         message: "The id is required",
       });
     }
-    const response = await TheaterService.updateTheater(theaterId, data);
+    const response = await SeatService.updateSeat(seatId, data);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json({
@@ -59,16 +52,16 @@ const updateTheater = async (req, res) => {
   }
 };
 
-const deleteTheater = async (req, res) => {
+const deleteSeat = async (req, res) => {
   try {
-    const theaterId = req.params.id;
-    if (!theaterId) {
+    const seatId = req.params.id;
+    if (!seatId) {
       return res.status(200).json({
         status: "Error",
         message: "The id is required",
       });
     }
-    const response = await TheaterService.deleteTheater(theaterId);
+    const response = await SeatService.deleteSeat(seatId);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json({
@@ -78,9 +71,9 @@ const deleteTheater = async (req, res) => {
 };
 
 module.exports = {
-  createTheater,
-  getAllTheaters,
-  getTheaterById,
-  updateTheater,
-  deleteTheater,
+  createSeat,
+  getAllSeats,
+  getSeatById,
+  updateSeat,
+  deleteSeat,
 };

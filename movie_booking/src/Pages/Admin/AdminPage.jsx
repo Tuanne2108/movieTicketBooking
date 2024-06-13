@@ -6,6 +6,7 @@ import { MovieManage } from "./MovieManage";
 import { TheaterManage } from "./TheaterManage";
 import { ShowManage } from "./ShowManage";
 import { BookingManage } from "./BookingManage";
+import { SeatManage } from "./SeatManage";
 
 const items = [
   {
@@ -45,6 +46,14 @@ const items = [
     icon: <UserOutlined />,
     label: "Booking",
   },
+  {
+    type: "divider",
+  },
+  {
+    key: "6",
+    icon: <AppstoreAddOutlined />,
+    label: "Seat",
+  },
 ];
 const renderPage = (keySelected) => {
   switch (keySelected) {
@@ -58,6 +67,8 @@ const renderPage = (keySelected) => {
       return <ShowManage />;
     case "5":
       return <BookingManage />;
+    case "6":
+      return <SeatManage />;
     default:
       return <div></div>;
   }

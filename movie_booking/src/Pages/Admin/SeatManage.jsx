@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TableComponent } from "../../Components/Table/TableComponent";
-import * as bookingService from "../../services/BookingService";
+import * as seatService from "../../services/SeatService";
 import * as showService from "../../services/ShowService";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import {
@@ -13,41 +13,38 @@ import {
   InputNumber,
 } from "antd";
 
-export const BookingManage = () => {
-  const [bookings, setBookings] = useState([]);
+export const SeatManage = () => {
+  const [seats, setSeats] = useState([]);
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [showOptions, setShowOptions] = useState([]);
-  const [editingBooking, setEditingBooking] = useState(null);
+  const [editingSeat, setEditingSeat] = useState(null);
 
-  const renderAction = (bookingId) => (
+  const renderAction = (seatId) => (
     <div style={{ display: "flex", gap: "15px" }}>
       <EditOutlined
         style={{ fontSize: "20px", cursor: "pointer" }}
-        onClick={() => handleUpdateDetails(bookingId)}
+        onClick={() => handleUpdateDetails(seatId)}
       />
       <DeleteOutlined
         style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-        onClick={() => handleDelete(bookingId)}
+        onClick={() => handleDelete(seatId)}
       />
     </div>
   );
 
   const columns = [
-    { title: "User ID", dataIndex: "user" },
     {
       title: "Show",
       dataIndex: "show",
       render: (showId) => findShowName(showId),
     },
-    { title: "Seats Booked", dataIndex: "seats" },
-    { title: "Total Price", dataIndex: "price" },
-    {
-      title: "Status",
-      dataIndex: "status",
-    },
+    { title: "Row", dataIndex: "row" },
+    { title: "Number", dataIndex: "number" },
+    { title: "Type", dataIndex: "type" },
+    { title: "Status", dataIndex: "status" },
     {
       title: "Action",
       dataIndex: "action",
@@ -61,33 +58,33 @@ export const BookingManage = () => {
   };
 
   useEffect(() => {
-    bookingService
-      .getAllBookings()
+    seatService
+      .getAllSeats()
       .then((res) => {
         if (res.data) {
-          setBookings(res.data);
+          setSeats(res.data);
         } else {
           notification.error({
             message: "Error",
-            description: "Failed to fetch bookings",
+            description: "Failed to fetch seats",
           });
         }
       })
       .catch((err) => {
         notification.error({
           message: "Error",
-          description: `Failed to fetch bookings: ${err.message}`,
+          description: `Failed to fetch seats: ${err.message}`,
         });
       });
   }, []);
 
-  const data = bookings.map((booking) => ({
-    key: booking._id,
-    user: booking.user,
-    show: booking.show,
-    seats: booking.seats,
-    price: booking.totalPrice,
-    status: booking.status,
+  const data = seats.map((seat) => ({
+    key: seat._id,
+    show: seat.show,
+    row: seat.row,
+    number: seat.number,
+    type: seat.type,
+    status: seat.status,
   }));
 
   useEffect(() => {
@@ -104,8 +101,8 @@ export const BookingManage = () => {
       .catch((err) => setError(`Error fetching shows: ${err.message}`));
   }, []);
 
-  const handleAddBooking = () => {
-    setEditingBooking(null);
+  const handleAddSeat = () => {
+    setEditingSeat(null);
     setIsModalVisible(true);
   };
 
@@ -117,83 +114,80 @@ export const BookingManage = () => {
   const handleFormSubmit = (values) => {
     setConfirmLoading(true);
 
-    const bookingData = {
-      user: values.userId,
+    const seatData = {
       show: values.showId,
-      seatsBooked: values.seatsBooked,
-      totalPrice: values.totalPrice,
+      row: values.row,
+      number: values.number,
+      type: values.type,
       status: values.status,
     };
-
-    const apiCall = editingBooking
-      ? bookingService.updateBooking(editingBooking._id, bookingData)
-      : bookingService.createBooking(bookingData);
+    console.log("Submitting seat data:", seatData);
+    const apiCall = editingSeat
+      ? seatService.updateSeat(editingSeat._id, seatData)
+      : seatService.createSeat(seatData);
 
     apiCall
       .then((res) => {
-        const updatedBookings = editingBooking
-          ? bookings.map((booking) =>
-              booking._id === editingBooking._id ? res.data : booking
+        const updatedSeats = editingSeat
+          ? seats.map((seat) =>
+              seat._id === editingSeat._id ? res.data : seat
             )
-          : [...bookings, res.data];
+          : [...seats, res.data];
 
-        setBookings(updatedBookings);
+        setSeats(updatedSeats);
         setConfirmLoading(false);
         notification.success({
           message: "Success",
-          description: editingBooking
-            ? "Booking updated successfully"
-            : "Booking added successfully",
+          description: editingSeat
+            ? "Seat updated successfully"
+            : "Seat added successfully",
         });
         setIsModalVisible(false);
         form.resetFields();
       })
       .catch((err) => {
-        setError(`Error ${editingBooking ? "updating" : "adding"} booking: ${err.message}`);
         setConfirmLoading(false);
         notification.error({
-          message: "Failed",
-          description: `Error ${editingBooking ? "updating" : "adding"} booking`,
+          message: err.status || "Failed",
+          description: err.message || "Error adding seat",
         });
       });
   };
 
   const [form] = Form.useForm();
 
-  const handleUpdateDetails = (bookingId) => {
-    const booking = bookings.find((booking) => booking._id === bookingId);
-    setEditingBooking(booking);
+  const handleUpdateDetails = (seatId) => {
+    const seat = seats.find((seat) => seat._id === seatId);
+    setEditingSeat(seat);
     form.setFieldsValue({
-      userId: booking.userId,
-      showId: booking.show,
-      seatsBooked: booking.seats,
-      totalPrice: booking.totalPrice,
-      status: booking.status,
+      showId: seat.show,
+      row: seat.row,
+      number: seat.number,
+      type: seat.type,
+      status: seat.status,
     });
     setIsModalVisible(true);
   };
 
-  const handleDelete = (bookingId) => {
+  const handleDelete = (seatId) => {
     Modal.confirm({
       title: "Confirm Deletion",
-      content: "Are you sure you want to delete this booking?",
+      content: "Are you sure you want to delete this seat?",
       onOk: () => {
-        bookingService
-          .deleteBooking(bookingId)
+        seatService
+          .deleteSeat(seatId)
           .then(() => {
-            setBookings(
-              bookings.filter((booking) => booking._id !== bookingId)
-            );
+            setSeats(seats.filter((seat) => seat._id !== seatId));
             notification.success({
               message: "Success",
-              description: "Booking deleted successfully",
+              description: "Seat deleted successfully",
             });
           })
           .catch((err) => {
-            setError(`Error deleting booking: ${err.message}`);
+            setError(`Error deleting seat: ${err.message}`);
             notification.error({
               message: "Failed",
-              description: "Error deleting booking",
+              description: "Error deleting seat",
             });
           });
       },
@@ -203,8 +197,8 @@ export const BookingManage = () => {
 
   return (
     <div>
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddBooking}>
-        Add Booking
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddSeat}>
+        Add Seat
       </Button>
       <TableComponent
         columns={columns}
@@ -213,20 +207,13 @@ export const BookingManage = () => {
         setSelectedRowKeys={setSelectedRowKeys}
       />
       <Modal
-        title={editingBooking ? "Update Booking" : "Add Booking"}
+        title={editingSeat ? "Update Seat" : "Add Seat"}
         visible={isModalVisible}
         onCancel={handleModalClose}
         confirmLoading={confirmLoading}
         onOk={() => form.submit()}
       >
         <Form form={form} onFinish={handleFormSubmit}>
-          <Form.Item
-            name="userId"
-            label="User ID"
-            rules={[{ required: true, message: "Please input the user ID!" }]}
-          >
-            <Input />
-          </Form.Item>
           <Form.Item
             name="showId"
             label="Show"
@@ -235,22 +222,25 @@ export const BookingManage = () => {
             <Select options={showOptions} showSearch />
           </Form.Item>
           <Form.Item
-            name="seatsBooked"
-            label="Seats Booked"
-            rules={[
-              { required: true, message: "Please input the number of seats!" },
-            ]}
+            name="row"
+            label="Row"
+            rules={[{ required: true, message: "Please input the row!" }]}
           >
             <InputNumber />
           </Form.Item>
           <Form.Item
-            name="totalPrice"
-            label="Total Price"
-            rules={[
-              { required: true, message: "Please input the total price!" },
-            ]}
+            name="number"
+            label="Number"
+            rules={[{ required: true, message: "Please input the number!" }]}
           >
             <InputNumber />
+          </Form.Item>
+          <Form.Item
+            name="type"
+            label="Type"
+            rules={[{ required: true, message: "Please input the type!" }]}
+          >
+            <Input />
           </Form.Item>
           <Form.Item
             name="status"
@@ -258,8 +248,9 @@ export const BookingManage = () => {
             rules={[{ required: true, message: "Please select the status!" }]}
           >
             <Select>
-              <Select.Option value="Pending">Pending</Select.Option>
-              <Select.Option value="Complete">Complete</Select.Option>
+              <Select.Option value="available">Available</Select.Option>
+              <Select.Option value="reserved">Reserved</Select.Option>
+              <Select.Option value="sold">Sold</Select.Option>
             </Select>
           </Form.Item>
         </Form>

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TableComponent } from "../../Components/Table/TableComponent";
 import * as showService from "../../services/ShowService";
-import * as movieService from "../../services/MovieService"; // For fetching movie titles
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -9,10 +8,13 @@ import {
   Form,
   Input,
   DatePicker,
-  Select,
-  notification,
   InputNumber,
+  notification,
+  Drawer,
+  Space,
+  TimePicker,
 } from "antd";
+import dayjs from "dayjs";
 
 export const ShowManage = () => {
   const [shows, setShows] = useState([]);
@@ -20,8 +22,10 @@ export const ShowManage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-
-  const [movies, setMovies] = useState([]); // List of available movies for dropdown
+  const [open, setOpen] = useState(false);
+  const [currentShow, setCurrentShow] = useState(null);
+  const [form] = Form.useForm();
+  const [updateForm] = Form.useForm();
 
   const renderAction = (showId) => (
     <div style={{ display: "flex", gap: "15px" }}>
@@ -37,18 +41,18 @@ export const ShowManage = () => {
   );
 
   const columns = [
+    { title: "Movie", dataIndex: "movie" },
+    { title: "Theater", dataIndex: "theater" },
     {
-      title: "Movie",
-      dataIndex: "movieId",
-      render: (movieId) => findMovieTitle(movieId),
-    },
-    {
-      title: "Show Date",
-      dataIndex: "showDate",
+      title: "Date",
+      dataIndex: "date",
       render: (date) => new Date(date).toLocaleDateString(),
     },
-    { title: "Show Time", dataIndex: "showTime" },
-    { title: "Tickets Available", dataIndex: "ticketsAvailable" },
+    {
+      title: "Time",
+      dataIndex: "time",
+    },
+    { title: "Price", dataIndex: "price" },
     {
       title: "Action",
       dataIndex: "action",
@@ -56,21 +60,27 @@ export const ShowManage = () => {
     },
   ];
 
-  const findMovieTitle = (movieId) => {
-    const movie = movies.find((movie) => movie._id === movieId);
-    return movie ? movie.title : "N/A"; // Handle cases where movie may not be found
-  };
-
   useEffect(() => {
-    Promise.all([showService.getAllShows(), movieService.getAllMovies()]) // Fetch shows and movies concurrently
-      .then(([showsData, moviesData]) => {
-        setShows(showsData);
-        setMovies(
-          moviesData.map((movie) => ({ value: movie._id, label: movie.title }))
-        );
+    showService
+      .getAllShows()
+      .then((res) => {
+        if (res.data) {
+          setShows(res.data);
+        } else {
+          setError("Expected an object containing a data array");
+        }
       })
-      .catch((err) => setError(`Error fetching data: ${err.message}`));
+      .catch((err) => setError(`Error fetching shows: ${err.message}`));
   }, []);
+
+  const data = shows.map((show) => ({
+    key: show._id,
+    movie: show.movie.title,
+    theater: show.theater.name,
+    date: show.date,
+    time: show.time,
+    price: show.price,
+  }));
 
   const handleAddShow = () => setIsModalVisible(true);
   const handleModalClose = () => {
@@ -81,10 +91,11 @@ export const ShowManage = () => {
   const handleFormSubmit = (values) => {
     setConfirmLoading(true);
     const newShow = {
-      movieId: values.movieId,
-      showDate: values.showDate.format("YYYY-MM-DD"), // Ensure proper date format for backend
-      showTime: values.showTime,
-      ticketsAvailable: values.ticketsAvailable,
+      movie: values.movie,
+      theater: values.theater,
+      date: dayjs(values.date).format("YYYY-MM-DD"),
+      time: values.time.format("HH:mm"),
+      price: values.price,
     };
 
     showService
@@ -109,38 +120,81 @@ export const ShowManage = () => {
       });
   };
 
-  const [form] = Form.useForm();
+  const showDrawer = () => setOpen(true);
+  const onClose = () => {
+    setOpen(false);
+    updateForm.resetFields();
+  };
 
   const handleUpdateDetails = (showId) => {
     const show = shows.find((show) => show._id === showId);
-    // Pre-populate form with existing show data (optional)
-    setIsModalVisible(true);
+    setCurrentShow(show);
+    updateForm.setFieldsValue({
+      movie: show.movie._id,
+      theater: show.theater._id,
+      date: dayjs(show.date, "YYYY-MM-DD"),
+      time: dayjs(show.time, "HH:mm"),
+      price: show.price,
+    });
+    showDrawer();
+  };
+
+  const handleUpdateFormSubmit = (values) => {
+    const updatedShow = {
+      movie: values.movie,
+      theater: values.theater,
+      date: dayjs(values.date).format("YYYY-MM-DD"),
+      time: values.time.format("HH:mm"),
+      price: values.price,
+    };
+
+    showService
+      .updateShow(currentShow._id, updatedShow)
+      .then((res) => {
+        setShows(
+          shows.map((show) =>
+            show._id === currentShow._id ? res.data : show
+          )
+        );
+        notification.success({
+          message: "Success",
+          description: "Show updated successfully",
+        });
+        onClose();
+      })
+      .catch((err) => {
+        setError(`Error updating show: ${err.message}`);
+        notification.error({
+          message: "Failed",
+          description: "Error updating show",
+        });
+      });
   };
 
   const handleDelete = (showId) => {
-    // Modal.confirm({
-    //   title: "Confirm Deletion",
-    //   content: "Are you sure you want to delete this show?",
-    //   onOk: () => {
-    //     showService
-    //       .deleteShow(showId)
-    //       .then(() => {
-    //         setShows(shows.filter((show) => show._id !== showId));
-    //         notification.success({
-    //           message: "Success",
-    //           description: "Show deleted successfully",
-    //         });
-    //       })
-    //       .catch((err) => {
-    //         setError(`Error deleting show: ${err.message}`);
-    //         notification.error({
-    //           message: "Failed",
-    //           description: "Error deleting show",
-    //         });
-    //       });
-    //   },
-    //   onCancel: () => setIsModalVisible(false),
-    // });
+    Modal.confirm({
+      title: "Confirm Deletion",
+      content: "Are you sure you want to delete this show?",
+      onOk: () => {
+        showService
+          .deleteShow(showId)
+          .then(() => {
+            setShows(shows.filter((show) => show._id !== showId));
+            notification.success({
+              message: "Success",
+              description: "Show deleted successfully",
+            });
+          })
+          .catch((err) => {
+            setError(`Error deleting show: ${err.message}`);
+            notification.error({
+              message: "Failed",
+              description: "Error deleting show",
+            });
+          });
+      },
+      onCancel: () => setIsModalVisible(false),
+    });
   };
 
   return (
@@ -150,7 +204,7 @@ export const ShowManage = () => {
       </Button>
       <TableComponent
         columns={columns}
-        data={shows}
+        data={data}
         selectedRowKeys={selectedRowKeys}
         setSelectedRowKeys={setSelectedRowKeys}
       />
@@ -163,42 +217,93 @@ export const ShowManage = () => {
       >
         <Form form={form} onFinish={handleFormSubmit}>
           <Form.Item
-            name="movieId"
+            name="movie"
             label="Movie"
-            rules={[{ required: true, message: "Please select a movie!" }]}
-          >
-            <Select options={movies} showSearch />
-          </Form.Item>
-          <Form.Item
-            name="showDate"
-            label="Show Date"
-            rules={[
-              { required: true, message: "Please select the show date!" },
-            ]}
-          >
-            <DatePicker />
-          </Form.Item>
-          <Form.Item
-            name="showTime"
-            label="Show Time"
-            rules={[{ required: true, message: "Please input the show time!" }]}
+            rules={[{ required: true, message: "Please select the movie!" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name="ticketsAvailable"
-            label="Tickets Available"
-            rules={[
-              {
-                required: true,
-                message: "Please input the number of tickets available!",
-              },
-            ]}
+            name="theater"
+            label="Theater"
+            rules={[{ required: true, message: "Please select the theater!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="date"
+            label="Date"
+            rules={[{ required: true, message: "Please select the date!" }]}
+          >
+            <DatePicker />
+          </Form.Item>
+          <Form.Item
+            name="time"
+            label="Time"
+            rules={[{ required: true, message: "Please select the time!" }]}
+          >
+            <TimePicker format="HH:mm" />
+          </Form.Item>
+          <Form.Item
+            name="price"
+            label="Price"
+            rules={[{ required: true, message: "Please input the price!" }]}
           >
             <InputNumber />
           </Form.Item>
         </Form>
       </Modal>
+      <Drawer
+        title="Update Show"
+        visible={open}
+        onClose={onClose}
+        footer={
+          <Space>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button type="primary" onClick={() => updateForm.submit()}>
+              Update
+            </Button>
+          </Space>
+        }
+      >
+        <Form form={updateForm} onFinish={handleUpdateFormSubmit}>
+          <Form.Item
+            name="movie"
+            label="Movie"
+            rules={[{ required: true, message: "Please select the movie!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="theater"
+            label="Theater"
+            rules={[{ required: true, message: "Please select the theater!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="date"
+            label="Date"
+            rules={[{ required: true, message: "Please select the date!" }]}
+          >
+            <DatePicker />
+          </Form.Item>
+          <Form.Item
+            name="time"
+            label="Time"
+            rules={[{ required: true, message: "Please select the time!" }]}
+          >
+            <TimePicker format="HH:mm" />
+          </Form.Item>
+          <Form.Item
+            name="price"
+            label="Price"
+            rules={[{ required: true, message: "Please input the price!" }]}
+          >
+            <InputNumber />
+          </Form.Item>
+        </Form>
+      </Drawer>
     </div>
   );
 };

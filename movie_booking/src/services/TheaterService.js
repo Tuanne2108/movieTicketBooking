@@ -19,3 +19,7 @@ export const updateTheater = async (theaterId, theaterData) => {
   const res = await theaterApi.put(`/update-theater/${theaterId}`, theaterData);
   return res.data;
 };
+export const deleteTheater = async (theaterId) => {
+  const res = await theaterApi.delete(`/delete-theater/${theaterId}`);
+  return res.data;
+};
