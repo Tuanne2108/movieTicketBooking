@@ -10,10 +10,9 @@ export const SignUp = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
 
   const handleTogglePassword = () => {
@@ -24,9 +23,6 @@ export const SignUp = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleSignupUsernameChange = (e) => {
-    setName(e.target.value);
-  };
 
   const handleSignupEmailChange = (e) => {
     setEmail(e.target.value);
@@ -37,11 +33,11 @@ export const SignUp = () => {
   };
 
   const handleSignupConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
+    setConfirmedPassword(e.target.value);
   };
 
   const handleSignUp = async () => {
-    if (!name || !email || !password || !confirmPassword) {
+    if (!email || !password || !confirmedPassword) {
       notification.error({
         message: "Error",
         description: "Please fill in all required fields.",
@@ -49,7 +45,7 @@ export const SignUp = () => {
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (password !== confirmedPassword) {
       notification.error({
         message: "Error",
         description: "Passwords do not match.",
@@ -61,10 +57,9 @@ export const SignUp = () => {
 
     try {
       const response = await UserService.signUpUser({
-        name,
         email,
         password,
-        confirmPassword,
+        confirmedPassword,
       });
 
       if (response.status === "ERR") {
@@ -98,18 +93,6 @@ export const SignUp = () => {
           <h2>Registration</h2>
           <div className="input-box">
             <span>
-              <box-icon color="#cc6600" type="solid" name="user"></box-icon>
-            </span>
-            <input
-              value={name}
-              onChange={handleSignupUsernameChange}
-              type="text"
-              required
-            />
-            <label>Username</label>
-          </div>
-          <div className="input-box">
-            <span>
               <box-icon type="solid" name="envelope" color="#cc6600"></box-icon>
             </span>
             <input
@@ -139,7 +122,7 @@ export const SignUp = () => {
           <div className="input-box">
             <input
               type={showConfirmPassword ? "text" : "password"}
-              value={confirmPassword}
+              value={confirmedPassword}
               onChange={handleSignupConfirmPasswordChange}
               required
             />
@@ -153,11 +136,6 @@ export const SignUp = () => {
                 icon={showConfirmPassword ? faEye : faEyeSlash}
               />
             </span>
-          </div>
-          <div className="remember-me">
-            <label>
-              <input type="checkbox" />I agree to the terms and conditions
-            </label>
           </div>
           <div type="submit" className="btn-sign-in">
             <Button onClick={handleSignUp} disabled={isPending}>

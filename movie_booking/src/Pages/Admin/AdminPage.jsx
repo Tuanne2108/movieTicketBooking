@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { UserOutlined, AppstoreAddOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  AppstoreAddOutlined,
+  BankOutlined,
+  CalendarOutlined,
+  BookOutlined,
+  ClusterOutlined,
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import { UserManage } from "./UserManage";
 import { MovieManage } from "./MovieManage";
@@ -27,7 +34,7 @@ const items = [
   },
   {
     key: "3",
-    icon: <UserOutlined />,
+    icon: <BankOutlined />,
     label: "Theater",
   },
   {
@@ -35,7 +42,7 @@ const items = [
   },
   {
     key: "4",
-    icon: <AppstoreAddOutlined />,
+    icon: <CalendarOutlined />,
     label: "Show",
   },
   {
@@ -43,7 +50,7 @@ const items = [
   },
   {
     key: "5",
-    icon: <UserOutlined />,
+    icon: <BookOutlined />,
     label: "Booking",
   },
   {
@@ -51,7 +58,7 @@ const items = [
   },
   {
     key: "6",
-    icon: <AppstoreAddOutlined />,
+    icon: <ClusterOutlined />,
     label: "Seat",
   },
 ];

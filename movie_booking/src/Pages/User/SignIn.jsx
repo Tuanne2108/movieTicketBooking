@@ -5,7 +5,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import * as UserService from "../../services/UserService";
+import { jwtDecode } from 'jwt-decode';
 
+console.log("jwtDecode imported successfully:", jwtDecode);
 export const SignIn = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -34,11 +36,19 @@ export const SignIn = () => {
         message: "Success",
         description: "Signed in successfully",
       });
-      navigate("/");
-      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
-    }
-  }, [isSuccess]);
 
+      // Decode the token to check if user is admin
+      const decodedToken = jwtDecode(data?.access_token);
+      console.log('decodedToken', decodedToken.payload);
+      const isAdmin = decodedToken?.payload?.isAdmin;
+
+      // Store token and admin status in localStorage
+      localStorage.setItem("access_token", data?.access_token);
+      localStorage.setItem("is_admin", isAdmin);
+
+      navigate("/");
+    }
+  }, [isSuccess, data, navigate]);
 
   const handleSignIn = async () => {
     setIsPending(true);

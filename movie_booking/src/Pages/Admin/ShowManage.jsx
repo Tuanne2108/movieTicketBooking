@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { TableComponent } from "../../Components/Table/TableComponent";
 import * as showService from "../../services/ShowService";
+import * as theaterService from "../../services/TheaterService";
+import * as movieService from "../../services/MovieService";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Modal,
   Form,
-  Input,
   DatePicker,
   InputNumber,
   notification,
   Drawer,
   Space,
+  Select,
   TimePicker,
 } from "antd";
 import dayjs from "dayjs";
@@ -26,6 +28,8 @@ export const ShowManage = () => {
   const [currentShow, setCurrentShow] = useState(null);
   const [form] = Form.useForm();
   const [updateForm] = Form.useForm();
+  const [theaters, setTheaters] = useState([]);
+  const [movies, setMovies] = useState([]);
 
   const renderAction = (showId) => (
     <div style={{ display: "flex", gap: "15px" }}>
@@ -52,7 +56,18 @@ export const ShowManage = () => {
       title: "Time",
       dataIndex: "time",
     },
-    { title: "Price", dataIndex: "price" },
+    {
+      title: "Price",
+      dataIndex: "price",
+      render: (price) => (
+        <span>
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(price)}
+        </span>
+      ),
+    },
     {
       title: "Action",
       dataIndex: "action",
@@ -71,6 +86,28 @@ export const ShowManage = () => {
         }
       })
       .catch((err) => setError(`Error fetching shows: ${err.message}`));
+
+    theaterService
+      .getAllTheaters()
+      .then((res) => {
+        if (res.data) {
+          setTheaters(res.data);
+        } else {
+          setError("Expected an object containing a data array");
+        }
+      })
+      .catch((err) => setError(`Error fetching theaters: ${err.message}`));
+
+    movieService
+      .getAllMovies()
+      .then((res) => {
+        if (res.data) {
+          setMovies(res.data);
+        } else {
+          setError("Expected an object containing a data array");
+        }
+      })
+      .catch((err) => setError(`Error fetching movies: ${err.message}`));
   }, []);
 
   const data = shows.map((show) => ({
@@ -152,9 +189,7 @@ export const ShowManage = () => {
       .updateShow(currentShow._id, updatedShow)
       .then((res) => {
         setShows(
-          shows.map((show) =>
-            show._id === currentShow._id ? res.data : show
-          )
+          shows.map((show) => (show._id === currentShow._id ? res.data : show))
         );
         notification.success({
           message: "Success",
@@ -221,14 +256,28 @@ export const ShowManage = () => {
             label="Movie"
             rules={[{ required: true, message: "Please select the movie!" }]}
           >
-            <Input />
+            <Select
+              placeholder="Select a movie"
+              allowClear
+              options={movies.map((movie) => ({
+                value: movie._id,
+                label: movie.title,
+              }))}
+            />
           </Form.Item>
           <Form.Item
             name="theater"
             label="Theater"
             rules={[{ required: true, message: "Please select the theater!" }]}
           >
-            <Input />
+            <Select
+              placeholder="Select a theater"
+              allowClear
+              options={theaters.map((theater) => ({
+                value: theater._id,
+                label: theater.name,
+              }))}
+            />
           </Form.Item>
           <Form.Item
             name="date"
@@ -272,14 +321,28 @@ export const ShowManage = () => {
             label="Movie"
             rules={[{ required: true, message: "Please select the movie!" }]}
           >
-            <Input />
+            <Select
+              placeholder="Select a movie"
+              allowClear
+              options={movies.map((movie) => ({
+                value: movie._id,
+                label: movie.title,
+              }))}
+            />
           </Form.Item>
           <Form.Item
             name="theater"
             label="Theater"
             rules={[{ required: true, message: "Please select the theater!" }]}
           >
-            <Input />
+            <Select
+              placeholder="Select a theater"
+              allowClear
+              options={theaters.map((theater) => ({
+                value: theater._id,
+                label: theater.name,
+              }))}
+            />
           </Form.Item>
           <Form.Item
             name="date"

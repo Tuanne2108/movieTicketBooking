@@ -43,7 +43,18 @@ export const BookingManage = () => {
       render: (showId) => findShowName(showId),
     },
     { title: "Seats Booked", dataIndex: "seats" },
-    { title: "Total Price", dataIndex: "price" },
+    {
+      title: "Total Price",
+      dataIndex: "price",
+      render: (price) => (
+        <span>
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(price)}
+        </span>
+      ),
+    },
     {
       title: "Status",
       dataIndex: "status",
@@ -56,9 +67,25 @@ export const BookingManage = () => {
   ];
 
   const findShowName = (showId) => {
-    const show = showOptions.find((show) => show.value === showId);
+    const showIdValue = showId._id; 
+    const show = showOptions.find((show) => show.value === showIdValue);
     return show ? show.label : "N/A";
   };
+  
+
+  useEffect(() => {
+    showService
+      .getAllShows()
+      .then((showsData) => {
+        setShowOptions(
+          showsData?.data.map((show) => ({
+            value: show._id,
+            label: show.movie.title,
+          }))
+        );
+      })
+      .catch((err) => setError(`Error fetching shows: ${err.message}`));
+  }, []);
 
   useEffect(() => {
     bookingService
@@ -83,27 +110,13 @@ export const BookingManage = () => {
 
   const data = bookings.map((booking) => ({
     key: booking._id,
-    user: booking.user,
+    user: booking.user.email,
     show: booking.show,
     seats: booking.seats,
     price: booking.totalPrice,
     status: booking.status,
   }));
-
-  useEffect(() => {
-    showService
-      .getAllShows()
-      .then((showsData) => {
-        setShowOptions(
-          showsData?.data.map((show) => ({
-            value: show._id,
-            label: show.movie.title,
-          }))
-        );
-      })
-      .catch((err) => setError(`Error fetching shows: ${err.message}`));
-  }, []);
-
+  console.log(bookings);
   const handleAddBooking = () => {
     setEditingBooking(null);
     setIsModalVisible(true);
@@ -149,11 +162,17 @@ export const BookingManage = () => {
         form.resetFields();
       })
       .catch((err) => {
-        setError(`Error ${editingBooking ? "updating" : "adding"} booking: ${err.message}`);
+        setError(
+          `Error ${editingBooking ? "updating" : "adding"} booking: ${
+            err.message
+          }`
+        );
         setConfirmLoading(false);
         notification.error({
           message: "Failed",
-          description: `Error ${editingBooking ? "updating" : "adding"} booking`,
+          description: `Error ${
+            editingBooking ? "updating" : "adding"
+          } booking`,
         });
       });
   };

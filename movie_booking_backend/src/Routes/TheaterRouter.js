@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const theaterController = require("../Controllers/TheaterController");
+const {
+    authMiddleware,
+  } = require("../Middlewares/authMiddle");
 
 //Request
 router.post("/create-theater", theaterController.createTheater)

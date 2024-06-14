@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const showController = require("../Controllers/ShowController");
-
+const {
+    authMiddleware,
+  } = require("../Middlewares/authMiddle");
 //Request
 router.post("/create-show", showController.createShow)
 router.get("/get-all-shows", showController.getAllShows);

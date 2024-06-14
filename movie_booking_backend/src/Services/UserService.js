@@ -2,7 +2,7 @@ const User = require("../Models/User");
 const bcrypt = require("bcrypt");
 const { generalAccessToken, generalRefreshToken } = require("./JwtService");
 const createUser = async (newUser) => {
-  const { name, email, password } = newUser;
+  const { email, password } = newUser;
   try {
     const checkUser = await User.findOne({ email: email });
     if (checkUser) {
@@ -10,7 +10,6 @@ const createUser = async (newUser) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const createdUser = await User.create({
-      name,
       email,
       password: hashedPassword,
     });
@@ -29,21 +28,25 @@ const createUser = async (newUser) => {
     };
   }
 };
-const loginUser = (userLogin) => {
+let logInUser = (userLoggedIn) => {
   return new Promise(async (resolve, reject) => {
-    const { email, password } = userLogin;
+    const { email, password } = userLoggedIn;
     try {
-      const checkUser = await User.findOne({ email: email });
-      if (!checkUser) {
-        reject({
-          status: "Error",
-          message: "The user does not exist",
+      const checkUser = await User.findOne({
+        email: email,
+      });
+      if (checkUser === null)
+        resolve({
+          status: "ERR",
+          message: "The user is not defined",
+        });
+      const comparePassword = bcrypt.compareSync(password, checkUser.password);
+      if (!comparePassword) {
+        resolve({
+          status: "ERR",
+          message: "Password or username is incorrect!",
         });
       }
-      const comparePassword = await bcrypt.compare(
-        password,
-        checkUser.password
-      );
       const access_token = await generalAccessToken({
         id: checkUser._id,
         isAdmin: checkUser.isAdmin,
@@ -52,15 +55,10 @@ const loginUser = (userLogin) => {
         id: checkUser._id,
         isAdmin: checkUser.isAdmin,
       });
-      if (!comparePassword) {
-        reject({
-          status: "Error",
-          message: "The email or password is incorrect",
-        });
-      } else {
+      if (createUser) {
         resolve({
-          status: "Success",
-          message: "Log in successfully",
+          status: "OK",
+          message: "SUCCESS",
           access_token,
           refresh_token,
         });
@@ -70,54 +68,42 @@ const loginUser = (userLogin) => {
     }
   });
 };
+const logOutUser = async (req, res) => {
+  try {
+    res.clearCookie("refresh_token");
+    return res.status(200).json({
+      status: "OK",
+      message: "Logout successfully",
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
+  }
+};
 
-const updateUser = (id, data) => {
+let updateUser = (id, data) => {
   return new Promise(async (resolve, reject) => {
-    try {
-      const checkUser = await User.findOne({ _id: id });
-
-      if (!checkUser) {
-        reject({
-          status: "Error",
-          message: "The user does not exist",
-        });
+      try {
+          const checkUser = await User.findOne({
+              _id: id,
+          });
+          if (checkUser === null)
+              resolve({
+                  status: "OK",
+                  message: "The user is not defined",
+              });
+          const updatedUser = await User.findByIdAndUpdate(id, data, {
+              new: true,
+          });
+          resolve({
+              status: "OK",
+              message: "SUCCESS",
+              data: updatedUser,
+          });
+      } catch (error) {
+          reject(error);
       }
-      const updatedUser = await User.findByIdAndUpdate(id, data, { new: true });
-      resolve({
-        status: "Success",
-        message: "User updated successfully",
-        data: updatedUser,
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-const deleteUser = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await User.findByIdAndDelete(id);
-      resolve({
-        status: "Success",
-        message: "User deleted successfully",
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-const getUser = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const user = await User.findById(id);
-      resolve({
-        status: "Success",
-        message: "User fetched successfully",
-        data: user,
-      });
-    } catch (error) {
-      reject(error);
-    }
   });
 };
 const getAllUsers = () => {
@@ -137,9 +123,8 @@ const getAllUsers = () => {
 
 module.exports = {
   createUser,
-  loginUser,
+  logInUser,
   updateUser,
-  deleteUser,
-  getUser,
   getAllUsers,
+  logOutUser,
 };
