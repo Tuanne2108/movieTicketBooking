@@ -5,6 +5,7 @@ import Slider from '../../Components/SliderItems/Slider';
 import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
 import * as movieService from "../../services/MovieService";
+import * as movieInfo from "../../services/ShowService";
 
 import axios from "axios";
 import './BookingMoviePage.css';
@@ -110,7 +111,7 @@ const BookingMoviePage = () => {
     useEffect(() => {
         if (movieSelectedId) {
             console.log('movieSelectedId: ', movieSelectedId);
-
+            
             movieService.getMovieById(movieSelectedId)
                 .then((res) => {
                     if (res.data) {
@@ -123,6 +124,45 @@ const BookingMoviePage = () => {
                 });
         }
     }, [movieSelectedId]);
+    
+    const [selectedMovieShowId, setSelectedMovieShowId] = useState(null);
+    useEffect(() => {
+        // Lấy thông tin showtimes của selectedMovie và cập nhật selectedMovieShowId
+        if (selectedMovie && selectedMovie.showtimes && selectedMovie.showtimes.length > 0) {
+            const showtimeId = selectedMovie.showtimes[0]._id;
+            setSelectedMovieShowId(showtimeId);
+            console.log("assigned to selectedMovieShowId:", showtimeId);
+        } else {
+            console.log("No showtimes available for the selected movie.");
+        }
+    }, [selectedMovie]);
+    const [shows, setShows] = useState([]);
+    useEffect(() => {
+        movieInfo.getAllShows()
+        .then((res1) => {
+            if(res1.data) {
+                setShows(res1.data);
+            } else {
+                console.log ("Loi boc data tu bang shows");
+            }
+        })
+    }, []);
+
+    useEffect(() => {
+        console.log("shows:", shows);
+        console.log("movieId: ", movieSelectedId);
+        
+        });
+
+    useEffect(() => {
+        // Lọc các phần tử có data.movie là '665760a1b1c349d2c84eea7e'
+        const filteredShows = shows.filter(show => show && show.movie._id === movieSelectedId);
+        console.log("Filtered shows:", filteredShows);
+        const filterDayShows = filteredShows.filter(show => show && show.theater.location === '123 Main Street, Cityville');
+        console.log('Filtered DayShows:', filterDayShows);
+    }, [shows]);
+    
+
     
     
 
