@@ -1,113 +1,69 @@
 const Seat = require("../Models/Seat");
-const Show = require("../Models/Show");
-const createSeat = (newSeat) => {
-  return new Promise(async (resolve, reject) => {
-    const { show, row, number, type, status } = newSeat;
-    try {
-      const showExists = await Show.findById(show);
-
-      if (!showExists) {
-        return reject({
-          status: "Error",
-          message: "Invalid Show",
-        });
-      }
-
-      const createdSeat = await Seat.create({
-        show,
-        row,
-        number,
-        type,
-        status,
-      });
-      if (createdSeat) {
-        resolve({
-          status: "Success",
-          message: "Seat created successfully",
-          data: createdSeat,
-        });
-      }
-    } catch (error) {
-      reject({
-        status: "Error",
-        message: error.message || "An error occurred",
-      });
-    }
-  });
-};
-const getAllSeats = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const seats = await Seat.find().populate('show');
-      resolve({
-        status: "Success",
-        message: "Seats fetched successfully",
-        data: seats,
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-const getSeatById = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const seat = await Seat.findById(id).populate('show');
-      resolve({
-        status: "Success",
-        message: "Seat fetched successfully",
-        data: seat,
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-const updateSeat = async (id, updatedSeat) => {
+const Booking = require("../Models/Booking");
+const createSeat = async (theaterId, showtimeId, seatData) => {
   try {
-    const checkSeat = await Seat.findOne({ _id: id });
-
-    if (!checkSeat) {
-      throw {
-        status: "Error",
-        message: "The seat does not exist",
-      };
-    }
-
-    const updatedSeatData = await Seat.findByIdAndUpdate(id, updatedSeat, {
-      new: true,
-    });
-
-    return {
-      status: "Success",
-      message: "Seat updated successfully",
-      data: updatedSeatData,
-    };
+    const newSeat = new Seat({ ...seatData, theaterId, showtimeId });
+    await newSeat.save();
+    return newSeat;
   } catch (error) {
-    throw error;
+    throw new Error("Error adding seat");
+  }
+};
+const getAllSeats = async (theaterId, showtimeId) => {
+  try {
+    return await Seat.find({ theaterId, showtimeId });
+  } catch (error) {
+    throw new Error("Error fetching seats");
   }
 };
 
-const deleteSeat = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await Seat.findByIdAndDelete(id);
-      resolve({
-        status: "Success",
-        message: "Seat deleted successfully",
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
+const updateSeat = async (seatId, seatData) => {
+  try {
+    const updatedSeat = await Seat.findByIdAndUpdate(seatId, seatData, {
+      new: true,
+    });
+    return updatedSeat;
+  } catch (error) {
+    throw new Error("Error updating seat");
+  }
 };
 
+const deleteSeat = async (seatId) => {
+  try {
+    await Seat.findByIdAndDelete(seatId);
+  } catch (error) {
+    throw new Error("Error deleting seat");
+  }
+};
+const bookSeats = async (theaterId, showtimeId, seatIds) => {
+  try {
+    // Check seat availability
+    const bookedSeats = await Seat.find({
+      theaterId,
+      showtimeId,
+      _id: { $in: seatIds },
+      booked: true,
+    });
+    if (bookedSeats.length > 0) {
+      throw new Error("Some seats are already booked");
+    }
+
+    // Book the seats
+    await Seat.updateMany({ _id: { $in: seatIds } }, { booked: true });
+
+    // Create a booking record
+    const booking = new Booking({ theaterId, showtimeId, seats: seatIds });
+    await booking.save();
+
+    return booking;
+  } catch (error) {
+    throw new Error(error.message || "Error booking seats");
+  }
+};
 module.exports = {
   createSeat,
   getAllSeats,
-  getSeatById,
   updateSeat,
   deleteSeat,
+  bookSeats,
 };

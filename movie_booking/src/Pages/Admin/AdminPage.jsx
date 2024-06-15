@@ -5,7 +5,6 @@ import {
   BankOutlined,
   CalendarOutlined,
   BookOutlined,
-  ClusterOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { UserManage } from "./UserManage";
@@ -13,7 +12,6 @@ import { MovieManage } from "./MovieManage";
 import { TheaterManage } from "./TheaterManage";
 import { ShowManage } from "./ShowManage";
 import { BookingManage } from "./BookingManage";
-import { SeatManage } from "./SeatManage";
 
 const items = [
   {
@@ -56,11 +54,6 @@ const items = [
   {
     type: "divider",
   },
-  {
-    key: "6",
-    icon: <ClusterOutlined />,
-    label: "Seat",
-  },
 ];
 const renderPage = (keySelected) => {
   switch (keySelected) {
@@ -74,8 +67,6 @@ const renderPage = (keySelected) => {
       return <ShowManage />;
     case "5":
       return <BookingManage />;
-    case "6":
-      return <SeatManage />;
     default:
       return <div></div>;
   }

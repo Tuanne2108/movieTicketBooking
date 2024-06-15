@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as theaterService from "../../services/TheaterService";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Modal, Form, Input, notification, Drawer, Space } from "antd";
+import { Button, Modal, Form, Input, notification, Drawer, Space, InputNumber } from "antd";
 import { TableComponent } from "../../Components/Table/TableComponent";
 
 export const TheaterManage = () => {
@@ -30,6 +30,7 @@ export const TheaterManage = () => {
   const columns = [
     { title: "Name", dataIndex: "name" },
     { title: "Location", dataIndex: "location" },
+    { title: "Number of Seats", dataIndex: "numberOfSeats" },
     {
       title: "Action",
       dataIndex: "action",
@@ -62,6 +63,7 @@ export const TheaterManage = () => {
     key: theater._id,
     name: theater.name,
     location: theater.location,
+    numberOfSeats: theater.numberOfSeats,
   }));
 
   const handleAddTheater = () => {
@@ -78,6 +80,7 @@ export const TheaterManage = () => {
     const newTheater = {
       name: values.name,
       location: values.location,
+      numberOfSeats: values.numberOfSeats,
     };
 
     theaterService
@@ -112,6 +115,7 @@ export const TheaterManage = () => {
     updateForm.setFieldsValue({
       name: theater.name,
       location: theater.location,
+      numberOfSeats: theater.numberOfSeats,
     });
     showDrawer();
   };
@@ -120,6 +124,7 @@ export const TheaterManage = () => {
     const updatedTheater = {
       name: values.name,
       location: values.location,
+      numberOfSeats: values.numberOfSeats,
     };
 
     theaterService
@@ -184,7 +189,7 @@ export const TheaterManage = () => {
       />
 
       <Modal
-        title="Add Movie"
+        title="Add Theater"
         visible={isModalVisible}
         onCancel={handleModalClose}
         confirmLoading={confirmLoading}
@@ -204,6 +209,13 @@ export const TheaterManage = () => {
             rules={[{ required: true, message: "Please input the location!" }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="numberOfSeats"
+            label="Number of Seats"
+            rules={[{ required: true, message: "Please input the number of seats!" }]}
+          >
+            <InputNumber />
           </Form.Item>
         </Form>
       </Modal>
@@ -236,6 +248,13 @@ export const TheaterManage = () => {
             rules={[{ required: true, message: "Please input the location!" }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="numberOfSeats"
+            label="Number of Seats"
+            rules={[{ required: true, message: "Please input the number of seats!" }]}
+          >
+            <InputNumber />
           </Form.Item>
         </Form>
       </Drawer>
