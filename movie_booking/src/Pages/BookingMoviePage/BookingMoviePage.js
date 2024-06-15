@@ -6,7 +6,7 @@ import CustomList from '../../Components/LoopItems/CustomList';
 import DropdownItems from '../../Components/DropdownItems/DropdownItems';
 import * as movieService from "../../services/MovieService";
 import * as movieInfo from "../../services/ShowService";
-
+import * as theaterInfo from "../../services/TheaterService"
 import axios from "axios";
 import './BookingMoviePage.css';
 
@@ -163,6 +163,24 @@ const BookingMoviePage = () => {
     }, [shows]);
     
 
+    // get movie theater 
+    const [showTheaters, setShowTheathers] = useState([]);
+    useEffect(() =>{
+        theaterInfo.getAllTheaters()
+        .then((resTheater) => {
+            if(resTheater.data) {
+                setShowTheathers(resTheater.data);
+            } else {
+                console.log("cant get data from theater");
+            }
+        } )
+    }, []);
+    useEffect(() => {
+        showTheaters.forEach(theater => {
+            console.log(theater.location);
+            return theater.location;
+        });
+    }, [showTheaters]);
     
     
 
@@ -231,7 +249,7 @@ const BookingMoviePage = () => {
 
                         {selectedLocation && (
                             <div className="dropdown-sublocation">
-                                <DropdownItems items={locationsData[selectedLocation] || []} 
+                                <DropdownItems items={showTheaters || []} 
                                 selectedItem={selectedSubLocation} 
                                 handleItemClick={handleSubLocationSelect} 
                                 defaultText="SELECT Cinema Location"/>
