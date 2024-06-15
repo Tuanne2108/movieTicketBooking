@@ -2,7 +2,7 @@ const Theater = require("../Models/Theater");
 
 const createTheater = (newTheater) => {
   return new Promise(async (resolve, reject) => {
-    const { name, location } = newTheater;
+    const { name, location, numberOfSeats } = newTheater;
     try {
       const checkTheater = await Theater.findOne({ name: name });
       if (checkTheater) {
@@ -14,6 +14,7 @@ const createTheater = (newTheater) => {
       const createdTheater = await Theater.create({
         name,
         location,
+        numberOfSeats
       });
       if (createdTheater) {
         resolve({

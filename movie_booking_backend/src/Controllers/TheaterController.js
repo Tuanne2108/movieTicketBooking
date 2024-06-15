@@ -2,8 +2,8 @@ const TheaterService = require("../Services/TheaterService");
 
 const createTheater = async (req, res) => {
   try {
-    const { name, location } = req.body;
-    if (!name || !location) {
+    const { name, location, numberOfSeats } = req.body;
+    if (!name || !location || !numberOfSeats) {
       return res.status(200).json({
         status: "Error",
         message: "All fields are required",

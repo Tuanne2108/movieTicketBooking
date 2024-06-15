@@ -36,10 +36,3 @@ export const bookingApi = axios.create({
   },
   withCredentials: true,
 });
-export const seatApi = axios.create({
-  baseURL: "http://localhost:4001/api/seat/",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
-});
