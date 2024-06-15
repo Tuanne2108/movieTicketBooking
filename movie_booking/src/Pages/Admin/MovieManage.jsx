@@ -16,6 +16,7 @@ import {
   Col,
 } from "antd";
 import dayjs from "dayjs";
+import { title } from "process";
 
 export const MovieManage = () => {
   const [movies, setMovies] = useState([]);
@@ -63,7 +64,14 @@ export const MovieManage = () => {
       dataIndex: "duration",
       render: (duration) => `${duration} mins`,
     },
-    { title: "Description", dataIndex: "description" },
+    {
+      title: "Genre",
+      dataIndex: "typeOfMovie",
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+    },
     { title: "Trailer URL", dataIndex: "trailerUrl" },
     {
       title: "Action",
@@ -88,10 +96,13 @@ export const MovieManage = () => {
   const data = movies.map((movie) => ({
     key: movie._id,
     title: movie.title,
+    director: movie.director,
     actors: movie.actors,
     releaseDate: movie.releaseDate,
     posterUrl: movie.posterUrl,
     duration: movie.duration,
+    typeOfMovie: movie.typeOfMovie,
+    country: movie.country,
     description: movie.description,
     trailerUrl: movie.trailerUrl,
   }));
@@ -107,9 +118,12 @@ export const MovieManage = () => {
     const newMovie = {
       title: values.title,
       actors: values.actors.split(", "),
-      releaseDate: dayjs(values.releaseDate).format("YYYY-MM-DD"), 
+      director: values.director,
+      releaseDate: dayjs(values.releaseDate).format("YYYY-MM-DD"),
       posterUrl: values.posterUrl,
       duration: values.duration,
+      typeOfMovie: values.typeOfMovie,
+      country: values.country,
       description: values.description,
       trailerUrl: values.trailerUrl,
     };
@@ -148,9 +162,12 @@ export const MovieManage = () => {
     updateForm.setFieldsValue({
       title: movie.title,
       actors: movie.actors.join(", "),
-      releaseDate: dayjs(movie.releaseDate, "YYYY-MM-DD"), 
+      director: movie.director,
+      releaseDate: dayjs(movie.releaseDate, "YYYY-MM-DD"),
       posterUrl: movie.posterUrl,
       duration: movie.duration,
+      typeOfMovie: movie.typeOfMovie,
+      country: movie.country,
       description: movie.description,
       trailerUrl: movie.trailerUrl,
     });
@@ -158,13 +175,15 @@ export const MovieManage = () => {
   };
 
   const handleUpdateFormSubmit = (values) => {
-
     const updatedMovie = {
       title: values.title,
       actors: values.actors.split(", "),
-      releaseDate: dayjs(values.releaseDate).format("YYYY-MM-DD"), 
+      director: values.director,
+      releaseDate: dayjs(values.releaseDate).format("YYYY-MM-DD"),
       posterUrl: values.posterUrl,
       duration: values.duration,
+      typeOfMovie: values.typeOfMovie,
+      country: values.country,
       description: values.description,
       trailerUrl: values.trailerUrl,
     };
@@ -252,6 +271,29 @@ export const MovieManage = () => {
             <Input />
           </Form.Item>
           <Form.Item
+            name="director"
+            label="Director"
+            rules={[{ required: true, message: "Please input the director!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="country"
+            label="Country"
+            rules={[{ required: true, message: "Please input the country!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="typeOfMovie"
+            label="Type of Movie"
+            rules={[
+              { required: true, message: "Please input the type of movie!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             name="releaseDate"
             label="Release Date"
             rules={[
@@ -325,6 +367,29 @@ export const MovieManage = () => {
             <Input />
           </Form.Item>
           <Form.Item
+            name="director"
+            label="Director"
+            rules={[{ required: true, message: "Please input the director!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="country"
+            label="Country"
+            rules={[{ required: true, message: "Please input the country!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="typeOfMovie"
+            label="Type of Movie"
+            rules={[
+              { required: true, message: "Please input the type of movie!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             name="releaseDate"
             label="Release Date"
             rules={[
@@ -333,6 +398,7 @@ export const MovieManage = () => {
           >
             <DatePicker />
           </Form.Item>
+
           <Form.Item
             name="posterUrl"
             label="Poster URL"

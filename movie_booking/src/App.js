@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./Routes";
 import DefaultComponent from "./Components/DefaultComponent/DefaultComponent";
 import Footer from './Components/Footer/Footer'
-// import { MovieDetail } from "./Pages/MovieDetail/MovieDetail";
 import "./FormStyle/style.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
 

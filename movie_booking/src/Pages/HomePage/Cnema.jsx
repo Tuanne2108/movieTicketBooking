@@ -68,7 +68,7 @@ const Cnema = () => {
                 
               </div>
               <div className="title">
-                <h2>{movie.title}</h2>
+                <h3>{movie.title}</h3>
               </div>
               <div className="buttonSDBYTN">
                 <button

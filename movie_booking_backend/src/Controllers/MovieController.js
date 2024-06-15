@@ -10,6 +10,9 @@ const createMovie = async (req, res) => {
       posterUrl,
       duration,
       trailerUrl,
+      typeOfMovie,
+      country,
+      director,
     } = req.body;
     if (
       !title ||
@@ -18,7 +21,7 @@ const createMovie = async (req, res) => {
       !releaseDate ||
       !posterUrl ||
       !duration ||
-      !trailerUrl
+      !trailerUrl || !typeOfMovie || !country || !director
     ) {
       return res.status(200).json({
         status: "Error",
