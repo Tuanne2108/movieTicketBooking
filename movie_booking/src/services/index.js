@@ -43,3 +43,9 @@ export const bookingApi = axios.create({
   },
   withCredentials: true,
 });
+export const emailApi = axios.create({
+  baseURL: "http://localhost:4001/api/email",
+  headers: {
+    "Content-Type": "applicatiob/json",
+  }
+});
