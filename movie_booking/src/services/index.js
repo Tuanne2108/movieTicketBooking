@@ -22,6 +22,13 @@ export const showApi = axios.create({
   },
   withCredentials: true,
 });
+export const seatApi = axios.create({
+  baseURL: "http://localhost:4001/api/seats/",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
 export const theaterApi = axios.create({
   baseURL: "http://localhost:4001/api/theater/",
   headers: {

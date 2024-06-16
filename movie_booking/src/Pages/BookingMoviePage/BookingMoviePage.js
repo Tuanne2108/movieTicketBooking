@@ -1,191 +1,247 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Slider from '../../Components/SliderItems/Slider';
-import CustomList from '../../Components/LoopItems/CustomList';
-import DropdownItems from '../../Components/DropdownItems/DropdownItems';
+import DropdownItems from '../../Components/DropdownItems/DropdownItems_Booking';
 import * as movieService from "../../services/MovieService";
 import * as movieInfo from "../../services/ShowService";
-import * as theaterInfo from "../../services/TheaterService"
-import axios from "axios";
+import * as theaterInfo from "../../services/TheaterService";
+import MapA from '../../Components/Maps/MapA';
+
+
 import './BookingMoviePage.css';
-
-
 
 const BookingMoviePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
     const [showAlert, setShowAlert] = useState(false);
     const [selectedLocation, setSelectedLocation] = useState(null);
-    const [selectedSubLocation, setSelectedSubLocation] = useState(null);
     const [selectedTicketType, setSelectedTicketType] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
-    const [selectedType, setSelectedType] = useState(null);
-
-    const itemsDate = Array.from({ length: 25 }, (_, indexDate) => indexDate + 1);
-    const locations = ["Ho Chi Minh", "DaNang", "QuangNam", "HaNoi"];
-    
-    const locationsData = {
-        "Ho Chi Minh": ["District 1", "District 2", "District 3", "District 4"],
-        "DaNang": ["HaiChau", "ThanhKhe", "CamLe"],
-        "QuangNam": ["TamKy", "HoiAn", "DienBan"],
-        "HaNoi": ["HoanKiem", "BaDinh", "HaiBaTrung"]
-    };
-
-    const handleTimeSelect = (time) => {
-        console.log('Time selected:', time);
-        setSelectedTime(time);
-    };
-
-    const handleDateSelect = (date) => {
-        console.log('Date selected:', date);
-        setSelectedDate(date);
-    };
-
-    const handleLocationSelect = (location) => {
-        console.log('Location selected:', location);
-        setSelectedLocation(location);
-        setSelectedSubLocation(null);  // Reset sub-location when a new location is selected
-    };
-
-    const handleSubLocationSelect = (subLocation) => {
-        console.log('Sub-location selected:', subLocation);
-        setSelectedSubLocation(subLocation);
-    };
-
-    const handleTicketTypeSelect = (type) => {
-        console.log('Ticket type selected:', type);
-        setSelectedTicketType(type);
-        setSelectedTime(null); // Reset selected time when a new ticket type is selected
-    };
-
-    const handleBuyNow = () => {
-        // Kiểm tra các thông tin đã nhập đầy đủ chưa
-        if (!selectedDate || !selectedLocation || !selectedSubLocation || !selectedTicketType || !selectedTime) {
-            // Nếu không đủ thông tin, hiển thị một popup cảnh báo
-            setShowAlert(true);
-            // Tự động ẩn popup sau 3 giây
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3000);
-        } else {
-            navigate(`/SelectYourSeat?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&selectedSubLocation=${selectedSubLocation}&movieSelectedId=${movieSelectedId}`);
-        }
-    };
-    
-    const handleTypeSelect = (type) => {
-        setSelectedType(type);
-    };
-
-    useEffect(() => {
-        const timeSelection = document.querySelector('.time-selection');
-        if (timeSelection) {
-            timeSelection.classList.add('show');
-        }
-    }, []);
-
+    const [selectedSeats, setSelectedSeats] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [movieSelectedId, setMovieSelectedId] = useState(null);
-    // Take id from URL 
+    const [shows, setShows] = useState([]);
+    const [filteredShows, setFilteredShows] = useState([]);
+    const [availableDates, setAvailableDates] = useState([]);
+    const [showTheaters, setShowTheaters] = useState([]);
+    const [availableTicketTypes, setAvailableTicketTypes] = useState([]);
+    const [filteredShowsByDate, setFilteredShowsByDate] = useState([]);
+    const [availableTimes, setAvailableTimes] = useState([]);
+    const [filteredShowByTime, setFilteredShowByTime] = useState([]);
+    const [filteredShowByTicketType, setFilteredShowByTicketType] = useState([]);
+    const [availableSeats, setAvailableSeats] = useState([]);
+    const [ticketPrice, setTicketPrice] =  useState([]);
+    const [filterTicketPrice, setFilterTicketPrice] = useState([]);
+
+    // Fetch movie ID from URL and get movie details
     useEffect(() => {
         const pathname = window.location.pathname;
         const pathParts = pathname.split('/');
         const movieId = pathParts[pathParts.length - 1];
 
-        console.log('Selected Movie ID:', movieId);
         setMovieSelectedId(movieId);
+
         movieService.getMovieById(movieId)
-        .then((res) => {
-            if(res.data) {
-                console.log("RES_1: ", res.data);
-                setSelectedMovie(res.data);
-            }
-        })
-        .catch((err) => {
-            console.log("Can't get the ID")
-        });
+            .then((res) => {
+                if (res.data) {
+                    setSelectedMovie(res.data);
+                    setMovieSelectedId(movieId);
+                }
+            })
+            .catch((err) => {
+                console.log("Can't get the ID", err);
+            });
+    }, []);
 
-      }, []);
-
-    //   take URL id save it to movieSelectedId
-    useEffect(() => {
-        if (movieSelectedId) {
-            console.log('movieSelectedId: ', movieSelectedId);
-            
-            movieService.getMovieById(movieSelectedId)
-                .then((res) => {
-                    if (res.data) {
-                        console.log("RES: ", res.data);
-                        setSelectedMovie(res.data);
-                    }
-                })
-                .catch((err) => {
-                    console.log("Can't get the id from URL");
-                });
-        }
-    }, [movieSelectedId]);
-    
-    const [selectedMovieShowId, setSelectedMovieShowId] = useState(null);
-    useEffect(() => {
-        // Lấy thông tin showtimes của selectedMovie và cập nhật selectedMovieShowId
-        if (selectedMovie && selectedMovie.showtimes && selectedMovie.showtimes.length > 0) {
-            const showtimeId = selectedMovie.showtimes[0]._id;
-            setSelectedMovieShowId(showtimeId);
-            console.log("assigned to selectedMovieShowId:", showtimeId);
-        } else {
-            console.log("No showtimes available for the selected movie.");
-        }
-    }, [selectedMovie]);
-    const [shows, setShows] = useState([]);
+    // Fetch all shows
     useEffect(() => {
         movieInfo.getAllShows()
-        .then((res1) => {
-            if(res1.data) {
-                setShows(res1.data);
-            } else {
-                console.log ("Loi boc data tu bang shows");
-            }
-        })
+            .then((res1) => {
+                if (res1.data) {
+                    setShows(res1.data);
+                }
+            })
+            .catch((err) => {
+                console.log("Error fetching shows", err);
+            });
     }, []);
-
+    // useEffect(() => {
+    //     console.log(movieSelectedId);
+    // });
+    // Filter shows based on selected movie
     useEffect(() => {
-        console.log("shows:", shows);
-        console.log("movieId: ", movieSelectedId);
-        
-        });
+        if (movieSelectedId && Array.isArray(shows)) {
+            const filteredShowsChosen = shows.filter(show => show && show.movie._id === movieSelectedId);
+            setFilteredShows(filteredShowsChosen);
+        }
+    }, [shows, movieSelectedId]);
 
+    // Get available dates based on location
     useEffect(() => {
-        // Lọc các phần tử có data.movie là '665760a1b1c349d2c84eea7e'
-        const filteredShows = shows.filter(show => show && show.movie._id === movieSelectedId);
-        console.log("Filtered shows:", filteredShows);
-        const filterDayShows = filteredShows.filter(show => show && show.theater.location === '123 Main Street, Cityville');
-        console.log('Filtered DayShows:', filterDayShows);
-    }, [shows]);
-    
+        if (selectedLocation && Array.isArray(filteredShows)) {
+            const filterDayShows = filteredShows.filter(show => show && show.theater.location === selectedLocation);
+            const dates = filterDayShows.map(show => new Date(show.date).toLocaleDateString());
+            setAvailableDates([...new Set(dates)]); // Ensure dates are unique
+            // console.log(selectedLocation);
+        }
+    }, [filteredShows, selectedLocation]);
 
-    // get movie theater 
-    const [showTheaters, setShowTheathers] = useState([]);
-    useEffect(() =>{
+    // Fetch all theaters
+    useEffect(() => {
         theaterInfo.getAllTheaters()
-        .then((resTheater) => {
-            if(resTheater.data) {
-                setShowTheathers(resTheater.data);
-            } else {
-                console.log("cant get data from theater");
-            }
-        } )
+            .then((resTheater) => {
+                if (resTheater.data) {
+                    setShowTheaters(resTheater.data);
+                }
+            })
+            .catch((err) => {
+                console.log("Error fetching theaters", err);
+            });
     }, []);
+
+    // Filter shows by date and location to get available ticket types
     useEffect(() => {
-        showTheaters.forEach(theater => {
-            console.log(theater.location);
-            return theater.location;
-        });
-    }, [showTheaters]);
+        if (selectedDate) {
+            const filterDayShows = filteredShows.filter(show =>
+                show &&
+                show.theater.location === selectedLocation &&
+                new Date(show.date).toLocaleDateString() === selectedDate
+            );
+            setFilteredShowsByDate(filterDayShows);
+            // console.log(selectedLocation);
+            const ticketTypes = filterDayShows.map(show => show.typeOfTicket);
+            setAvailableTicketTypes([...new Set(ticketTypes)]);
+        }
+    }, [filteredShows, selectedDate, selectedLocation]);
+
+    useEffect(() => {
+        if(selectedTicketType) {
+            const filterPriceShows = filteredShows.filter(show =>
+                show &&
+                show.theater.location === selectedLocation &&
+                new Date(show.date).toLocaleDateString() === selectedDate &&
+                show.typeOfTicket === selectedTicketType
+            );
+            setFilterTicketPrice(filterPriceShows);
+
+            const price = filterPriceShows.map(show => show.price);
+            // console.log(price);
+            setTicketPrice([...new Set(price)]);
+        }
+    }, [filteredShows, selectedDate, selectedLocation, selectedTicketType])
+    // useEffect(() => {
+    //     console.log('price: ', ticketPrice);
+    // });
+    // Filter shows by TicketTypes and location to get available time
+    useEffect(() => {
+        if (availableTicketTypes) {
+            const filterTicketTypeShows = filteredShows.filter(show =>
+                show &&
+                show.theater.location === selectedLocation &&
+                new Date(show.date).toLocaleDateString() === selectedDate &&
+                show.typeOfTicket === selectedTicketType
+            );
+            setFilteredShowByTicketType(filterTicketTypeShows);
+
+            const time = filterTicketTypeShows.map(show => show.time);
+            // console.log('time: ', time);
+            setAvailableTimes([...new Set(time)]);
+        }
+    }, [filteredShows, selectedDate, selectedLocation, selectedTicketType]);
+    
+    // Filter shows by time and location to get available seats
+    useEffect(() => {
+        if (availableTimes) {
+            const filterTimeShows = filteredShows.filter(show =>
+                show &&
+                show.theater.location === selectedLocation &&
+                new Date(show.date).toLocaleDateString() === selectedDate &&
+                show.typeOfTicket === selectedTicketType &&
+                show.time === selectedTime
+            );
+            setFilteredShowByTime(filterTimeShows);
+            const seat = filterTimeShows.map(show => show.seat);
+            
+            setAvailableSeats([...new Set(seat)]);
+        }
+    }, [filteredShows, selectedDate, selectedLocation, selectedTicketType, selectedTime]);
     
     
+    
+
+    // Filter shows by time to get available seats
+    // useEffect(() => {
+    //     if (availableTimes) {
+    //         const filteredShows = filteredShowByTicketType.filter(show =>
+    //             show && 
+    //             show.theater.location === selectedLocation &&
+    //             new Date(show.date).toLocaleDateString() === selectedDate &&
+    //             show.typeOfTicket === selectedTicketType &&
+    //             show.time === selectedTime
+    //         );
+
+    //         console.log('filteredShows: ', filteredShows);
+
+    //         if (Array.isArray(filteredShows) && filteredShows.length > 0) {
+    //             const seats = filteredShows.flatMap(show => show.seats || []);
+    //             console.log('Seats:', seats);
+    //             setAvailableSeats([...new Set(seats)]);
+    //         } else {
+    //             console.log('No shows available for the selected criteria');
+    //             setAvailableSeats([]); // Set to empty array if no shows match the criteria
+    //         }
+    //     }
+    // }, [filteredShowByTicketType, selectedDate
+
+    const handleTimeSelect = (time) => {
+        setSelectedTime(time);
+    };
+
+    const handleSeatsSelect = (index) => {
+        if (selectedSeats.includes(index)) {
+          setSelectedSeats(selectedSeats.filter(seat => seat !== index));
+        } else {
+          setSelectedSeats([...selectedSeats, index]);
+        }
+      };
+    const handleSeatSelect = (seatNumber, seatStatus) => {
+        if (seatStatus === 'booked') {
+            // Không cập nhật selectedSeats nếu ghế đã được đặt
+            return;
+        }
+        if (selectedSeats.includes(seatNumber)) {
+            // Xóa ghế khỏi danh sách nếu đã được chọn trước đó
+            setSelectedSeats(selectedSeats.filter(seat => seat !== seatNumber));
+        } else {
+            // Thêm ghế vào danh sách nếu chưa được chọn
+            setSelectedSeats([...selectedSeats, seatNumber]);
+        }
+    };
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+    };
+
+    const handleLocationSelect = (location) => {
+        setSelectedLocation(location);
+    };
+
+    const handleTicketTypeSelect = (type) => {
+        setSelectedTicketType(type);
+    };
+
+    const handleBuyNow = () => {
+        if (!selectedDate || !selectedLocation || !selectedTicketType || !selectedTime) {
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+        } else {
+            navigate(`/Payment?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&movieSelectedId=${movieSelectedId}&selectedSeats=${selectedSeats}&price=${ticketPrice}`);
+        }
+    };
 
     return (
-        
         <div className="main-bookingticket">
             <div className="body-bookingticket">
                 <div className={`popup ${showAlert ? 'show' : ''}`}>
@@ -195,7 +251,6 @@ const BookingMoviePage = () => {
                             <ul>
                                 {!selectedDate && <li>Ngày</li>}
                                 {!selectedLocation && <li>Địa điểm</li>}
-                                {!selectedSubLocation && <li>Phân khu</li>}
                                 {!selectedTicketType && <li>Loại vé</li>}
                                 {!selectedTime && <li>Thời gian</li>}
                             </ul>
@@ -203,40 +258,38 @@ const BookingMoviePage = () => {
                     )}
                 </div>
 
-
                 <div className="container-bookingticket">
                     <div className="col-1">
-                        
                         <div className="title">
                             <h1>TIMETABLE</h1>
                             <span>Select the movie showtime you want to watch</span>
                         </div>
 
                         <div className="dropdown-location">
-                            <DropdownItems items={locations} 
-                            selectedItem={selectedLocation} 
-                            handleItemClick={handleLocationSelect}
-                            defaultText="SELECT A LOCATION" />
+                            <DropdownItems items={showTheaters.map(theater => theater.location)}
+                                selectedItem={selectedLocation}
+                                handleItemClick={handleLocationSelect}
+                                defaultText="SELECT A LOCATION" />
                         </div>
 
                         <div className="date-available-slider">
                             <Slider slidesToShow={5} slidesToScroll={5}>
-                                {itemsDate.map((item) => (
-                                    <div key={item} className={`DateAvailable ${selectedDate === item ? 'active' : ''}`}>
+                                {availableDates.map((date, index) => (
+                                    <div key={index} className={`DateAvailable ${selectedDate === date ? 'active' : ''}`}>
                                         <div className="form-check">
                                             <input
                                                 className="form-check-input"
                                                 type="radio"
                                                 name="movieDate"
-                                                id={`movieDate${item}`}
-                                                value={item}
-                                                checked={selectedDate === item}
-                                                onChange={() => handleDateSelect(item)}
+                                                id={`movieDate${index}`}
+                                                value={date}
+                                                checked={selectedDate === date}
+                                                onChange={() => handleDateSelect(date)}
                                             />
-                                            <label className="form-check-label" htmlFor={`movieDate${item}`}>
+                                            <label className="form-check-label" htmlFor={`movieDate${index}`}>
                                                 <div className="date-month">
-                                                    <span>11th May</span>
-                                                    <h3>SAT</h3>
+                                                    <span>{date}</span>
+                                                    <h3>{new Date(date).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()}</h3>
                                                 </div>
                                             </label>
                                         </div>
@@ -245,148 +298,121 @@ const BookingMoviePage = () => {
                             </Slider>
                         </div>
 
-                        
-
-                        {selectedLocation && (
-                            <div className="dropdown-sublocation">
-                                <DropdownItems items={showTheaters || []} 
-                                selectedItem={selectedSubLocation} 
-                                handleItemClick={handleSubLocationSelect} 
-                                defaultText="SELECT Cinema Location"/>
-                            </div>
-                        )}
-
-                        {/* Ticket Type Selection */}
                         <div className="ticket-type-selection">
-                            <h2>Select Ticket Type</h2>
-                            <div className="selectTicketTypeContainer">
-                            <div className="radio-group">
-                                <div className="radio-item"
-                                    
-                                >
-                                    <input
-                                        type="radio"
-                                        id="regular2d"
-                                        name="ticketType"
-                                        value="REGULAR2D"
-                                        checked={selectedTicketType === 'REGULAR2D'}
-                                        onChange={() => {
-                                            handleTicketTypeSelect('REGULAR2D');
-                                            handleTypeSelect('REGULAR2D'); // Gọi hàm xử lý mới để cập nhật loại vé được chọn
-                                        }}
-                                    />
-                                    <label htmlFor="regular2d" className={selectedType === 'REGULAR2D' ? 'ticketTypeSelector active' : 'ticketTypeSelector'}>Regular 2D</label>
-                                </div>
-                                <div className="radio-item">
-                                    <input
-                                        type="radio"
-                                        id="goldClass2d"
-                                        name="ticketType"
-                                        value="GOLDCLASS2D"
-                                        checked={selectedTicketType === 'GOLDCLASS2D'}
-                                        onChange={() => {
-                                            handleTicketTypeSelect('GOLDCLASS2D');
-                                            handleTypeSelect('GOLDCLASS2D');
-                                        }}
-                                    />
-                                    <label htmlFor="goldClass2d" className={selectedType === 'GOLDCLASS2D' ? 'ticketTypeSelector active' : 'ticketTypeSelector'}>Gold Class 2D</label>
-                                </div>
-                                <div className="radio-item">
-                                    <input
-                                        type="radio"
-                                        id="velvet2d"
-                                        name="ticketType"
-                                        value="VELVET2D"
-                                        checked={selectedTicketType === 'VELVET2D'}
-                                        onChange={() => {
-                                            handleTicketTypeSelect('VELVET2D');
-                                            handleTypeSelect('VELVET2D');
-                                        }}
-                                    />
-                                    <label htmlFor="velvet2d" className={selectedType === 'VELVET2D' ? 'ticketTypeSelector active' : 'ticketTypeSelector'}>Velvet 2D</label>
-                                </div>
-                            </div>
-                            </div>
-                            
+                            <h4>Choose Ticket Type</h4>
+                            <ul>
+                                {availableTicketTypes.map((type, index) => (<li key={index}>
+                                    <button
+                                        className={`ticket-type-button ${selectedTicketType === type ? 'active' : ''}`}
+                                        onClick={() => handleTicketTypeSelect(type)}
+                                    >
+                                        {type}
+                                    </button>
+                                </li>
+                                ))}
+                            </ul>
                         </div>
-                        
-                        
-                        {/* Time Selection */}
-                        {selectedTicketType && (
-                            <div className="time-selection">
-                                <h2>Select Time</h2>
-                                <CustomList 
-                                    items={itemsDate} 
-                                    selectedTime={selectedTime} 
-                                    onTimeSelect={handleTimeSelect} 
-                                    ticketType={selectedTicketType}
-                                />
-                            </div>
-                        )}
 
-            
-                                </div>
-            
-                                {selectedMovie && (<div className="col-2">
-                                    <div className="chosen-movie-info">
-                                        <div className="movie-img">
-                                            <img src={selectedMovie.posterUrl} alt="" />
-                                        </div>
-                                        <div className="movie-title">
-                                            <h1 className="title">{selectedMovie.title}</h1>
-                                            <div className="more-info">
-                                                <div className="col-1">
-                                                    <span className="child-1 title">Genre</span>
-                                                    <span className="child-2 title">Duration</span>
-                                                    <span className="child-3 title">Director</span>
-                                                    <span className="child-4 title">Age Rating</span>
-                                                </div>
-                                                <div className="col-2">
-                                                    <span className="Genre">Action</span>
-                                                    <span className="Duration">{selectedMovie.duration} minutes</span>
-                                                    <span className="Director">Jon Watts</span>
-                                                    <span className="Age Rating">SU</span>
-                                                </div>
-                                            </div>   
-                                        </div>
-                                        <div className="movie-demoTicket">
-                                            <div className="ticket-info container-1">
-                                                {selectedSubLocation && (
-                                                    <div className="locationChosen-CityDistrict">
-                                                        <span className="child-3 sublocationCustomerChosen">
-                                                            {selectedSubLocation ? selectedSubLocation : "Default Sublocation"}
-                                                        </span>
-                                                        <span
-                                                        className="child-2 locationCustomerChosen">
-                                                        {selectedLocation}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            {selectedDate && (
-                                                <span className="child-1 dateCustomerChosen">
-                                                    {selectedDate}
-                                                </span>
-                                            )}
-                                            {/* Display selected time and ticket type */}
-                                            {selectedTime && (
-                                                <span className="child-4 genre">
-                                                    {selectedTime} ({selectedTicketType})
-                                                </span>
-                                            )}
-                                            </div>
-                                            <div className="note-buttonBuyNow container-2">
-                                                <span><i>* Seat selection can be made later</i></span>
-                                                <button className="BUYNOWButton" onClick={handleBuyNow}><span>BUY NOW</span></button>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>)}
+                        <div className="time-selection">
+                            <div className="title">
+                                <h1>SELECT YOUR SEAT</h1>
+                                <span>Choose the seats you want to reserve</span>
+                            </div>
+                            <ul>
+                                {availableTimes.map((time, index) => (
+                                    <li key={index}>
+                                        <button
+                                            className={`time-button ${selectedTime === time ? 'active' : ''}`}
+                                            onClick={() => handleTimeSelect(time)}
+                                        >
+                                            {time}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="seat-selection">
+                            <div className="seat-area">
+                                
+
+                            </div>
+                            <h2>Select Seats</h2>
+                            <ul>
+                                {availableSeats.map((seat, index) => (
+                                    <li key={index}>
+                                        <button
+                                            className={`seat-button ${selectedSeats === seat ? 'active' : ''}`}
+                                            onClick={() => handleSeatsSelect(seat)}
+                                        >
+                                            {seat}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
-                    <div className="footer-bookingticket"></div>
+
+                    {selectedMovie && (
+                        <div className="col-2">
+                            <div className="chosen-movie-info">
+                                <div className="movie-img">
+                                    <img src={selectedMovie.posterUrl} alt={selectedMovie.title} />
+                                </div>
+                                <div className="movie-title">
+                                    <h1 className="title">{selectedMovie.title}</h1>
+                                    <div className="more-info">
+                                        <div className="col-1">
+                                            <span className="child-1 title">Genre</span>
+                                            <span className="child-2 title">Duration</span>
+                                            <span className="child-3 title">Director</span>
+                                            <span className="child-4 title">Age Rating</span>
+                                        </div>
+                                        <div className="col-2">
+                                            <span className="Genre">{selectedMovie.genre}</span>
+                                            <span className="Duration">{selectedMovie.duration} minutes</span>
+                                            <span className="Director">{selectedMovie.director}</span>
+                                            <span className="Age Rating">{selectedMovie.ageRating}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="movie-demoTicket">
+                                    <div className="ticket-info container-1">
+                                        {selectedLocation && (
+                                            <div className="locationChosen-CityDistrict">
+                                                <span className="child-2 locationCustomerChosen">
+                                                    {selectedLocation}
+                                                </span>
+                                            </div>
+                                        )}
+                                        {selectedDate && (
+                                            <span className="child-1 dateCustomerChosen">
+                                                {selectedDate}
+                                            </span>
+                                        )}
+                                        {selectedTime && (
+                                            <span className="child-4 genre">
+                                                {selectedTime} ({selectedTicketType})
+                                            </span>
+                                        )}
+                                        {selectedSeats && (
+                                            <span className='child-4 seats'>
+                                                {selectedSeats.join(', ')}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="note-buttonBuyNow container-2">
+                                        <span><i>* Seat selection can be made later</i></span>
+                                        <button className="BUYNOWButton" onClick={handleBuyNow}><span>BUY NOW</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            );
-            };
-            
-            export default BookingMoviePage;
-            
+            </div>
+            <div className="footer-bookingticket"></div>
+        </div>
+    );
+};
+
+export default BookingMoviePage;
