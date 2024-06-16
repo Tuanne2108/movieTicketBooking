@@ -38,6 +38,9 @@ const Header = () => {
         setIsAdmin(false);
         navigate("/");
     };
+    const handleMovies = () => {
+        navigate('/category');
+    }
 
     const menu = (
         <Menu>
@@ -61,7 +64,7 @@ const Header = () => {
                 <div className="nav-menu">
                     <ul className="ul-nav-menu">
                         <li>
-                            <a href="#">Movies</a>
+                            <a onClick={handleMovies}>Movies</a>
                         </li>
                         <li>
                             <a href="#">News</a>

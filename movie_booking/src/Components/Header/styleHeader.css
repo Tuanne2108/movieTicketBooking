@@ -102,3 +102,8 @@
   top: 0; /* Định vị navbar ở đầu trang */
   z-index: 1000; /* Đảm bảo navbar nằm trên các phần tử khác */
 }
+
+.ul-nav-menu li:hover {
+  color: #ffff00;
+  cursor: pointer;
+}
