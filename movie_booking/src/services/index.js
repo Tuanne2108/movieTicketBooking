@@ -15,6 +15,7 @@ export const userApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const showApi = axios.create({
   baseURL: "http://localhost:4001/api/show/",
   headers: {
@@ -22,6 +23,7 @@ export const showApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const seatApi = axios.create({
   baseURL: "http://localhost:4001/api/seats/",
   headers: {
@@ -29,6 +31,7 @@ export const seatApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const theaterApi = axios.create({
   baseURL: "http://localhost:4001/api/theater/",
   headers: {
@@ -36,6 +39,7 @@ export const theaterApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const bookingApi = axios.create({
   baseURL: "http://localhost:4001/api/booking/",
   headers: {
@@ -43,9 +47,10 @@ export const bookingApi = axios.create({
   },
   withCredentials: true,
 });
+
 export const emailApi = axios.create({
   baseURL: "http://localhost:4001/api/email",
   headers: {
-    "Content-Type": "applicatiob/json",
-  }
+    "Content-Type": "application/json",
+  },
 });

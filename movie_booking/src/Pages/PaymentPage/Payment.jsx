@@ -13,7 +13,6 @@ const Payment = () => {
     const selectedTime = new URLSearchParams(location.search).get('selectedTime');
     const selectedTicketType = new URLSearchParams(location.search).get('selectedTicketType');
     const selectedLocation = new URLSearchParams(location.search).get('selectedLocation');
-
     const selectedSeats = new URLSearchParams(location.search).get('selectedSeats').split(',');
     const selectedMovieId = new URLSearchParams(location.search).get('movieSelectedId');
 
