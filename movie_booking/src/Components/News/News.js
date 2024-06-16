@@ -40,7 +40,7 @@ const News = () => {
     <div className="news">
       <div className="news-container">
         <div className="title">
-          <h2>News</h2>
+          <h1 style={{fontWeight:'bold'}}>News</h1>
         </div>
         <div className="post">
           {newsData.map((news) => (

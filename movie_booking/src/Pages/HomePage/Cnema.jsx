@@ -53,6 +53,7 @@ const Cnema = () => {
 
     return (
         <div className="Cnema main-body">
+          <h1 style={{margin:'10px', fontWeight:'bold'}}>Currently Showing Movies</h1>
             <div className="hotMovieContainer">
                 <Slider slidesToShow={4} slidesToScroll={1}>
                     {movies.slice(0, 9).map((movie) => (
@@ -91,6 +92,7 @@ const Cnema = () => {
             </div>
 
             <div className="voucherContainer">
+              <h1 style={{marginTop:'20px', fontWeight:'bold', paddingLeft:'50px', textAlign:'center'}}>Vouchers</h1>
                 <Slider
                     slidesToShow={1}
                     slidesToScroll={1}
@@ -125,7 +127,7 @@ const Cnema = () => {
                 <News />
             </div>
             <div className="mayInterestedContainer">
-              <h1 style={{marginBottom:'-10px', fontWeight:'bold', paddingLeft:'50px'}}>Incoming Movies</h1>
+              <h1 style={{marginTop:'20px', fontWeight:'bold', paddingLeft:'50px', textAlign:'center'}}>Incoming Movies</h1>
                 <Slider slidesToShow={3} slidesToScroll={2}>
                     {movies.slice(10).map((movie) => (
                         <div key={movie._id} className="ContainerSliderCnema">
