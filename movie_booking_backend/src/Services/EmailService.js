@@ -13,9 +13,9 @@ const sendEmail = async (email) => {
     });
 
     const info = await transporter.sendMail({
-        from: '"Tuan dep trai" <cnemawad@gmail.com>',
+        from: '"RAP PHIM CNEMA" <cnemawad@gmail.com>',
         to: email,
-        subject: "Anh dit em co phe ko?",
+        subject: "INFO YOUR BOOKING ",
         text: "Hello world?",
         html: "<b>Anh nung qua em oi</b>",
     });

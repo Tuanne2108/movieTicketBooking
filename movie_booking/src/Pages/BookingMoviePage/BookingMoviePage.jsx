@@ -31,6 +31,7 @@ const BookingMoviePage = () => {
     const [filteredShowByTime, setFilteredShowByTime] = useState([]);
     const [filteredShowByTicketType, setFilteredShowByTicketType] = useState([]);
     const [availableSeats, setAvailableSeats] = useState([]);
+    const [filteredShowBySeats, setFilteredShowBySeats] = useState([]);
     const [ticketPrice, setTicketPrice] =  useState([]);
     const [filterTicketPrice, setFilterTicketPrice] = useState([]);
 
@@ -166,8 +167,7 @@ const BookingMoviePage = () => {
             setAvailableSeats([...new Set(seat)]);
         }
     }, [filteredShows, selectedDate, selectedLocation, selectedTicketType, selectedTime]);
-    
-    
+
     
 
     // Filter shows by time to get available seats
@@ -205,19 +205,19 @@ const BookingMoviePage = () => {
           setSelectedSeats([...selectedSeats, index]);
         }
       };
-    const handleSeatSelect = (seatNumber, seatStatus) => {
-        if (seatStatus === 'booked') {
-            // Không cập nhật selectedSeats nếu ghế đã được đặt
-            return;
-        }
-        if (selectedSeats.includes(seatNumber)) {
-            // Xóa ghế khỏi danh sách nếu đã được chọn trước đó
-            setSelectedSeats(selectedSeats.filter(seat => seat !== seatNumber));
-        } else {
-            // Thêm ghế vào danh sách nếu chưa được chọn
-            setSelectedSeats([...selectedSeats, seatNumber]);
-        }
-    };
+    // const handleSeatSelect = (seatNumber, seatStatus) => {
+    //     if (seatStatus === 'booked') {
+    //         // Không cập nhật selectedSeats nếu ghế đã được đặt
+    //         return;
+    //     }
+    //     if (selectedSeats.includes(seatNumber)) {
+    //         // Xóa ghế khỏi danh sách nếu đã được chọn trước đó
+    //         setSelectedSeats(selectedSeats.filter(seat => seat !== seatNumber));
+    //     } else {
+    //         // Thêm ghế vào danh sách nếu chưa được chọn
+    //         setSelectedSeats([...selectedSeats, seatNumber]);
+    //     }
+    // };
     const handleDateSelect = (date) => {
         setSelectedDate(date);
     };
@@ -237,7 +237,7 @@ const BookingMoviePage = () => {
                 setShowAlert(false);
             }, 3000);
         } else {
-            navigate(`/Payment?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&movieSelectedId=${movieSelectedId}&selectedSeats=${selectedSeats}&price=${ticketPrice}`);
+            navigate(`/Payment?selectedDate=${selectedDate}&selectedTime=${selectedTime}&selectedTicketType=${selectedTicketType}&selectedLocation=${selectedLocation}&movieSelectedId=${movieSelectedId}&selectedSeats=${selectedSeats.join(',')}&price=${ticketPrice}`);
         }
     };
 

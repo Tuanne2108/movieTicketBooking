@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './stylePayment.css';
 import * as movieService from "../../services/MovieService";
-import * as emailService from "../../services/EmailService"; // Import email service
-import { useNavigate } from 'react-router-dom';
+import * as emailService from "../../services/EmailService";
+import * as showService from "../../services/ShowService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 
 const Payment = () => {
     const location = useLocation();
@@ -15,6 +16,7 @@ const Payment = () => {
     const selectedLocation = new URLSearchParams(location.search).get('selectedLocation');
     const selectedSeats = new URLSearchParams(location.search).get('selectedSeats').split(',');
     const selectedMovieId = new URLSearchParams(location.search).get('movieSelectedId');
+    const ticketPrice = parseFloat(new URLSearchParams(location.search).get('price'));
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -22,7 +24,6 @@ const Payment = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const ticketPrice = new URLSearchParams(location.search).get('price');
     const totalTickets = selectedSeats.length;
     const totalPriceTicket = totalTickets * ticketPrice;
     const serviceFeePerTicket = 3000;
@@ -39,45 +40,114 @@ const Payment = () => {
                 }
             })
             .catch((err) => {
-                console.log("Can't get the movie details by ID");
+                console.log("Error fetching movie details:", err);
             });
     }, [selectedMovieId]);
+
+    const [showsSeat, setShowsSeat] = useState(null);
+
+    useEffect(() => {
+        showService.getAllShows()
+            .then((res) => {
+                if (res.data) {
+                    setShowsSeat(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log("Error fetching shows:", err);
+            });
+    }, []);
+    const [selectedSeatIds, setSelectedSeatIds] = useState([]);
+    useEffect(() => {
+        // Kiểm tra điều kiện trước khi cập nhật selectedSeatIds
+        if (showsSeat && selectedSeats.length > 0) {
+            const matchedSeats = showsSeat.filter(show => selectedSeats.includes(show.seat));
+            const seatIds = matchedSeats.map(show => show._id);
+    
+            // Kiểm tra xem selectedSeatIds có thay đổi mới cập nhật
+            if (JSON.stringify(seatIds) !== JSON.stringify(selectedSeatIds)) {
+                setSelectedSeatIds(seatIds);
+            }
+        }
+    }, [showsSeat, selectedSeats]);
+    
+    const seatIdsString = selectedSeatIds.join(',');
+    useEffect(() => {
+        console.log('selectedSeatIds: ', selectedSeatIds.length)
+    }, [selectedSeatIds]);
+    
 
     const returnPreviousPage = () => {
         window.history.back();
     };
 
-    const handleBuyTickets = async () => {
-        if (!fullName || !email || !paymentMethod) {
-            alert('Please fill out all fields before proceeding.');
-            return;
+    const handleChangeStatusTicket = async () => {
+        try {
+            for (const seatId of selectedSeatIds) {
+                const updateShow = {
+                    status: false
+                };
+    
+                const response = await axios.put(`http://localhost:4001/api/show/update-show/${seatId}/`, updateShow);
+    
+                if (response.data && response.data.message === 'Booking successful') {
+                    // Handle success
+                } else {
+                    // Handle failure
+                    setMessage(`Failed to book seat ${seatId}.`);
+                    console.error(`Failed to book seat ${seatId}:`, response.data.error);
+                }
+            }
+        } catch (error) {
+            console.error("Failed to book seats:", error);
+            setMessage("Failed to book seats. Please try again later.");
         }
+    };
+    const handleBuyTickets = async () => {
+    if (!fullName || !email || !paymentMethod) {
+        alert('Please fill out all fields before proceeding.');
+        return;
+    }
 
-        // Prepare email data
+    const bookingData = {
+        fullName,
+        email,
+        paymentMethod,
+        seatIdsString,
+        // Add other relevant data here if needed
+    };
+
+    try {
+        // Create email data with selectedSeatIds
         const emailData = {
+            fullName,
             email,
+            paymentMethod,
+            selectedSeatIds, // Include selectedSeatIds here
             subject: "Ticket Purchase Confirmation",
             body: `
                 Hello ${fullName},
                 Thank you for purchasing tickets!
-                Movie: ${selectedMovie.title}
-                Date: ${selectedDate}
-                Time: ${selectedTime}
-                Location: ${selectedLocation}
-                Seats: ${selectedSeats.join(', ')}
-                Total Price: ${totalPrice} VND
+                Seats: ${selectedSeatIds.join(', ')}
+                // Include other details as needed
             `
         };
+        
+        await emailService.createMail(emailData);
 
-        try {
-            await emailService.createMail(emailData);
-            setMessage("Email sent successfully!");
-            navigate('/Checkout');
-        } catch (error) {
-            console.error("Failed to send email:", error);
-            setMessage("Failed to send email.");
-        }
-    };
+        // Update ticket status and navigate to checkout page
+        handleChangeStatusTicket();
+        navigate('/Checkout');
+    } catch (error) {
+        console.error("Failed to send email:", error);
+        alert("Failed to send email. Please try again later.");
+    }
+};
+
+    
+    
+    
+    
 
     return (
         <div className="Payment_Container">
@@ -165,9 +235,9 @@ const Payment = () => {
                             <div className='TOTAL_PAYMENT'>
                                 <span className='BoldText'>Total Pay: <p>{totalPrice} VND</p></span>
                             </div>
-                            <button id="BuyTicketButton" 
-                            className='BuyTicketButton'
-                            onClick={handleBuyTickets}>
+                            <button id="BuyTicketButton"
+                                className='BuyTicketButton'
+                                onClick={handleBuyTickets}>
                                 <span>BUY TICKETS</span>
                             </button>
                             {message && <div className="alert alert-info mt-3">{message}</div>}

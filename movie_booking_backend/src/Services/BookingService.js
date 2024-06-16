@@ -1,7 +1,6 @@
 const Booking = require("../Models/Booking");
 // const User = require("../Models/User");
 const Show = require("../Models/Show");
-const Seat = require("../Models/Seat");
 
 const createBooking = (newBooking) => {
   return new Promise(async (resolve, reject) => {
@@ -10,9 +9,8 @@ const createBooking = (newBooking) => {
     try {
       // const userExists = await User.findById(user);
       const showExists = await Show.findById(show);
-      const seatsExist = await Seat.find({ _id: { $in: seats } });
-
-      if (!showExists || !seatsExist) {
+      console.log("t dang test: ",showExists);
+      if (!showExists) {
         return reject({
           status: "Error",
           message: "Invalid Show, or Seats",

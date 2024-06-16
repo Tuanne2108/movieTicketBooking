@@ -49,7 +49,7 @@ export const bookingApi = axios.create({
 });
 
 export const emailApi = axios.create({
-  baseURL: "http://localhost:4001/api/email",
+  baseURL: "http://localhost:4001/api/email/",
   headers: {
     "Content-Type": "application/json",
   },
