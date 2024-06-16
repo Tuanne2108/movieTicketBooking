@@ -92,6 +92,7 @@ const Cnema = () => {
             </div>
 
             <div className="voucherContainer">
+              <h1 style={{marginTop:'20px', fontWeight:'bold', paddingLeft:'50px', textAlign:'center'}}>Vouchers</h1>
                 <Slider
                     slidesToShow={1}
                     slidesToScroll={1}
