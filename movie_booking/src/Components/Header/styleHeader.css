@@ -1,95 +1,96 @@
 .navbar {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background-color: #001529;
-  box-shadow: 0px 1px 3px -2px black;
+  background-color: #CCE5FF; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  padding: 12px 0; 
 }
 
 .navbar-container {
   display: flex;
-  flex-direction: row;
-  width: 1400px;
-  flex-wrap: wrap;
   align-items: center;
-  align-content: center;
   justify-content: space-between;
+  max-width: 1200px; 
+  margin: 0 auto; 
   padding: 0 20px;
 }
+
 .nav-logo {
-  display: flex;
-  flex-direction: row;
-  width: 12%;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-  cursor: pointer;
+  cursor: pointer; 
+}
+.nav-logo img {
+  height: 50px; 
 }
 
 .ul-nav-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 80px;
-  list-style: none;
-  font-size: 25px;
-  font-weight: 500;
-  font-family: "Roboto", sans-serif;
-  justify-content: flex-start;
-  color: #fff;
+  justify-content: center; 
 }
-.ul-nav-menu > li > a {
-  color: #fff;
+
+.ul-nav-menu li {
+  margin: 0 20px; 
+}
+
+.ul-nav-menu li a {
   text-decoration: none;
-}
-.ul-nav-menu > li > a:hover {
-  color: #ffff00;
-}
-
-.nav-menu {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
-  width: 70%;
-  gap: 50px;
-  list-style: none;
-  font-size: 25px;
-  font-weight: 500;
-  font-family: "Roboto", sans-serif;
-}
-.nav-login-cart {
-  display: flex;
-  flex-direction: row;
-  width: 8%;
-  justify-content: center;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
 }
 
-dl,
-ol,
-ul {
-  margin-top: unset !important;
-  margin-bottom: unset;
+.ul-nav-menu li a:hover {
+  color: orange; 
 }
 
-.nav-login-button > button {
-  padding: 3px 15px;
-  border-radius: 8px;
-  font-size: 20px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 200;
+.nav-search {
+  margin-left: auto; 
+  margin-right: 20px; 
 }
-.nav-logo img {
-  cursor: pointer;
-}
-.ant-dropdown-menu-item {
+
+.nav-login {
   display: flex;
   align-items: center;
 }
+
+.loginNav {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.loginNav a {
+  text-decoration: none;
+  color: #333; 
+  font-weight: bold; 
+  font-size: 16px;
+}
+
+.loginNav a:hover {
+  color: orange; 
+}
+
+.ant-dropdown-link {
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.ant-dropdown-link:hover {
+  color: orange;
+}
+
+.ant-dropdown-link span {
+  margin-right: 8px;
+}
+
 
 .DefaultComponent {
   display: flex;
