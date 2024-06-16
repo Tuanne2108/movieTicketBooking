@@ -19,12 +19,24 @@
     margin: 20px 0;
 }
 
-.Payment_Section .col-2 {
+.Payment_Section .col-2 .section_2 {
     background-color: #fff;
     padding: 20px;
+    box-shadow: 0 0 10px 0 #33333350;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-left: 20px;
+    border-radius: 20px;
+}
+.Payment_Section .col-2 .section_2 .DetailInfo{
     gap: 40px;
     border-radius: 20px;
-    box-shadow: 0 0 10px 0 #33333350;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 .TransactionDetails, .PROMO_FRESHMEN, .TOTAL_PAYMENT {
     border-bottom: 1px solid #333333;
@@ -121,4 +133,9 @@ span > p {
 }
 .returnPrevPage:hover {
     color: #118EEA;
+}
+
+
+.form-control {
+    margin-left: 0px !important;
 }

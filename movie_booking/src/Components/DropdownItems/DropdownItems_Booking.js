@@ -33,17 +33,17 @@ const DropdownItems_Booking = ({ items, selectedItem, handleItemClick, defaultTe
         <div className="dropdown-loca">
             <div className="loca-container">
                 <div className="dropdown">
-                <button
-                    ref={buttonRef}
-                    className={`button-dropdown ${isDropdownOpen ? '' : 'show'}`}
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded={isDropdownOpen}
-                    onClick={toggleDropdown}
-                >
-                    {selectedItem || defaultText}
-                    <FontAwesomeIcon icon={isDropdownOpen ? faChevronUp : faChevronDown} />
-                </button>
+                    <button
+                        ref={buttonRef}
+                        className={`button-dropdown ${isDropdownOpen ? '' : 'show'}`}
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded={isDropdownOpen}
+                        onClick={toggleDropdown}
+                    >
+                        {selectedItem || defaultText}
+                        <FontAwesomeIcon icon={isDropdownOpen ? faChevronUp : faChevronDown} />
+                    </button>
 
                     <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
                         {items.map((item, index) => (

@@ -2,7 +2,7 @@ import HomePage from '../Pages/HomePage/Cnema'
 import Booking from '../Pages/BookingMoviePage/BookingMoviePage'
 import Category from '../Pages/FilmCategory/FilmCategory'
 
-import SelectYourSeat from '../Pages/SelectSeat/SelectYourSeat'
+import Checkout from '../Pages/CheckOut/Checkout'
 import Payment from '../Pages/PaymentPage/Payment'
 import NotFound from '../Pages/NotFoundPage/NotFoundPage'
 import { MovieDetail } from '../Pages/MovieDetail/MovieDetail'
@@ -49,8 +49,8 @@ export const routes = [
         page: SignUp,
     },
     {
-        path: '/SelectYourSeat',
-        page: SelectYourSeat,
+        path: '/Checkout',
+        page: Checkout,
         isShowHeader: true
     },
     {
