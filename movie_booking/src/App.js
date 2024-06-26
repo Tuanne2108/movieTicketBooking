@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-import './App.css';
-import Cnema from './Pages/Cnema';
 
-
-=======
 import React, { Fragment } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -13,16 +7,11 @@ import DefaultComponent from "./Components/DefaultComponent/DefaultComponent";
 import Footer from './Components/Footer/Footer'
 import "./FormStyle/style.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
->>>>>>> testAPI
 
 
 function App() {
 
   return (
-<<<<<<< HEAD
-    <div className="App">
-        <Cnema />
-=======
     <div className="defaultBackground">
       <Router>
         <Routes>
@@ -45,8 +34,6 @@ function App() {
           })}
         </Routes>
       </Router>
-      
->>>>>>> testAPI
     </div>
   );
 }

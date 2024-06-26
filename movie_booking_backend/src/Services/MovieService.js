@@ -1,11 +1,4 @@
 const Movie = require("../Models/Movie");
-<<<<<<< HEAD
-
-const createMovie = (newMovie) => {
-  return new Promise(async (resolve, reject) => {
-    const { title, description, actors, releaseDate, posterUrl, duration } =
-      newMovie;
-=======
 const createMovie = (newMovie) => {
   return new Promise(async (resolve, reject) => {
     const {
@@ -20,7 +13,6 @@ const createMovie = (newMovie) => {
       country,
       director,
     } = newMovie;
->>>>>>> testAPI
     try {
       const checkMovie = await Movie.findOne({ title: title });
       if (checkMovie) {
@@ -36,13 +28,6 @@ const createMovie = (newMovie) => {
         releaseDate,
         posterUrl,
         duration,
-<<<<<<< HEAD
-=======
-        trailerUrl,
-        typeOfMovie,
-        country,
-        director,
->>>>>>> testAPI
       });
       if (createdMovie) {
         resolve({
@@ -57,62 +42,7 @@ const createMovie = (newMovie) => {
   });
 };
 
-<<<<<<< HEAD
-const updateMovie = (id, data) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const checkMovie = await Movie.findOne({ _id: id });
-
-      if (!checkMovie) {
-        reject({
-          status: "Error",
-          message: "The movie does not exist",
-        });
-      }
-      const updatedMovie = await Movie.findByIdAndUpdate(id, data, {
-        new: true,
-      });
-      resolve({
-        status: "Success",
-        message: "Movie updated successfully",
-        data: updatedMovie,
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-const deleteMovie = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await Movie.findByIdAndDelete(id);
-      resolve({
-        status: "Success",
-        message: "Movie deleted successfully",
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-const getMovie = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const movie = await Movie.findById(id);
-      resolve({
-        status: "Success",
-        message: "Movie fetched successfully",
-        data: movie,
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-const getAllMovies = () => {
-=======
 const getAllMovie = () => {
->>>>>>> testAPI
   return new Promise(async (resolve, reject) => {
     try {
       const movies = await Movie.find();
@@ -126,14 +56,7 @@ const getAllMovie = () => {
     }
   });
 };
-<<<<<<< HEAD
-module.exports = {
-  createMovie,
-  updateMovie,
-  deleteMovie,
-  getMovie,
-  getAllMovies,
-=======
+
 const getMovieById = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -206,5 +129,4 @@ module.exports = {
   updateMovie,
   deleteMovie,
   deleteAllMovies,
->>>>>>> testAPI
 };
