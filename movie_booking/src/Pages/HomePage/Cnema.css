@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Vietnamese:wght@400;700&display=swap');
+
+body {
+  font-family: "Roboto", sans-serif; 
+}
+.ContainerSliderCnema {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(124, 130, 138, 0.493);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+.ContainerSliderCnema:hover {
+  transform: translateY(-5px);
+}
+
+.ContainerSliderCnema img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+.title {
+  padding: 10px;
+  text-align: center;
+}
+
+.title h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+  font-family: 'Noto Sans Vietnamese', sans-serif;
+}
+.ContainerYouMayInterest {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: fit-content;
+}
+.ContainerYouMayInterest img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.Cnema.main-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.buttonSDBYTN {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
+}
+
+.buttonSDBYTN .BYTN {
+  background-color: #00cbf8;
+  border: 1px solid #00cbf8;
+}
+
+.buttonSDBYTN .SD {
+  background-color: #001529;
+  border: 1px solid #001529;
+}
+
+.buttonSDBYTN .SD,
+.buttonSDBYTN .BYTN {
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 5px 5px 10px -5px #00000050;
+  padding: 2px 10px;
+}
+
+.hotMovieContainer .slider-prev,
+.hotMovieContainer .slider-next {
+  position: relative;
+  transform: translateY(0%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  background-color: #001529;
+  color: #fff;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 200px;
+  bottom: 50px;
+}
+.voucherContainer .slider-prev,
+.voucherContainer .slider-next {
+  position: relative;
+  transform: translateY(0%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  background-color: #fff;
+  color: #001529;
+  font-size: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 200px;
+  bottom: auto;
+  top: auto;
+}
+
+.voucherContainer .slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 100%;
+}
+.voucherContainer .voucher-img {
+  overflow: hidden;
+}
+.voucherContainer img {
+  object-fit: cover;
+  width: 100%;
+  height: 500px;
+}
+
+.voucherContainer .slider-prev {
+  left: 50px;
+}
+
+.voucherContainer .slider-next {
+  right: 50px;
+}
+
+.newsContainer .news-container {
+  padding: 0 20px;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN .SD,
+.ContainerYouMayInterest .buttonSDBYTN .CM {
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 5px 5px 10px -5px #00000050;
+  padding: 2px 10px;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN .SD {
+  background: linear-gradient(90deg, #f2c46f 0%, #c6943f 100%);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 20px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN .CM {
+  background-color: #ec1e2b;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 20px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.ContainerYouMayInterest .buttonSDBYTN {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.mayInterestedContainer .slider-prev,
+.mayInterestedContainer .slider-next {
+  position: relative;
+  transform: translateY(0%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  background-color: #001529;
+  color: #fff;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 200px;
+  bottom: 50px;
+}
+.poster-img {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+}
+.imgAndAfter {
+  position: static;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.imgAndAfter:hover::after {
+  content: "";
+  width: 100%;
+  display: flex;
+  height: 100%;
+  background-color: #00000000;
+  z-index: 1000;
+}
+.poster-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

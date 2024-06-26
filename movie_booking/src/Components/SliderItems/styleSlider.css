@@ -1,0 +1,57 @@
+.container-outside-slider {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+  justify-content: center;
+  position: relative;
+}
+
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 1400px;
+    cursor: unset;
+  }
+
+  .slider-item {
+    flex: 0 0 auto;
+    width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
+    padding: 10px;
+}
+  
+
+
+.slider-prev[disabled], .slider-next[disabled] {
+  opacity: 0.5; /* Giảm opacity xuống 50% khi nút bị tắt */
+  cursor: not-allowed;
+}
+
+
+.slider-prev {
+  left: -10px;
+}
+
+.slider-next {
+  right: -10px;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.slider-item {
+  flex: 0 0 auto;
+  transition: transform 0.3s ease;
+  width: calc(100% / 3); /* Đảm bảo rằng chỉ có 3 slider được hiển thị mỗi lần */
+}
+
+.hovering {
+  background-color: #000;
+  cursor: pointer;
+}
+

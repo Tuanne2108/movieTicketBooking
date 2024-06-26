@@ -1,0 +1,110 @@
+.navbar {
+  background-color: #CCE5FF; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  padding: 12px 0; 
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 0 20px;
+}
+
+.nav-logo {
+  cursor: pointer; 
+}
+.nav-logo img {
+  height: 50px; 
+  margin-right:150px;
+}
+
+.ul-nav-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; 
+}
+
+.ul-nav-menu li {
+  margin: 0 20px; 
+}
+
+.ul-nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.ul-nav-menu li a:hover {
+  color: orange; 
+}
+
+.nav-search {
+  margin-left: auto; 
+  margin-right: 20px; 
+}
+
+.nav-login {
+  display: flex;
+  align-items: center;
+}
+
+.loginNav {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.loginNav a {
+  text-decoration: none;
+  color: #333; 
+  font-weight: bold; 
+  font-size: 16px;
+}
+
+.loginNav a:hover {
+  color: orange; 
+}
+
+.ant-dropdown-link {
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.ant-dropdown-link:hover {
+  color: orange;
+}
+
+.ant-dropdown-link span {
+  margin-right: 8px;
+}
+
+
+.DefaultComponent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #001529;
+  box-shadow: 0px 1px 3px -2px black;
+  position: sticky; /* Đặt navbar ở chế độ sticky */
+  top: 0; /* Định vị navbar ở đầu trang */
+  z-index: 1000; /* Đảm bảo navbar nằm trên các phần tử khác */
+}
+
+.ul-nav-menu li:hover {
+  color: #ffff00;
+  cursor: pointer;
+}

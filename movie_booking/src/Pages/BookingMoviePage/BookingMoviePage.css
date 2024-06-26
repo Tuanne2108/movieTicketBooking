@@ -1,0 +1,459 @@
+.body-bookingticket {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.container-bookingticket {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 1400px;
+    padding: 10px;
+    
+}
+.date-available-slider {
+    border-bottom: 2px solid #C4C4C4;
+    margin-bottom: 20px;
+
+
+}
+.date-available-slider .slider-container, .chooseTime-container .slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 75%;
+    margin: 0 30px;
+}
+.date-available-slider .container-outside-slider, .chooseTime-container .container-outside-slider {
+    justify-content: start;
+}
+
+.date-available-slider, .chooseTime-container {
+    display: flex;
+    width: 100%;
+
+}
+.date-available-slider .slider-item, .chooseTime-container .slider-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.DateAvailable, .TimeAvailable {
+    padding: 0;
+    border-radius: 8px;
+    border: 2px solid #5A637A;
+    background-color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.DateAvailable a, .TimeAvailable a {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+.DateAvailable:hover,
+.TimeAvailable:hover {
+    background-color: #001529;
+    color: #fff /* Thay đổi màu nền khi hover */
+}
+
+
+
+.col-1  {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.col-2 {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-left: 20px;
+}
+
+.form-check {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    min-height: unset;
+    padding-left: unset;
+    margin-bottom: unset;
+}
+
+.DateAvailable.active, .TimeAvailable.active {
+    background-color: #001529;
+    color: #fff;
+    border: 2px solid #001529;
+
+}
+
+.DateAvailable input, .TimeAvailable input {
+    display: none;
+}
+
+
+
+.form-check-label .date-month {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+
+
+.movie-title .more-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.movie-title .more-info .col-1 {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+
+}
+
+.movie-img {
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    align-self: center;
+}
+.movie-img img {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    align-self: center;
+}
+
+.chosen-movie-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.movie-demoTicket {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 20px;
+    border: 2px solid #5A637A;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    margin: 10px 0;
+}
+
+.movie-demoTicket .ticket-info {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.ticket-info .child-3 {
+    font-weight: 700;
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.ticket-info .child-2 {
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-style: italic;
+
+}
+
+.movie-demoTicket .locationChosen-CityDistrict {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+
+}
+
+.sublocationCustomerChosen {
+    height: fit-content;
+}
+
+
+.dateCustomerChosen {
+    color: #5A637A;
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.container-2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid black;
+    z-index: 9999;
+    display: none;
+    opacity: 0;
+    animation: fadeInOut 0.5s ease-in-out forwards; /* Sử dụng animation cho hiệu ứng hiển thị và ẩn đi */
+}
+
+.popup.show {
+    display: block;
+    opacity: 1;
+    animation: fadeIn 0.5s ease-in-out forwards; /* Sử dụng animation cho hiệu ứng hiển thị */
+
+}
+
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.date-available-slider button {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: none;
+    background-color: #fff;
+}
+
+
+.dropdown-location {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+
+
+
+.loca-container {
+    width: fit-content;
+
+}
+
+.dropdown-loca {
+    width: fit-content;
+
+}
+
+.date-month, .date-month span, .date-month h3 {
+    cursor: pointer;
+}
+
+.selectTicketTypeContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+
+}
+
+.selectTicketTypeContainer > div {
+    width: 100%;
+    border: 0px none #001529;
+    padding: 10px;
+
+}
+
+.selectTicketTypeContainer .radio-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.radio-item input {
+    display: none;
+}
+
+.radio-item {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    cursor: pointer;
+}
+
+.radio-item label {
+    border: 2px solid #5A637A;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative; /* Đặt vị trí tương đối để có thể điều chỉnh vị trí của phần tử con */
+    overflow: hidden;
+    font-weight: 500;
+    background-color: #fff;
+}
+
+.radio-item label:hover {
+    background-color: #118EEA;
+    color: #FFFF00;
+    font-weight: 500;
+}
+.ticketTypeSelector.active {
+    background-color: #001529 !important;
+    color: #FFFF00;
+    font-weight: 700;
+}
+
+.radio-item label:hover::after {
+    content: ''; /* Tạo một phần tử ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối để nằm trên phần tử cha */
+    top: 0;
+    left: -100%; /* Bắt đầu từ vị trí ngoài biên trái */
+    width: 100%; /* Chiều rộng là 100% của phần tử cha */
+    height: 100%; /* Chiều cao là 100% của phần tử cha */
+    background: linear-gradient(to right, transparent, #118EEA); /* Gradient từ trong suốt đến màu #5A637A */
+    animation: slideRight 1s infinite; /* Áp dụng animation */
+}
+
+.DateAvailable .form-check:hover {
+    background-color: #118EEA !important;
+    color: #FFFF00;
+    overflow:hidden;
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.DateAvailable.active .form-check {
+    color: #FFFF00 !important;
+}
+
+.DateAvailable .form-check-label:hover::after {
+    content: ''; /* Tạo một phần tử ảo */
+    position: absolute; /* Đặt vị trí tuyệt đối để nằm trên phần tử cha */
+    top: 0;
+    left: -100%; /* Bắt đầu từ vị trí ngoài biên trái */
+    width: 100%; /* Chiều rộng là 100% của phần tử cha */
+    height: 100%; /* Chiều cao là 100% của phần tử cha */
+    background: linear-gradient(to right, transparent, #118EEA); /* Gradient từ trong suốt đến màu #5A637A */
+    animation: slideRight 1s infinite; /* Áp dụng animation */
+    z-index: 0;
+}
+
+.form-check-label {
+    z-index: 1000;
+}
+
+
+
+@keyframes slideRight {
+    100% {
+        left: 100%; /* Di chuyển đến vị trí biên phải */
+        z-index:0;
+    }
+}
+
+
+.time-selection {
+    opacity: 0; /* Bắt đầu với độ mờ */
+    animation: fadeIn 0.5s ease forwards; /* Sử dụng animation với tên 'fadeIn' và thời gian 0.5s */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Bắt đầu từ độ mờ */
+    }
+    to {
+        opacity: 1; /* Kết thúc với độ mờ */
+    }
+}
+
+.movie-img {
+    position: relative;
+    overflow: hidden;
+}
+
+.movie-img img {
+    position: absolute; /* Đặt vị trí tuyệt đối để có thể điều chỉnh vị trí và kích thước của thẻ con */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.BUYNOWButton {
+    background-color: #001529;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.BUYNOWButton span {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #01FF99, #01CBF8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+}
+
+.BUYNOWButton span:hover {
+    animation: gradientAnimation 2s linear infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
