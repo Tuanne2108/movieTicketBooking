@@ -109,6 +109,15 @@ We welcome contributions from the community! To contribute:
 4. Push to the branch (git push origin feature-branch).
 5. Open a pull request.
 
+<h2>Contributors</h2>
+
+| Name                    | Role                      | Contribution	                                 |
+| ----------------------- | ------------------------- | ---------------------------------------------- 	 |
+| Nguyễn Tấn Anh          | UI/UX Designer            | 30% |
+| Đoàn Trần Thuận         | Frontend Developer, Project Manager | 35% |
+| Nguyễn Hoàng Minh Tuấn  | Backend Developer, Project Manager | 35% |
+
+
 <h2>Contact</h2>
 For any questions, suggestions, or issues, please reach out to:
 
