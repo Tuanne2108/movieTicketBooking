@@ -114,8 +114,8 @@ We welcome contributions from the community! To contribute:
 | Name                    | Role                      | Contribution	                                 |
 | ----------------------- | ------------------------- | ---------------------------------------------- 	 |
 | Nguyễn Tấn Anh          | UI/UX Designer            | 30% |
-| Đoàn Trần Thuận         | Frontend Developer, Project Manager | 35% |
-| Nguyễn Hoàng Minh Tuấn  | Backend Developer, Project Manager | 35% |
+| Đoàn Trần Thuận         | Frontend Developer | 35% |
+| Nguyễn Hoàng Minh Tuấn  | Backend Developer | 35% |
 
 
 <h2>Contact</h2>
